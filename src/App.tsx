@@ -69,7 +69,14 @@ const translations = {
       company: "Company / Event",
       location: "Location",
       date: "Event Date",
-      budget: "Orçamento Estimado (BRL)",
+      budget: "Estimated Budget (BRL)",
+      budgetOptions: {
+        tier1: "R$ 500 – R$ 2.000",
+        tier2: "R$ 2.000 – R$ 5.000",
+        tier3: "R$ 5.000 – R$ 15.000",
+        tier4: "R$ 15.000 – R$ 30.000",
+        tier5: "R$ 30.000+"
+      },
       message: "Message",
       cta: "REQUEST BOOKING",
       submitting: "TRANSMITTING...",
@@ -186,6 +193,13 @@ const translations = {
       location: "Localização",
       date: "Data do Evento",
       budget: "Orçamento Estimado (BRL)",
+      budgetOptions: {
+        tier1: "R$ 500 – R$ 2.000",
+        tier2: "R$ 2.000 – R$ 5.000",
+        tier3: "R$ 5.000 – R$ 15.000",
+        tier4: "R$ 15.000 – R$ 30.000",
+        tier5: "R$ 30.000+"
+      },
       message: "Mensagem",
       cta: "SOLICITAR BOOKING",
       submitting: "TRANSMITINDO...",
@@ -661,46 +675,7 @@ export const allArtists = [
 
 // --- Components ---
 
-const AmbientBackground = () => {
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      mouseX.set(e.clientX);
-      mouseY.set(e.clientY);
-    };
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
-
-  const blob1X = useSpring(useTransform(mouseX, [0, window.innerWidth], [-50, 50]), { stiffness: 50, damping: 30 });
-  const blob1Y = useSpring(useTransform(mouseY, [0, window.innerHeight], [-50, 50]), { stiffness: 50, damping: 30 });
-  const blob2X = useSpring(useTransform(mouseX, [0, window.innerWidth], [50, -50]), { stiffness: 50, damping: 30 });
-  const blob2Y = useSpring(useTransform(mouseY, [0, window.innerHeight], [50, -50]), { stiffness: 50, damping: 30 });
-
-  const blob3X = useSpring(useTransform(mouseX, [0, window.innerWidth], [-100, 100]), { stiffness: 30, damping: 40 });
-  const blob3Y = useSpring(useTransform(mouseY, [0, window.innerHeight], [100, -100]), { stiffness: 30, damping: 40 });
-
-  return (
-    <div className="bg-mesh overflow-hidden">
-      <motion.div
-        style={{ x: blob1X, y: blob1Y }}
-        className="mesh-blob mesh-blob-1 opacity-20"
-      />
-      <motion.div
-        style={{ x: blob2X, y: blob2Y }}
-        className="mesh-blob mesh-blob-2 opacity-20"
-      />
-      <motion.div
-        style={{ x: blob3X, y: blob3Y }}
-        className="mesh-blob bg-brand-pink/20 blur-[120px] w-[500px] h-[500px] absolute -top-20 -left-20"
-      />
-      <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-5 pointer-events-none" />
-      <div className="absolute inset-0 bg-noise opacity-[0.03] pointer-events-none mix-blend-overlay" />
-    </div>
-  );
-};
+// Removed AmbientBackground in favor of AscensionBackground
 
 const HUDCorners = () => (
   <>
@@ -823,7 +798,7 @@ ${data.message}
 
       {/* Navigation */}
       <header>
-        <nav className={`fixed top-0 w-full z-50 px-4 md:px-6 flex justify-between items-center transition-all duration-500 ${scrolled ? "glass-panel border-b border-white/10 py-3 shadow-[0_8px_40px_rgba(0,0,0,0.6)]" : "bg-transparent border-b border-transparent py-5"}`}>
+        <nav className={`fixed top-0 w-full z-50 px-4 md:px-6 flex justify-between items-center transition-all duration-500 ${scrolled ? "glass-panel border-b border-white/10 py-3 shadow-[0_8px_40px_rgba(0,0,0,0.6)]" : "bg-transparent border-b border-transparent py-6"}`}>
           <div className="flex items-center gap-3 md:gap-4">
             <div className="flex items-center gap-2">
               <motion.div
@@ -1094,11 +1069,11 @@ ${data.message}
                       delay: (idx % 4) * 0.05,
                       ease: [0.23, 1, 0.32, 1]
                     }}
-                    className="relative overflow-hidden rounded-2xl border border-white/5 bg-white/[0.02] group cursor-pointer"
+                    className="relative rounded-2xl border border-white/5 bg-white/[0.02] group cursor-pointer hover-step"
                     onClick={() => setActiveArtist(artist)}
                   >
                     <HUDCorners />
-                    <div className="aspect-[3/4] overflow-hidden relative">
+                    <div className="aspect-[3/4] overflow-hidden relative rounded-2xl">
                       <img
                         src={artist.image}
                         alt={artist.name}
@@ -1285,11 +1260,11 @@ ${data.message}
                         <div className="sm:col-span-2 space-y-3">
                           <label className="text-[9px] uppercase tracking-[0.3em] text-white/30 font-bold ml-1">{t.booking.budget}</label>
                           <select name="budget" className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-6 py-5 focus:outline-none focus:border-brand-cyan transition-colors text-sm appearance-none cursor-pointer" style={{ colorScheme: "dark" }}>
-                            <option className="bg-brand-dark">R$ 500 – R$ 2.000</option>
-                            <option className="bg-brand-dark">R$ 2.000 – R$ 5.000</option>
-                            <option className="bg-brand-dark">R$ 5.000 – R$ 15.000</option>
-                            <option className="bg-brand-dark">R$ 15.000 – R$ 30.000</option>
-                            <option className="bg-brand-dark">R$ 30.000+</option>
+                            <option value="500-2000" className="bg-brand-dark">{t.booking.budgetOptions.tier1}</option>
+                            <option value="2000-5000" className="bg-brand-dark">{t.booking.budgetOptions.tier2}</option>
+                            <option value="5000-15000" className="bg-brand-dark">{t.booking.budgetOptions.tier3}</option>
+                            <option value="15000-30000" className="bg-brand-dark">{t.booking.budgetOptions.tier4}</option>
+                            <option value="30000+" className="bg-brand-dark">{t.booking.budgetOptions.tier5}</option>
                           </select>
                         </div>
                         <div className="sm:col-span-2 space-y-3">

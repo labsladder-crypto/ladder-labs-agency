@@ -82,9 +82,32 @@
   .bg-noise {
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
   }
+
+  /* Ascension Step System */
+  .hover-step {
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease;
+    box-shadow: 0px 0px 0px rgba(0, 242, 255, 0);
+  }
+
+  .hover-step:hover {
+    transform: translateY(-8px);
+    /* Hard shadow creates the illusion of a solid step protruding from the wall */
+    box-shadow: 0px 8px 0px rgba(0, 242, 255, 0.15);
+    border-color: rgba(0, 242, 255, 0.3);
+  }
+
+  .hover-step:active {
+    transform: translateY(-2px);
+    box-shadow: 0px 2px 0px rgba(0, 242, 255, 0.4);
+    border-color: rgba(0, 242, 255, 0.6);
+  }
 }
 
-/* Premium Background Animation: Slow Mesh Gradient */
+/* 
+   ==========================================================================
+   LADDER ASCENSION BACKGROUND: Abstract Geometric Stairs & Depth
+   ==========================================================================
+*/
 .bg-mesh {
   position: fixed;
   inset: 0;
@@ -98,49 +121,49 @@
   position: absolute;
   inset: 0;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-  opacity: 0.02;
+  opacity: 0.03;
   pointer-events: none;
 }
 
+/* Base glow from the bottom */
 .mesh-blob {
   position: absolute;
-  width: 80vmax;
-  height: 80vmax;
-  border-radius: 50%;
-  filter: blur(120px);
-  opacity: 0.12;
+  width: 100vw;
+  height: 50vh;
+  bottom: -20vh;
+  left: 0;
+  background: radial-gradient(ellipse at bottom, rgba(0, 242, 255, 0.08) 0%, transparent 70%);
+  filter: blur(80px);
   pointer-events: none;
-  animation: mesh-float 20s infinite ease-in-out;
+  animation: pulse-glow 8s infinite alternate ease-in-out;
 }
 
-.mesh-blob-1 {
-  background: radial-gradient(circle, var(--color-brand-cyan) 0%, transparent 70%);
-  top: -20%;
-  left: -20%;
-  animation-delay: 0s;
-}
+@keyframes pulse-glow {
+  0% {
+    opacity: 0.6;
+    transform: scaleY(0.9);
+  }
 
-.mesh-blob-2 {
-  background: radial-gradient(circle, var(--color-brand-pink) 0%, transparent 70%);
-  bottom: -20%;
-  right: -20%;
-  animation-delay: -5s;
-}
-
-@keyframes mesh-float {
-
-  0%,
   100% {
-    transform: translate(0, 0) rotate(0deg) scale(1);
+    opacity: 1;
+    transform: scaleY(1.1);
   }
+}
 
-  33% {
-    transform: translate(5%, 10%) rotate(10deg) scale(1.1);
-  }
-
-  66% {
-    transform: translate(-10%, 5%) rotate(-5deg) scale(0.9);
-  }
+/* Abstract Architectural Lines */
+.ascension-lines {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to top, rgba(0, 242, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to right, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
+  background-size: 100px 40px;
+  /* Wider than tall to mimic steps */
+  transform: perspective(1000px) rotateX(60deg) translateY(-100px) translateZ(-200px);
+  transform-origin: bottom;
+  opacity: 0.4;
+  mask-image: linear-gradient(to top, black 0%, transparent 60%);
+  -webkit-mask-image: linear-gradient(to top, black 0%, transparent 60%);
 }
 
 /* Micro Details & Dividers */
