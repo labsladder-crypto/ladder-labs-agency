@@ -959,16 +959,16 @@ ${data.message}
       {/* Navigation */}
       <header>
         <nav className={`fixed top-0 w-full z-50 px-4 md:px-6 flex justify-between items-center transition-all duration-500 ${scrolled ? "glass-panel border-b border-white/10 py-3 shadow-[0_8px_40px_rgba(0,0,0,0.6)]" : "bg-transparent border-b border-transparent py-6"}`}>
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 md:gap-4 shrink-0 overflow-hidden">
+            <div className="flex items-center gap-2 md:gap-3 shrink-0">
               <motion.div
                 whileHover={{ rotate: 135 }}
-                className="w-7 h-7 md:w-8 md:h-8 bg-gradient-to-br from-brand-cyan to-brand-pink rounded-sm rotate-45 flex items-center justify-center cursor-pointer"
+                className="w-5 h-5 md:w-8 md:h-8 bg-gradient-to-br from-brand-cyan to-brand-pink rounded-sm rotate-45 flex items-center justify-center cursor-pointer shrink-0"
                 onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
               >
-                <div className="w-3 md:w-4 h-0.5 bg-white -rotate-45" />
+                <div className="w-2 md:w-4 h-0.5 bg-white -rotate-45" />
               </motion.div>
-              <span className="font-display font-bold text-lg md:text-xl tracking-tighter">
+              <span className="font-display font-bold text-[14px] md:text-xl tracking-tighter shrink-0 whitespace-nowrap">
                 LADDER<span className="text-gradient">LABS</span>
               </span>
             </div>
@@ -980,13 +980,13 @@ ${data.message}
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -10 }}
-                  className="flex items-center gap-3"
+                  className="flex items-center gap-2 md:gap-3 shrink-0"
                 >
-                  <div className="h-6 w-px bg-white/10" />
+                  <div className="h-4 md:h-6 w-px bg-white/10 shrink-0 hidden sm:block" />
                   <img
                     src="/logos/neverland-records.webp"
                     alt="Neverland Records"
-                    className="h-6 md:h-8 w-auto object-contain opacity-60 hover:opacity-100 transition-opacity"
+                    className="h-3 md:h-8 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity shrink-0"
                     referrerPolicy="no-referrer"
                   />
                 </motion.div>
@@ -1020,8 +1020,8 @@ ${data.message}
             </div>
           </div>
 
-          <div className="flex items-center gap-4 md:gap-6">
-            <div className="lang-toggle hidden sm:flex">
+          <div className="flex items-center justify-end gap-3 md:gap-6 min-w-0 flex-1">
+            <div className="lang-toggle !hidden sm:!flex">
               {(["EN", "PT", "ES"] as Language[]).map((l) => (
                 <button
                   key={l}
@@ -1699,7 +1699,18 @@ ${data.message}
       </AnimatePresence>
 
       {/* Communication Actions — Mobile */}
-      <div className="fixed bottom-28 left-6 z-40 lg:hidden flex flex-col gap-3">
+      <div className="fixed top-24 right-4 z-40 lg:hidden flex flex-col gap-3">
+        <a
+          href="#radar"
+          onClick={(e) => {
+            e.preventDefault();
+            document.getElementById("radar")?.scrollIntoView({ behavior: "smooth" });
+          }}
+          className="w-10 h-10 bg-brand-cyan rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(0,255,255,0.3)] hover:scale-110 transition-transform"
+          aria-label="Radar de Eventos"
+        >
+          <Activity size={18} className="text-brand-dark" />
+        </a>
         <a
           href="https://www.instagram.com/ladder.labs/"
           target="_blank"
