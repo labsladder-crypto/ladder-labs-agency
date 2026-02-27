@@ -5,19 +5,28 @@
 
 import { motion, useScroll, useTransform, AnimatePresence, useMotionValue, useSpring } from "motion/react";
 import {
-  Instagram,
-  Mail,
-  ChevronRight,
-  Music,
-  Zap,
-  Globe,
+  Search,
   Activity,
-  ArrowRight,
-  Cloud,
   X,
+  Menu,
+  ChevronRight,
+  ChevronDown,
+  Instagram,
+  Cloud,
+  Music,
   ExternalLink,
-  Youtube
+  Youtube,
+  Mail,
+  Globe,
+  ArrowRight,
+  Plus,
+  Lock,
+  Eye,
+  EyeOff,
+  AlertCircle,
+  FileText
 } from "lucide-react";
+import { GENRE_TAXONOMY, GenreNode as GenreNodeType } from "./data/genreTaxonomy";
 import React, { useState, useRef, useEffect } from "react";
 import EventRadar from "./components/EventRadar";
 import StudioBackground from "./components/StudioBackground";
@@ -235,15 +244,15 @@ const translations = {
       "BET'S": "BET'S é especialista em tech house minimalista. Sua abordagem é sobre os detalhes sutis e o groove perfeito, criando uma experiência hipnótica que cativa a pista.",
       "GENÊ": "GENÊ é a mais recente adição à família Ladder Labs, trazendo uma nova perspectiva sobre House e Indie Dance. Misturando as fundações clássicas do house com sensibilidades modernas do indie, seu som é nostálgico e visionário.",
       "IDEMAX": "IDEMAX é uma potência do Full On psytrance. Suas produções são conhecidas pela energia massiva, sound design cristalino e melodias contagiantes que dominam os maiores palcos de festivais.",
-      "CAMPELLO": "CAMPELLO oferece uma experiência Full On de alta octanagem. Com foco em linhas de baixo vigorosas e narrativa psicodélica, seus sets são uma jornada pelos momentos de pico da experiência trance.",
+      "CAMPELLO": "CAMPELLO oferece uma experiência Full On de alta octanagem. Com foco em linhas de baixo vigorosas e narrativa psicodélica, seus sets são um jornada pelos momentos de pico da experiência trance.",
       "DAMATA": "DAMATA é um projeto de Forest que nasce da conexão profunda entre música, natureza e estados elevados de consciência. Suas produções transitam entre 140 e 160 BPM, conduzidas por grooves densos, linhas orgânicas e melodias hipnóticas.\n\nCom uma estética sonora introspectiva e ritualística, DAMATA constrói atmosferas espirituais chamando para o transe e autoconhecimento. O ritual se inicia quando a floresta sonora desperta.",
       "DOTA": "DOTA é especializado na profundidade emocional do Progressive psytrance. Sua música é caracterizada por belos build-ups, complexidade melódica e um groove que ressoa com a alma.",
       "KORDIE": "KORDIE traz uma nova energia para a cena Tech House. Seus sets são uma mistura de baterias marcantes e ganchos cativantes, projetados para manter a energia alta e a pista lotada.",
       "PITT MALIC": "Pitt Malic (Pedro Ripoli) vem ganhando destaque na cena underground por sua assinatura única: o psytechno de bass marcante e harmonia sorrateira. Com sets que transitam entre o sombrio e o transcendental, conduz o público por atmosferas densas, onde cada batida é uma convocação ao transe coletivo.\n\nSeu som é uma fusão precisa entre a energia do techno e texturas psicodélicas em grooves hipnóticos com drops cirúrgicos.",
       "PEDRO TAB": "PEDRO TAB é especialista em Peak Time Techno. Seu som é implacável, poderoso e sem concessões, desenhado para os momentos mais intensos da noite nos melhores galpões do mundo.",
-      "WAVEMOON": "WAVEMOON proporciona uma experiência de psytrance cósmico. Sua música é uma mistura de narrativa em alta velocidade e atmosferas celestiais, levando a pista de dança a uma jornada pelas estrelas.",
+      "WAVEMOON": "WAVEMOON proporciona uma experiência de psytrance cósmico. Sua música é uma mistura de narrativa em alta velocidade e atmosferas celestiais, levando a pista de dança a um jornada pelas estrelas.",
       "NEXUS": "NEXÜS é o projeto criado por Matheus, DJ e produtor de Psytrance. O projeto nasceu com o objetivo claro de espalhar alegria e criar conexões profundas na pista. Com forte presença de palco, NEXÜS transforma cada apresentação em experiência vivendo o momento com o público.\n\nSeus sets carregam identidade progressiva, construções hipnóticas e drops marcantes, guiados por emoção e leitura precisa. Um projeto em franca ascensão.",
-      "BAZZE": "BAZZE é um talento em ascensão, trazendo uma nova perspectiva para a pista de dança com um groove contagiante e atmosfera profunda."
+      "BAZZE": "BAZZE é um talento em ascensão, trazendo uma nova perspectiva para a pista de dança com um groove contagioso e atmosfera profunda."
     },
     radar: {
       tag: "Inteligência Estratégica",
@@ -254,7 +263,7 @@ const translations = {
       add: "Adicionar Evento",
       viewList: (count: number) => `Ver lista (${count})`,
       exportJson: "Exportar JSON",
-      eventDetails: "Detalhes do Evento",
+      eventDetails: "Detalles del Evento",
       eventName: "Nome do Evento",
       orgName: "Organização (Núcleo/Produtora)",
       city: "Cidade",
@@ -324,7 +333,7 @@ const translations = {
       another: "Enviar otra solicitud"
     },
     footer: {
-      desc: "Arquitectos del Sonido Inmersivo",
+      desc: "Arquitectos del Sonido Imersivo",
       copy: "© 2026 LADDER LABS AGENCY",
       rights: "TODOS LOS DERECHOS RESERVADOS"
     },
@@ -347,13 +356,13 @@ const translations = {
       "ELOAH": "El groove es la firma principal de ELOAH—junto a la actitud, presencia y lectura precisa del público. Sus sets fluyen entre Tech House y Minimal, construyendo energía naturalmente con transiciones fluidas.\n\nCada presentación tiene identidad propia. Nada se repite. Eloah entiende la música como conexión y hace que la pista lo sienta en la piel. Donde ella toca, la vibra se transforma.",
       "LACER": "Bajo la guía de Caio Lacerda, el proyecto \"Lacer\" acumula más de 9 años aportando autenticidad a las pistas de todo Brasil.\n\nCon raíces en la House Music y explorando los matices del Tech-House, Lacer transforma cada aparición en un verdadero viaje sonoro, garantizando calidad en sets de calentamiento sutil o de máxima energía.",
       "UMBRA": "Junior Sant, veterano de la música, y Marry, un talento emergente con arrolladora pasión, se unen como Umbra en torno al Melodic Techno.\n\nInspirados por la luz y la oscuridad, sus shows son rituales donde melodías etéreas y beats profundos chocan formando atmósferas oníricas fascinantes.",
-      "IZZI": "IZZI aporta una mezcla única de indie dance y acid house al roster. Sus sets son eclécticos y de alta energía, llenos de giros inesperados y ritmos contagiosos.",
+      "IZZI": "IZZI aporta una mezcla única de indie dance y acid house al roster. Sus sets son eclécticos y de alta energía, full de giros inesperados y ritmos contagiosos.",
       "BET'S": "BET'S es especialista en tech house minimalista. Su enfoque se trata de los detalles sutiles y el groove perfecto, creando una experiencia hipnótica que cautiva la pista.",
       "GENÊ": "GENÊ es la última incorporación a la familia Ladder Labs, aportando una nueva perspectiva al House y al Indie Dance. Mezclando las bases clásicas del house con las modernas sensibilidades del indie, su sonido es a la vez nostálgico y vanguardista.",
       "IDEMAX": "IDEMAX es una potencia del Full On psytrance. Sus producciones son conocidas por su energía masiva, diseño sonoro cristalino y melodías contagiosas que dominan los escenarios más grandes de los festivales.",
       "CAMPELLO": "CAMPELLO ofrece una experiencia Full On de alto octanaje. Con un enfoque en líneas de bajo contundentes y narrativas psicodélicas, sus sets son un viaje por los momentos álgidos de la experiencia trance.",
       "DAMATA": "El proyecto Forest de DAMATA surge de la conciencia divina, rondando entre 140 y 160 BPM, usando texturas orgánicas e hipnosis pura.\n\nCon estética de ritual, convoca el poder del bosque sónico atrayendo autoexploración e inmersión máxima.",
-      "DOTA": "DOTA se especializa en la profundidad emocional del Progressive psytrance. Su música se caracteriza por hermosos build-ups, complejidad melódica y un groove que resuena con el alma.",
+      "DOTA": "DOTA se especializa en la profundidad emocional del Progressive psytrance. Su música se caracteriza por hermosos build-ups, complejidad melódica y un groove que resuena con la alma.",
       "KORDIE": "KORDIE trae nueva energía a la escena Tech House. Sus sets son una mezcla de baterías contundentes y ganchos pegajosos, diseñados para mantener la energía al máximo y la pista de baile llena.",
       "PITT MALIC": "Pitt Malic ha ganado popularidad veloz gracias a su Psytechno de potentes graves y armonías astutas.\n\nCombinando percusión pura de techno y líneas sintéticas psicodélicas, desata el estado de éxtasis colectivo asegurado en toda pista.",
       "PEDRO TAB": "PEDRO TAB es especialista en Peak Time Techno. Su sonido es implacable, poderoso y sin concesiones, diseñado para los momentos más intensos de la noche en los mejores almacenes del mundo.",
@@ -395,7 +404,7 @@ export const allArtists = [
   {
     name: "EVVE",
     genre: "Tech House / Minimal",
-    genreKey: "house",
+    genreKeys: ["tech-house", "minimal-house"],
     image: "/artists/Evve.jpg",
     socials: { instagram: "https://www.instagram.com/evvemusic/", soundcloud: "https://soundcloud.com/evvemusic/tracks", spotify: "#", youtube: "https://www.youtube.com/@evvemusicc/videos" },
     presskit: "https://drive.google.com/drive/u/2/folders/1W8RXPDREOskOMV6HEal5g5Qz4qfDAigf",
@@ -404,7 +413,7 @@ export const allArtists = [
   {
     name: "PAJÔ",
     genre: "Psytrance / Progressive",
-    genreKey: "psytrance",
+    genreKeys: ["progressive-psy"],
     image: "/artists/Pajo.png",
     socials: { instagram: "https://www.instagram.com/pajo.art.br/", soundcloud: "https://soundcloud.com/pajomusic", spotify: "https://open.spotify.com/intl-pt/artist/6adnFJLRZFxvSJ5vhLnyqX", youtube: "https://www.youtube.com/@pajosounds/videos" },
     presskit: "https://drive.google.com/drive/u/5/folders/12xNjFc75ePb73baAqqlwCC6SF5tPROyw",
@@ -413,7 +422,7 @@ export const allArtists = [
   {
     name: "NRZ",
     genre: "Progressive / Psytrance",
-    genreKey: "psytrance",
+    genreKeys: ["progressive-psy"],
     image: "/artists/NRZ.jpeg",
     socials: { instagram: "https://www.instagram.com/nrzproject_/", soundcloud: "https://soundcloud.com/nrzproject/tracks", spotify: "#", youtube: "#" },
     presskit: "https://drive.google.com/drive/folders/0B-e2Ns8v7KEJYlVPUmpSanlKLTg?resourcekey=0-YsdRYsLNnKmAOyHzlR2Xww",
@@ -422,7 +431,7 @@ export const allArtists = [
   {
     name: "MOLUSKO",
     genre: "Hi Tech",
-    genreKey: "psytrance",
+    genreKeys: ["hi-tech"],
     image: "/artists/Molusko.png",
     socials: { instagram: "https://www.instagram.com/moluskodj/", soundcloud: "https://soundcloud.com/djmolusko", spotify: "#", youtube: "#" },
     presskit: "https://drive.google.com/drive/folders/1YrvTqSXVb9yBgfZLehI2LkPu5cBqBtfl",
@@ -431,7 +440,7 @@ export const allArtists = [
   {
     name: "JUREMA",
     genre: "Dark Psy / Forest",
-    genreKey: "darkpsy",
+    genreKeys: ["darkpsy", "forest"],
     image: "/artists/Jurema.jpg",
     socials: { instagram: "https://www.instagram.com/djjurema/", soundcloud: "https://soundcloud.com/djurema", spotify: "#", youtube: "https://www.youtube.com/@djjurema/videos" },
     presskit: "https://drive.google.com/drive/folders/1ODUa7OCUSNoZTFk2-fku0w7gOWWd8HIJ",
@@ -440,7 +449,7 @@ export const allArtists = [
   {
     name: "PRADIM",
     genre: "Tech House / Minimal",
-    genreKey: "house",
+    genreKeys: ["tech-house", "minimal-house"],
     image: "/artists/Pradim.jpeg",
     socials: { instagram: "https://www.instagram.com/pradim__/", soundcloud: "https://soundcloud.com/felipe-prado-zrm", spotify: "https://open.spotify.com/intl-pt/artist/2ufH7FrNeF629uC3bZGLB5", youtube: "https://www.youtube.com/@Pradim_Music" },
     presskit: "https://www.canva.com/design/DAHCTtv3hZg/Q1gkedgmMJmeTVK_Ukl43w/view",
@@ -449,7 +458,7 @@ export const allArtists = [
   {
     name: "SESI'OHM",
     genre: "Psytrance",
-    genreKey: "psytrance",
+    genreKeys: ["psytrance"],
     image: "/artists/Sesi'Ohm.jpg",
     socials: { instagram: "https://www.instagram.com/sesiohmm/", soundcloud: "https://soundcloud.com/sesiohmm", spotify: "#", youtube: "https://www.youtube.com/@sesiohmlive5103" },
     presskit: "https://drive.google.com/drive/u/0/folders/18ip2967Z0RGHFft46aeo7xV98pYTCSdY",
@@ -458,7 +467,7 @@ export const allArtists = [
   {
     name: "DASH",
     genre: "Psytrance",
-    genreKey: "psytrance",
+    genreKeys: ["psytrance"],
     image: "/artists/Dash.jpeg",
     socials: { instagram: "https://www.instagram.com/dash.music_/", soundcloud: "#", spotify: "#", youtube: "#" },
     presskit: "https://drive.google.com/drive/u/0/folders/18ip2967Z0RGHFft46aeo7xV98pYTCSdY",
@@ -467,7 +476,7 @@ export const allArtists = [
   {
     name: "UKACZ",
     genre: "House / UK Garage",
-    genreKey: "house",
+    genreKeys: ["house", "bass-house"],
     image: "/artists/Ukacz.png",
     socials: { instagram: "https://www.instagram.com/ukacz.music/", soundcloud: "https://soundcloud.com/ukaczmusic", spotify: "#", youtube: "#" },
     presskit: "https://drive.google.com/drive/folders/1o_Ts4kdJmOHYLyXeEbHToEOIjFnBGAV-",
@@ -476,7 +485,7 @@ export const allArtists = [
   {
     name: "JUNNO",
     genre: "Bass House / Garage House",
-    genreKey: "house",
+    genreKeys: ["bass-house"],
     image: "/artists/Junno.jpg",
     socials: { instagram: "https://www.instagram.com/junnomusic/", soundcloud: "https://soundcloud.com/junnomusic", spotify: "https://open.spotify.com/intl-pt/artist/2kfy2Ut2nR7GW0l2E2wxef", youtube: "https://www.youtube.com/@junnomusicdj/videos" },
     presskit: "https://junnomusic.com.br/",
@@ -485,7 +494,7 @@ export const allArtists = [
   {
     name: "RISAFFI",
     genre: "Tech House",
-    genreKey: "house",
+    genreKeys: ["tech-house"],
     image: "/artists/Risaffi.jpeg",
     socials: { instagram: "https://www.instagram.com/_risaffi/", soundcloud: "#", spotify: "https://open.spotify.com/intl-pt/artist/52MPLEEOjiJgYyF84X8qyZ", youtube: "#" },
     presskit: "#",
@@ -494,7 +503,7 @@ export const allArtists = [
   {
     name: "PIMENTA",
     genre: "Psytrance / Full On",
-    genreKey: "psytrance",
+    genreKeys: ["full-on"],
     image: "/artists/Pimenta.jpeg",
     socials: { instagram: "#", soundcloud: "#", spotify: "#" },
     presskit: "#",
@@ -503,7 +512,7 @@ export const allArtists = [
   {
     name: "LEROCK'S",
     genre: "Melodic Techno",
-    genreKey: "techno",
+    genreKeys: ["melodic-techno"],
     image: "/artists/Lerocks.png",
     socials: { instagram: "https://www.instagram.com/lerocksdj", soundcloud: "#", spotify: "https://open.spotify.com/intl-pt/artist/4ismQ738W44jaS75QdoMyQ?si=IW1yA5nmSc6OiHvuli3n6Q&nd=1&dlsi=257c965860174ae6", youtube: "https://www.youtube.com/@Lerockdj/videos" },
     presskit: "https://lerocks.com.br/",
@@ -512,7 +521,7 @@ export const allArtists = [
   {
     name: "BÁRBARA THOMAZ",
     genre: "Melodic Techno",
-    genreKey: "techno",
+    genreKeys: ["melodic-techno"],
     image: "/artists/Bathomaz.png",
     socials: { instagram: "https://www.instagram.com/bathomaz?utm_source=ig_web_button_share_sheet&igsh=MTkxZDZiYWxrNHdoZA%3D%3D", soundcloud: "https://soundcloud.com/dj-barbara-thomaz", spotify: "#", youtube: "https://www.youtube.com/channel/UC15enO2mcWiVxrmDQAjMnCQ" },
     presskit: "https://bathomaz.com.br/",
@@ -521,7 +530,7 @@ export const allArtists = [
   {
     name: "JUNIOR SANT",
     genre: "Melodic Techno",
-    genreKey: "techno",
+    genreKeys: ["melodic-techno", "techno"],
     image: "/artists/Junior Sant.jpeg",
     socials: { instagram: "https://www.instagram.com/juniorsant_oficial/", soundcloud: "https://soundcloud.com/junior-sant-979249143", spotify: "https://open.spotify.com/user/31pqfmvj2tekcsqr5nckmu2mgtja?si=c7d8d31b85684879&nd=1&dlsi=ca3fe2d41d904563", youtube: "https://www.youtube.com/@djjuniorsant/videos" },
     presskit: "#",
@@ -530,7 +539,7 @@ export const allArtists = [
   {
     name: "ELOAH",
     genre: "Tech House / Minimal",
-    genreKey: "house",
+    genreKeys: ["tech-house", "minimal-house"],
     image: "/artists/Eloah.jpeg",
     socials: { instagram: "https://www.instagram.com/eloahprieto/", soundcloud: "https://soundcloud.com/eloah-prieto/tracks", spotify: "#", youtube: "#" },
     presskit: "#",
@@ -539,7 +548,7 @@ export const allArtists = [
   {
     name: "LACER",
     genre: "Tech House",
-    genreKey: "house",
+    genreKeys: ["tech-house"],
     image: "/artists/Lacer.png",
     socials: { instagram: "https://www.instagram.com/lacermusic/", soundcloud: "#", spotify: "https://open.spotify.com/intl-pt/artist/3c3SUbSwAni69Rae4Y16Eq?si=LmEcl2qpQW2BwpkGPimGYw&nd=1&dlsi=e1d81544dd9f4147", youtube: "https://www.youtube.com/@LacerMusicBR/videos" },
     presskit: "https://presskitpro.app/lacer/",
@@ -548,7 +557,7 @@ export const allArtists = [
   {
     name: "UMBRA",
     genre: "Melodic Techno",
-    genreKey: "techno",
+    genreKeys: ["melodic-techno"],
     image: "/artists/Umbra.jpeg",
     socials: { instagram: "https://www.instagram.com/umbramusicdj?utm_source=ig_web_button_share_sheet&igsh=MXZ2bm4wMW9iczExNg%3D%3D", soundcloud: "https://soundcloud.com/um-bra-792980200?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing", spotify: "https://open.spotify.com/user/31p64ytpp6zyeimazaiefp4b26pi", youtube: "#" },
     presskit: "#",
@@ -557,7 +566,7 @@ export const allArtists = [
   {
     name: "IZZI",
     genre: "Indie Dance / Acid House",
-    genreKey: "house",
+    genreKeys: ["indie-dance", "acid-house"],
     image: "/artists/Izzi.png",
     socials: { instagram: "https://www.instagram.com/izzibeatmaker/", soundcloud: "#", spotify: "#", youtube: "#" },
     presskit: "#",
@@ -566,7 +575,7 @@ export const allArtists = [
   {
     name: "BET'S",
     genre: "Tech House / Minimal",
-    genreKey: "house",
+    genreKeys: ["tech-house", "minimal-house"],
     image: "/artists/Bets.jpeg",
     socials: { instagram: "https://www.instagram.com/humbertohct/", soundcloud: "#", spotify: "#", youtube: "#" },
     presskit: "#",
@@ -575,7 +584,7 @@ export const allArtists = [
   {
     name: "GENÊ",
     genre: "House / Indie Dance",
-    genreKey: "house",
+    genreKeys: ["house", "indie-dance"],
     image: "/artists/GENÊ.png",
     socials: { instagram: "https://www.instagram.com/gabrielgene_/", soundcloud: "https://soundcloud.com/gabriel-gene/tracks", spotify: "#", youtube: "#" },
     presskit: "#",
@@ -584,7 +593,7 @@ export const allArtists = [
   {
     name: "IDEMAX",
     genre: "Full On",
-    genreKey: "psytrance",
+    genreKeys: ["full-on"],
     image: "/artists/Idemax.jpg",
     socials: { instagram: "https://www.instagram.com/idemax/", soundcloud: "https://soundcloud.com/idemax", spotify: "https://open.spotify.com/intl-pt/artist/6jp5aN5ze1ysiSJh61oMCx", youtube: "https://www.youtube.com/channel/UCsyBTwoIMSABNe_UQ54XNQA" },
     presskit: "https://www.idemax.net/",
@@ -593,7 +602,7 @@ export const allArtists = [
   {
     name: "CAMPELLO",
     genre: "Full On",
-    genreKey: "psytrance",
+    genreKeys: ["full-on"],
     image: "/artists/Campello.jpg",
     socials: { instagram: "https://www.instagram.com/camp3llo_live/", soundcloud: "https://soundcloud.com/andre-campello-1655472", spotify: "https://open.spotify.com/intl-pt/artist/1hvS5nKXwPxi7FZCG2vzrk?si=xWVj237UQJW8Tk3rh3dklQ&nd=1&dlsi=f26288b435b94442", youtube: "https://www.youtube.com/channel/UC5yFCDz-pchH_jm-rujgHjA" },
     presskit: "https://drive.google.com/drive/folders/1pLGzFQfsB5ZOXIZ8wZVGyT2DQilPQ7Fi",
@@ -602,7 +611,7 @@ export const allArtists = [
   {
     name: "DAMATA",
     genre: "Forest",
-    genreKey: "psytrance",
+    genreKeys: ["forest"],
     image: "/artists/Damata.png",
     socials: { instagram: "https://www.instagram.com/damata_music/", soundcloud: "https://audius.co/damatamusic", spotify: "#", youtube: "#" },
     presskit: "https://drive.google.com/drive/folders/1oVQqclwtEZHTlQOSYXx9e0mQKYrpoB-L",
@@ -611,7 +620,7 @@ export const allArtists = [
   {
     name: "DOTA",
     genre: "Progressive",
-    genreKey: "progressive",
+    genreKeys: ["progressive-psy"],
     image: "/artists/Dota.jpg",
     socials: { instagram: "https://www.instagram.com/_djdota/", soundcloud: "#", spotify: "#", youtube: "#" },
     presskit: "#",
@@ -620,7 +629,7 @@ export const allArtists = [
   {
     name: "KORDIE",
     genre: "Tech House",
-    genreKey: "house",
+    genreKeys: ["tech-house"],
     image: "/artists/Kordie.jpeg",
     socials: { instagram: "#", soundcloud: "#", spotify: "#" },
     presskit: "#",
@@ -629,7 +638,7 @@ export const allArtists = [
   {
     name: "PITT MALIC",
     genre: "Psytechno",
-    genreKey: "techno",
+    genreKeys: ["psytechno"],
     image: "/artists/Pitt Malic.jpeg",
     socials: { instagram: "https://www.instagram.com/djpittmalic/", soundcloud: "#", spotify: "#", youtube: "#" },
     presskit: "#",
@@ -638,7 +647,7 @@ export const allArtists = [
   {
     name: "PEDRO TAB",
     genre: "Techno / Peak Time",
-    genreKey: "techno",
+    genreKeys: ["peak-time-techno"],
     image: "/artists/Tab.png",
     socials: { instagram: "https://www.instagram.com/pedrotabsounds/", soundcloud: "https://soundcloud.com/pedrotab/tracks", spotify: "#", youtube: "#" },
     presskit: "#",
@@ -647,7 +656,7 @@ export const allArtists = [
   {
     name: "WAVEMOON",
     genre: "Psytrance",
-    genreKey: "psytrance",
+    genreKeys: ["psytrance"],
     image: "/artists/Wavemoon.jpeg",
     socials: { instagram: "https://www.instagram.com/wavemoonoficial/", soundcloud: "https://soundcloud.com/wavemoonlive/popular-tracks", spotify: "#", youtube: "#" },
     presskit: "#",
@@ -656,7 +665,7 @@ export const allArtists = [
   {
     name: "NEXUS",
     genre: "Progressive",
-    genreKey: "progressive",
+    genreKeys: ["progressive-psy"],
     image: "/artists/Nexus.jpeg",
     socials: { instagram: "https://www.instagram.com/nexus_dj__/", soundcloud: "https://soundcloud.com/matheus-has14/tracks", spotify: "https://open.spotify.com/intl-pt/artist/62lrgPgbORAV5jI6zOZ2wS?si=GZ2cFs7aTvK0NXPKkC6i-g&utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQMMjU2MjgxMDQwNTU4AAGn4QutYs8Ij2Kcr-H7VOCPtngVkML0GRNK0M3FKK9N52OyiKp89nBXStGoiLA_aem_Pvm399AismO4TJoLkeWk9g&nd=1&dlsi=e850983bae1a45b4", youtube: "#" },
     presskit: "#",
@@ -675,7 +684,95 @@ export const allArtists = [
 
 // --- Components ---
 
-// Removed AmbientBackground in favor of AscensionBackground
+// --- Helper Components ---
+interface GenreNodeProps {
+  key?: string | number;
+  node: GenreNodeType;
+  allArtists: any[];
+  selectedGenre: string | null;
+  setSelectedGenre: (id: string | null) => void;
+  level?: number;
+}
+
+const GenreNode: React.FC<GenreNodeProps> = ({
+  node,
+  allArtists,
+  selectedGenre,
+  setSelectedGenre,
+  level = 0
+}) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const getArtistsForGenre = (n: GenreNodeType): any[] => {
+    let artists = allArtists.filter(a => a.genreKeys?.includes(n.id));
+    if (n.children) {
+      n.children.forEach(child => {
+        artists = [...artists, ...getArtistsForGenre(child)];
+      });
+    }
+    // Remove duplicates
+    return Array.from(new Set(artists));
+  };
+
+  const artistsInBranch = getArtistsForGenre(node);
+  const count = artistsInBranch.length;
+
+  if (count === 0) return null;
+
+  const isActive = selectedGenre === node.id;
+
+  return (
+    <div className={`space-y-2 ${level > 0 ? "ml-4 border-l border-white/5 pl-4" : ""}`}>
+      <div
+        onClick={() => {
+          setSelectedGenre(isActive ? null : node.id);
+          if (node.children) setIsExpanded(!isExpanded);
+        }}
+        className={`glass-panel p-4 rounded-2xl flex items-center justify-between group cursor-pointer transition-all hover-step ${isActive ? "border-brand-cyan/50 ui-glow bg-brand-cyan/5" : "hover:border-white/10"
+          }`}
+      >
+        <div className={`w-8 h-8 rounded-xl flex items-center justify-center transition-colors ${isActive ? "bg-brand-cyan/20 text-white" : "bg-white/5 text-brand-cyan/50 group-hover:text-brand-cyan"
+          }`}>
+          {node.children ? <Activity size={14} /> : <div className="w-1.5 h-1.5 rounded-full bg-current" />}
+        </div>
+        <div>
+          <h4 className={`text-xs font-bold uppercase tracking-widest ${isActive ? "text-white" : "text-white/70"}`}>
+            {node.name}
+          </h4>
+          <span className="text-[8px] text-white/30 font-bold block">{count} artists</span>
+        </div>
+        {node.children && (
+          <ChevronDown
+            size={14}
+            className={`text-white/20 transition-transform duration-300 ${isExpanded ? "rotate-180" : ""}`}
+          />
+        )}
+      </div>
+
+      <AnimatePresence>
+        {isExpanded && node.children && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            className="overflow-hidden space-y-2"
+          >
+            {node.children.map(child => (
+              <GenreNode
+                key={child.id}
+                node={child}
+                allArtists={allArtists}
+                selectedGenre={selectedGenre}
+                setSelectedGenre={setSelectedGenre}
+                level={level + 1}
+              />
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
 
 const HUDCorners = () => (
   <>
@@ -701,7 +798,13 @@ export default function App() {
   });
   const [formStatus, setFormStatus] = useState<"idle" | "submitting" | "success">("idle");
   const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
-  const [activeArtist, setActiveArtist] = useState<typeof allArtists[0] | null>(null);
+  const [activeArtist, setActiveArtist] = useState<any | null>(null);
+  const [isSecureGateOpen, setIsSecureGateOpen] = useState(false);
+  const [securePassword, setSecurePassword] = useState("");
+  const [isAuthorized, setIsAuthorized] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [authError, setAuthError] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [statusIndex, setStatusIndex] = useState(0);
   const [scrolled, setScrolled] = useState(false);
   const [prefilledArtist, setPrefilledArtist] = useState("");
@@ -737,28 +840,85 @@ export default function App() {
   const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
   const heroScale = useTransform(scrollYProgress, [0, 0.2], [1, 0.95]);
 
-  const filteredArtists = allArtists
-    .filter(artist => artist.image !== "")
-    .filter(artist => !selectedGenre || artist.genreKey === selectedGenre);
+  const getArtistsForGenreRecursive = (genreId: string): any[] => {
+    const findNode = (nodes: GenreNodeType[]): GenreNodeType | null => {
+      for (const node of nodes) {
+        if (node.id === genreId) return node;
+        if (node.children) {
+          const found = findNode(node.children);
+          if (found) return found;
+        }
+      }
+      return null;
+    };
 
-  const genreCountMap = allArtists.reduce((acc, a) => {
-    acc[a.genreKey] = (acc[a.genreKey] || 0) + 1;
-    return acc;
-  }, {} as Record<string, number>);
+    const node = findNode(GENRE_TAXONOMY);
+    if (!node) return [];
 
+    const collectRecursive = (n: GenreNodeType): any[] => {
+      let artists = allArtists.filter(a => a.genreKeys?.includes(n.id));
+      if (n.children) {
+        n.children.forEach(child => {
+          artists = [...artists, ...collectRecursive(child)];
+        });
+      }
+      return artists;
+    };
+
+    return Array.from(new Set(collectRecursive(node)));
+  };
+
+  const filteredArtists = selectedGenre
+    ? getArtistsForGenreRecursive(selectedGenre).filter(a => a.image !== "")
+    : allArtists.filter(a => a.image !== "");
+
+  const handleAuth = () => {
+    if (securePassword.trim() === "ravenaescada") {
+      setIsAuthorized(true);
+      setAuthError(false);
+      setIsSecureGateOpen(false);
+      setSecurePassword(""); // Clear on success
+      // Store session for 30 mins
+      localStorage.setItem("ladder_auth", (Date.now() + 30 * 60 * 1000).toString());
+    } else {
+      setAuthError(true);
+      setSecurePassword(""); // Clear on failure too for security/retry
+      setTimeout(() => setAuthError(false), 2000);
+    }
+  };
+
+  useEffect(() => {
+    const session = localStorage.getItem("ladder_auth");
+    if (session && parseInt(session) > Date.now()) {
+      setIsAuthorized(true);
+    }
+  }, []);
   const handleGenreClick = (genreKey: string) => {
     const newGenre = genreKey === selectedGenre ? null : genreKey;
     setSelectedGenre(newGenre);
 
     // Subtle background shift
-    const colors: Record<string, string> = {
+    const baseColors: Record<string, string> = {
       house: "#0B1015",
       techno: "#100B15",
       psytrance: "#0B1512",
       progressive: "#15120B",
       darkpsy: "#0F0B15"
     };
-    document.body.style.setProperty("--bg-shift", newGenre ? colors[newGenre] : "#0B0B0F");
+
+    let targetColor = "#0B0B0F";
+    if (newGenre) {
+      // Find the root parent to determine color
+      const root = GENRE_TAXONOMY.find(r =>
+        r.id === newGenre ||
+        r.children?.some(c => c.id === newGenre || c.children?.some(gc => gc.id === newGenre))
+      );
+      if (root && baseColors[root.id as keyof typeof baseColors]) {
+        targetColor = baseColors[root.id as keyof typeof baseColors];
+      }
+    }
+
+    document.body.style.setProperty("--bg-shift", targetColor);
 
     if (artistsRef.current) {
       artistsRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -799,11 +959,12 @@ ${data.message}
       {/* Navigation */}
       <header>
         <nav className={`fixed top-0 w-full z-50 px-4 md:px-6 flex justify-between items-center transition-all duration-500 ${scrolled ? "glass-panel border-b border-white/10 py-3 shadow-[0_8px_40px_rgba(0,0,0,0.6)]" : "bg-transparent border-b border-transparent py-6"}`}>
-          <div className="flex items-center gap-3 md:gap-4">
-            <div className="flex items-center gap-2">
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3">
               <motion.div
                 whileHover={{ rotate: 135 }}
                 className="w-7 h-7 md:w-8 md:h-8 bg-gradient-to-br from-brand-cyan to-brand-pink rounded-sm rotate-45 flex items-center justify-center cursor-pointer"
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
               >
                 <div className="w-3 md:w-4 h-0.5 bg-white -rotate-45" />
               </motion.div>
@@ -811,17 +972,31 @@ ${data.message}
                 LADDER<span className="text-gradient">LABS</span>
               </span>
             </div>
-            <div className="h-6 w-px bg-white/10 hidden sm:block" />
-            <div className="hidden sm:flex flex-col leading-none">
-              <span className="text-[7px] uppercase tracking-widest text-white/40 font-bold">Partner</span>
-              <span className="text-[9px] font-display font-bold tracking-tighter text-white/80">NEVERLAND</span>
-            </div>
+
+            {/* Neverland Logo in Header - Only show when scrolled to reduce redundancy */}
+            <AnimatePresence>
+              {scrolled && (
+                <motion.div
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -10 }}
+                  className="flex items-center gap-3"
+                >
+                  <div className="h-6 w-px bg-white/10" />
+                  <img
+                    src="/logos/neverland-records.webp"
+                    alt="Neverland Records"
+                    className="h-6 md:h-8 w-auto object-contain opacity-60 hover:opacity-100 transition-opacity"
+                    referrerPolicy="no-referrer"
+                  />
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
 
           <div className="hidden lg:flex items-center gap-8">
             <div className="flex gap-8 text-[10px] font-bold uppercase tracking-[0.3em] text-white/50">
-              <a href="#genres" className="hover:text-brand-cyan transition-colors">Genres</a>
-              <a href="#artists" className="hover:text-brand-cyan transition-colors">{t.nav.artists}</a>
+              <a href="#roster" className="hover:text-brand-cyan transition-colors">{t.nav.artists}</a>
               <a href="#radar" className="hover:text-brand-cyan transition-colors">Radar</a>
               <a href="#about" className="hover:text-brand-cyan transition-colors">{t.nav.about}</a>
               <a href="#booking" className="hover:text-brand-cyan transition-colors">{t.nav.booking}</a>
@@ -846,7 +1021,7 @@ ${data.message}
           </div>
 
           <div className="flex items-center gap-4 md:gap-6">
-            <div className="lang-toggle">
+            <div className="lang-toggle hidden sm:flex">
               {(["EN", "PT", "ES"] as Language[]).map((l) => (
                 <button
                   key={l}
@@ -859,12 +1034,72 @@ ${data.message}
             </div>
             <a
               href="#booking"
-              className="hidden sm:block px-5 py-2 bg-white text-brand-dark text-[10px] font-bold uppercase tracking-widest rounded-full hover:bg-brand-cyan transition-all btn-glow"
+              className="hidden lg:block px-5 py-2 bg-white text-brand-dark text-[10px] font-bold uppercase tracking-widest rounded-full hover:bg-brand-cyan transition-all btn-glow"
             >
               {t.nav.bookNow}
             </a>
+
+            {/* Mobile Menu Toggle */}
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="lg:hidden w-10 h-10 flex items-center justify-center text-white bg-white/5 rounded-full border border-white/10 z-[60]"
+            >
+              {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
           </div>
         </nav>
+
+        {/* Mobile Menu Overlay */}
+        <AnimatePresence>
+          {isMobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, x: "100%" }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: "100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="fixed inset-0 bg-brand-dark z-[55] flex flex-col p-8 pt-32"
+            >
+              <div className="flex flex-col gap-8">
+                {[
+                  { name: t.nav.artists, href: "#roster" },
+                  { name: "Radar", href: "#radar" },
+                  { name: t.nav.about, href: "#about" },
+                  { name: t.nav.booking, href: "#booking" }
+                ].map((item) => (
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="font-display text-4xl font-bold tracking-tighter hover:text-brand-cyan transition-colors"
+                  >
+                    {item.name}
+                  </a>
+                ))}
+              </div>
+
+              <div className="mt-auto space-y-8">
+                <div className="flex gap-4">
+                  {(["EN", "PT", "ES"] as Language[]).map((l) => (
+                    <button
+                      key={l}
+                      onClick={() => setLang(l)}
+                      className={`px-4 py-2 rounded-lg border border-white/10 text-[10px] font-bold ${lang === l ? "bg-white text-brand-dark" : "text-white/50"}`}
+                    >
+                      {l}
+                    </button>
+                  ))}
+                </div>
+                <a
+                  href="#booking"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="block w-full py-5 bg-white text-brand-dark text-center font-bold uppercase tracking-widest rounded-2xl btn-glow"
+                >
+                  {t.nav.bookNow}
+                </a>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </header>
 
       <main>
@@ -888,18 +1123,19 @@ ${data.message}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-24 mb-12 md:mb-20"
+              className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16 mb-12 md:mb-16"
             >
               <img
                 src="/logos/neverland-records.webp"
                 alt="Neverland Records"
-                className="h-12 md:h-20 w-auto logo-metallic"
+                className="h-12 md:h-20 w-auto logo-metallic opacity-80"
                 referrerPolicy="no-referrer"
               />
+              <div className="hidden md:block h-16 w-px bg-white/10 mx-4" />
               <img
                 src="/logos/ladder-labs.png"
                 alt="Ladder Labs"
-                className="h-24 md:h-44 w-auto logo-metallic"
+                className="h-20 md:h-36 w-auto logo-metallic"
                 referrerPolicy="no-referrer"
               />
             </motion.div>
@@ -928,9 +1164,9 @@ ${data.message}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3 }}
-              className="text-white/50 max-w-2xl mx-auto mb-12 font-light leading-relaxed"
+              className="text-white/50 max-w-2xl mx-auto mb-12 font-light leading-relaxed text-sm md:text-base"
             >
-              {t.hero.subtitle}
+              Ladder Labs representa a próxima geração de artistas de música eletrônica. Arquitetos de experiências imersivas na pista de dança.
             </motion.p>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -938,11 +1174,11 @@ ${data.message}
               transition={{ delay: 0.4 }}
               className="flex flex-col sm:flex-row gap-4 justify-center"
             >
-              <a href="#genres" className="px-10 py-5 bg-white text-brand-dark font-bold uppercase tracking-widest rounded-full hover:bg-brand-cyan transition-all hover:scale-105 btn-glow flex items-center justify-center gap-2">
-                <span className="text-[10px]">✦</span> {t.hero.cta1}
+              <a href="#roster" className="px-10 py-5 bg-white text-brand-dark font-bold uppercase tracking-widest rounded-full hover:bg-brand-cyan transition-all hover:scale-105 btn-glow flex items-center justify-center gap-2">
+                <span className="text-[10px]">✦</span> Explorar Roster
               </a>
-              <a href="#booking" className="px-10 py-5 border border-white/20 text-white font-bold uppercase tracking-widest rounded-full hover:bg-white/5 transition-all flex justify-center">
-                {t.hero.cta2}
+              <a href="#radar" className="px-10 py-5 border border-white/20 text-white font-bold uppercase tracking-widest rounded-full hover:bg-white/5 transition-all flex justify-center items-center gap-2">
+                Radar de Eventos
               </a>
             </motion.div>
           </motion.div>
@@ -957,78 +1193,81 @@ ${data.message}
           </motion.div>
         </section>
 
-        <AncestralDivider />
-
-        {/* Genres Section */}
-        <section id="genres" className="py-24 md:py-32 relative overflow-hidden">
+        {/* Roster & Discovery Section */}
+        <section id="roster" ref={artistsRef} className="py-24 md:py-32 relative overflow-hidden bg-black/20">
           <div className="container mx-auto px-6">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="text-center mb-16 md:mb-24"
+              className="text-center mb-16 md:mb-20"
             >
               <h2 className="font-display font-bold tracking-tighter mb-4">
                 {t.genres.title1} <span className="text-gradient">{t.genres.title2}</span>
               </h2>
-              <p className="text-white/30 text-[10px] uppercase tracking-[0.4em] font-bold">Select a frequency to filter</p>
+              <div className="flex items-center justify-center gap-4 mb-2">
+                <div className="h-px w-8 bg-brand-cyan/30" />
+                <span className="text-brand-cyan text-[10px] font-bold uppercase tracking-[0.5em]">Pesquisar Por</span>
+                <div className="h-px w-8 bg-brand-cyan/30" />
+              </div>
+              <p className="text-white/30 text-[10px] uppercase tracking-[0.4em] font-bold">Select a frequency to filter the intelligence</p>
             </motion.div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-32">
+              {/* All Roster Card */}
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 onClick={() => setSelectedGenre(null)}
-                className={`glass-panel p-6 md:p-8 rounded-3xl text-center group cursor-pointer transition-all relative ${selectedGenre === null ? "border-brand-cyan/50 ui-glow" : "hover:border-brand-cyan/20"
+                className={`glass-panel p-6 rounded-3xl flex items-center gap-6 group cursor-pointer transition-all relative h-fit ${selectedGenre === null ? "border-brand-cyan/50 ui-glow bg-brand-cyan/5" : "hover:border-white/10"
                   }`}
               >
-                <HUDCorners />
-                <div className={`w-10 h-10 md:w-12 md:h-12 mx-auto mb-4 md:mb-6 rounded-2xl bg-white/5 flex items-center justify-center transition-colors ${selectedGenre === null ? "bg-brand-cyan/20" : "group-hover:bg-brand-cyan/10"
+                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-colors ${selectedGenre === null ? "bg-brand-cyan/20 text-white" : "bg-white/5 text-brand-cyan group-hover:bg-brand-cyan/10"
                   }`}>
-                  <Activity className={selectedGenre === null ? "text-white" : "text-brand-cyan"} size={20} />
+                  <Activity size={24} />
                 </div>
-                <h4 className="font-display text-sm md:text-base font-bold tracking-tight uppercase">All Roster</h4>
-                <span className="text-[9px] text-white/30 font-bold mt-1 block">{allArtists.filter(a => a.image !== "").length} artists</span>
+                <div>
+                  <h4 className="font-display text-lg font-bold tracking-tight uppercase">TODOS</h4>
+                  <span className="text-[10px] text-white/30 font-bold uppercase tracking-widest">{allArtists.filter(a => a.image !== "").length} artists total</span>
+                </div>
               </motion.div>
 
-              {[
-                { key: "house", name: "House", icon: Music, text: t.genres.house },
-                { key: "techno", name: "Techno", icon: Zap, text: t.genres.techno },
-                { key: "psytrance", name: "Psytrance", icon: Activity, text: t.genres.psytrance },
-                { key: "progressive", name: "Progressive", icon: Globe, text: t.genres.progressive },
-                { key: "darkpsy", name: "Dark Psy", icon: ChevronRight, text: t.genres.darkpsy }
-              ].map((genre, idx) => (
-                <motion.div
-                  key={genre.key}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: idx * 0.1 }}
-                  onClick={() => handleGenreClick(genre.key)}
-                  className={`glass-panel p-6 md:p-8 rounded-3xl text-center group cursor-pointer transition-all relative ${selectedGenre === genre.key ? "border-brand-cyan/50 ui-glow" :
-                    selectedGenre ? "opacity-40 grayscale" : "hover:border-brand-cyan/20"
-                    }`}
-                >
-                  <HUDCorners />
-                  <div className={`w-10 h-10 md:w-12 md:h-12 mx-auto mb-4 md:mb-6 rounded-2xl bg-white/5 flex items-center justify-center transition-colors ${selectedGenre === genre.key ? "bg-brand-cyan/20" : "group-hover:bg-brand-cyan/10"
-                    }`}>
-                    <genre.icon className={selectedGenre === genre.key ? "text-white" : "text-brand-cyan"} size={20} />
-                  </div>
-                  <h4 className="font-display text-sm md:text-base font-bold tracking-tight uppercase">{genre.name}</h4>
-                  <span className="text-[9px] text-white/30 font-bold mt-1 block">{genreCountMap[genre.key] || 0} artists</span>
-                </motion.div>
-              ))}
+              {/* Taxonomy Tree - Column 1 */}
+              <div className="space-y-4">
+                {GENRE_TAXONOMY.slice(0, 2).map((root) => (
+                  <GenreNode
+                    key={root.id}
+                    node={root}
+                    allArtists={allArtists}
+                    selectedGenre={selectedGenre}
+                    setSelectedGenre={setSelectedGenre}
+                  />
+                ))}
+              </div>
+
+              {/* Taxonomy Tree - Column 2 */}
+              <div className="space-y-4">
+                {GENRE_TAXONOMY.slice(2).map((root) => (
+                  <GenreNode
+                    key={root.id}
+                    node={root}
+                    allArtists={allArtists}
+                    selectedGenre={selectedGenre}
+                    setSelectedGenre={setSelectedGenre}
+                  />
+                ))}
+              </div>
             </div>
-          </div>
-        </section>
 
-        <AncestralDivider />
+            {/* Subtle Transition Divider */}
+            <div className="flex items-center gap-4 mb-20 opacity-20">
+              <div className="h-px flex-1 bg-gradient-to-r from-transparent to-white/40" />
+              <div className="text-[10px] font-display font-medium uppercase tracking-[0.3em]">Vertical Roster</div>
+              <div className="h-px flex-1 bg-gradient-to-l from-transparent to-white/40" />
+            </div>
 
-        {/* Roster Section */}
-        <section id="artists" ref={artistsRef} className="py-24 md:py-32 bg-black/20">
-          <div className="container mx-auto px-6">
-            <div className="flex flex-col md:flex-row justify-between items-end mb-16 md:mb-20 gap-8">
+            <div className="flex flex-col md:flex-row justify-between items-end mb-12 md:mb-16 gap-8">
               <div className="max-w-xl">
                 <div className="flex items-center gap-4 mb-4">
                   <span className="text-brand-cyan text-[10px] font-bold uppercase tracking-[0.5em] block">{t.roster.tag}</span>
@@ -1178,7 +1417,11 @@ ${data.message}
         <AncestralDivider />
 
         {/* Event Radar Section */}
-        <EventRadar t={t.radar} />
+        <EventRadar
+          t={t.radar}
+          isAuthorized={isAuthorized}
+          onGateRequest={() => setIsSecureGateOpen(true)}
+        />
 
         <AncestralDivider />
 
@@ -1215,8 +1458,8 @@ ${data.message}
                     <HUDCorners />
                     {formStatus === "success" ? (
                       <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-12">
-                        <div className="w-16 h-16 md:w-20 md:h-20 bg-brand-cyan/10 rounded-full flex items-center justify-center mx-auto mb-8">
-                          <Zap className="text-brand-cyan" size={32} />
+                        <div className="w-16 h-16 md:w-20 md:h-20 bg-brand-cyan/10 rounded-full flex items-center justify-center mx-auto mb-8 text-brand-cyan">
+                          <Activity size={32} />
                         </div>
                         <h3 className="font-display font-bold mb-4 tracking-tight">{t.booking.successTitle}</h3>
                         <p className="text-white/40 font-light mb-10">{t.booking.successMsg}</p>
@@ -1286,6 +1529,92 @@ ${data.message}
           </div>
         </section>
       </main>
+
+      {/* Secure Event Gate Modal */}
+      <AnimatePresence>
+        {isSecureGateOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsSecureGateOpen(false)}
+              className="fixed inset-0 bg-black/90 backdrop-blur-md z-[9998]"
+            />
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="fixed inset-0 flex items-center justify-center z-[9999] p-6 pointer-events-none"
+            >
+              <div className={`glass-panel p-12 rounded-[2rem] max-w-sm w-full relative transition-all duration-300 pointer-events-auto ${authError ? "border-red-500/50 shadow-[0_0_50px_rgba(239,68,68,0.2)]" : "border-brand-cyan/30 shadow-[0_0_50px_rgba(0,242,255,0.1)]"}`}>
+                <HUDCorners />
+                <div className="text-center mb-8">
+                  <div className={`w-16 h-16 mx-auto mb-6 rounded-2xl flex items-center justify-center bg-white/5 ${authError ? "text-red-500" : "text-brand-cyan"}`}>
+                    <Activity size={32} />
+                  </div>
+                  <h3 className="font-display text-xl font-bold uppercase tracking-widest mb-2">Access Gate</h3>
+                  <p className="text-white/40 text-[10px] uppercase tracking-[0.2em]">Enter Intelligence Frequency</p>
+                </div>
+
+                <div className="space-y-6">
+                  <div className="relative">
+                    <input
+                      type="password"
+                      value={securePassword}
+                      onChange={(e) => setSecurePassword(e.target.value)}
+                      onKeyDown={(e) => e.key === "Enter" && handleAuth()}
+                      className={`w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 focus:outline-none focus:border-brand-cyan transition-colors text-center font-mono tracking-widest text-lg ${authError ? "text-red-500 border-red-500/50" : ""}`}
+                      placeholder="••••••••"
+                      autoFocus
+                    />
+                    {authError && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 5 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="absolute -bottom-6 left-0 w-full text-center text-[8px] text-red-500 font-bold uppercase tracking-widest"
+                      >
+                        Invalid Frequency - Access Denied
+                      </motion.div>
+                    )}
+                  </div>
+
+                  <div className="flex gap-4">
+                    <button
+                      onClick={() => setIsSecureGateOpen(false)}
+                      className="flex-1 px-4 py-4 border border-white/10 text-white/50 text-[10px] font-bold uppercase tracking-widest rounded-xl hover:bg-white/5 transition-all"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={handleAuth}
+                      className="flex-2 flex-[2] px-4 py-4 bg-brand-cyan text-brand-dark text-[10px] font-bold uppercase tracking-widest rounded-xl hover:bg-white transition-all btn-glow"
+                    >
+                      Authorize
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* Admin Marketplace Floating FAB */}
+      {isAuthorized && (
+        <motion.button
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          onClick={() => {
+            const el = document.getElementById('radar');
+            el?.scrollIntoView({ behavior: 'smooth' });
+            alert("Admin Mode Active: Use the + icon on the map to mark events.");
+          }}
+          className="fixed bottom-28 right-8 z-40 w-16 h-16 bg-brand-cyan text-brand-dark rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(0,255,255,0.4)] hover:scale-110 transition-transform pulse"
+        >
+          <Activity size={28} />
+        </motion.button>
+      )}
 
       {/* Artist Drawer/Modal */}
       <AnimatePresence>
@@ -1369,26 +1698,30 @@ ${data.message}
         )}
       </AnimatePresence>
 
-      {/* WhatsApp Floating Button — Mobile */}
-      <a
-        href={`https://wa.me/5511999999999?text=${encodeURIComponent("Olá! Quero fazer um booking pela Ladder Labs.")}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="fixed bottom-28 left-6 z-40 lg:hidden w-14 h-14 bg-[#25D366] rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(37,211,102,0.4)] hover:scale-110 transition-transform"
-        aria-label="WhatsApp Booking"
-      >
-        <svg viewBox="0 0 24 24" fill="white" className="w-7 h-7">
-          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
-        </svg>
-      </a>
-
-      <div className="sticky-cta-mobile">
-        <a href="#booking" className="w-full bg-white text-brand-dark font-bold uppercase tracking-[0.3em] py-5 rounded-2xl shadow-2xl flex items-center justify-center gap-3 btn-glow neon-aura">
-          Book Artist <ArrowRight size={18} />
+      {/* Communication Actions — Mobile */}
+      <div className="fixed bottom-28 left-6 z-40 lg:hidden flex flex-col gap-3">
+        <a
+          href="https://www.instagram.com/ladder.labs/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="w-10 h-10 bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform"
+          aria-label="Instagram"
+        >
+          <Instagram size={18} className="text-white" />
+        </a>
+        <a
+          href={`https://wa.me/5531972409183?text=${encodeURIComponent("Olá! Quero fazer um booking pela Ladder Labs.")}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="w-10 h-10 bg-[#25D366] rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(37,211,102,0.4)] hover:scale-110 transition-transform"
+          aria-label="WhatsApp Booking"
+        >
+          <svg viewBox="0 0 24 24" fill="white" className="w-5 h-5">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+          </svg>
         </a>
       </div>
 
-      {/* Footer */}
       <footer className="py-20 border-t border-white/5 relative">
         <div className="container mx-auto px-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-16">

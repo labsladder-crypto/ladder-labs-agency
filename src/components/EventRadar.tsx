@@ -71,7 +71,15 @@ const EMPTY_FORM = {
 };
 
 // ─── Main Component ──────────────────────────────────────────────────────────
-export default function EventRadar({ t }: { t: any }) {
+export default function EventRadar({
+    t,
+    isAuthorized = false,
+    onGateRequest
+}: {
+    t: any;
+    isAuthorized?: boolean;
+    onGateRequest?: () => void;
+}) {
     const [events, setEvents] = useState<ManualEvent[]>(() => {
         try {
             const saved = localStorage.getItem(STORAGE_KEY);
@@ -176,6 +184,10 @@ export default function EventRadar({ t }: { t: any }) {
                     {/* Add Mode toggle */}
                     <button
                         onClick={() => {
+                            if (!isAuthorized && !addMode) {
+                                onGateRequest?.();
+                                return;
+                            }
                             setAddMode(!addMode);
                             if (!addMode) setView(null);
                         }}
