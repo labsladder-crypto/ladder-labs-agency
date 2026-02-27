@@ -6,9 +6,10 @@
 import { MapContainer, TileLayer, CircleMarker, Popup, Marker, useMapEvents } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { useState, useEffect, useCallback } from "react";
-import { MapPin, Calendar, Instagram, Plus, Trash2, Save, X, List, Map } from "lucide-react";
+import { useState, useEffect, useCallback, useRef } from "react";
+import { MapPin, Calendar, Instagram, Plus, Trash2, Save, X, List, Map, ExternalLink, ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
+import { allArtists } from "../App";
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 export interface ManualEvent {
@@ -22,6 +23,7 @@ export interface ManualEvent {
     date: string;
     instagram: string;
     genres: string[];
+    lineup: string[];
     notes: string;
 }
 
@@ -64,6 +66,7 @@ const EMPTY_FORM = {
     date: "",
     instagram: "",
     genres: [] as string[],
+    lineup: [] as string[],
     notes: "",
 };
 
@@ -84,6 +87,7 @@ export default function EventRadar({ t }: { t: any }) {
     const [form, setForm] = useState(EMPTY_FORM);
     const [view, setView] = useState<"list" | "form" | null>(null);
     const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
+    const [selectedEvent, setSelectedEvent] = useState<ManualEvent | null>(null);
 
     useEffect(() => { setIsLoaded(true); }, []);
 
@@ -297,96 +301,121 @@ export default function EventRadar({ t }: { t: any }) {
                                 )}
 
                                 {/* Saved events */}
-                                {events.map((event) => (
-                                    <>
-                                        {/* Dot marker */}
-                                        <CircleMarker
-                                            key={`dot-${event.id}`}
-                                            center={[event.lat, event.lng]}
-                                            radius={10}
-                                            pathOptions={{
-                                                fillColor: "#FF2D7A",
-                                                fillOpacity: 0.9,
-                                                color: "#0B0B0F",
-                                                weight: 2,
-                                            }}
-                                        >
-                                            <Popup className="radar-popup">
-                                                <div className="radar-popup-content">
-                                                    <div className="radar-popup-title">{event.name}</div>
-                                                    {event.promoter && (
-                                                        <div className="radar-popup-row" style={{ color: "rgba(255,255,255,0.6)", fontWeight: 600, fontSize: "10px" }}>
-                                                            {event.promoter}
-                                                        </div>
-                                                    )}
-                                                    <div className="radar-popup-row">
-                                                        <MapPin size={10} />
-                                                        {event.city}, {event.state}
-                                                    </div>
-                                                    {event.date && (
-                                                        <div className="radar-popup-row">
-                                                            <Calendar size={10} />
-                                                            {new Date(event.date + "T00:00:00").toLocaleDateString("pt-BR")}
-                                                        </div>
-                                                    )}
-                                                    {event.notes && (
-                                                        <div className="radar-popup-row" style={{ fontSize: "9px", color: "rgba(255,255,255,0.3)", fontStyle: "italic" }}>
-                                                            {event.notes}
-                                                        </div>
-                                                    )}
-                                                    {event.instagram && (
-                                                        <a
-                                                            href={event.instagram.startsWith("http") ? event.instagram : `https://instagram.com/${event.instagram.replace("@", "")}`}
-                                                            target="_blank"
-                                                            rel="noopener noreferrer"
-                                                            className="radar-popup-ig"
-                                                        >
-                                                            <Instagram size={12} />
-                                                            {event.instagram.startsWith("http") ? "Instagram" : event.instagram}
-                                                        </a>
-                                                    )}
-                                                    <button
-                                                        onClick={() => setDeleteConfirm(event.id)}
-                                                        className="radar-popup-ig mt-1"
-                                                        style={{ color: "#FF4444", borderTop: "none" }}
-                                                    >
-                                                        <Trash2 size={12} />
-                                                        {t.deleteEvent}
-                                                    </button>
-                                                </div>
-                                            </Popup>
-                                        </CircleMarker>
+                                {events.map((event) => {
+                                    // Calculate Line-up Density & avatars
+                                    const artistCount = event.lineup ? event.lineup.length : 0;
+                                    let densityColor = "#00F2FF"; // 0-2 (soft)
+                                    if (artistCount >= 3 && artistCount <= 5) densityColor = "#F59E0B"; // medium
+                                    if (artistCount > 5) densityColor = "#FF2D7A"; // festival
 
-                                        {/* DivIcon label above the dot */}
-                                        <Marker
-                                            key={`label-${event.id}`}
-                                            position={[event.lat, event.lng]}
-                                            icon={L.divIcon({
-                                                className: "",
-                                                iconAnchor: [110, 38],
-                                                iconSize: [220, 30],
-                                                html: `<div style="
-                                                    background: rgba(11,11,15,0.82);
-                                                    border: 1px solid rgba(255,45,122,0.35);
-                                                    border-radius: 6px;
-                                                    padding: 5px 14px;
-                                                    font-family: 'Space Grotesk', sans-serif;
-                                                    font-size: 12px;
-                                                    font-weight: 900;
-                                                    text-transform: uppercase;
-                                                    letter-spacing: 0.07em;
-                                                    color: white;
-                                                    white-space: nowrap;
-                                                    text-align: center;
-                                                    backdrop-filter: blur(8px);
-                                                    box-shadow: 0 2px 16px rgba(255,45,122,0.25);
-                                                    pointer-events: none;
-                                                ">${event.name}</div>`,
-                                            })}
-                                            interactive={false}
-                                        />
-                                    </>
-                                ))}
+                                    const lineupArtists = event.lineup ? event.lineup.map(name => allArtists.find(a => a.name === name)).filter(Boolean) : [];
+                                    const displayAvatars = lineupArtists.slice(0, 4);
+                                    const extraCount = lineupArtists.length > 4 ? lineupArtists.length - 4 : 0;
+
+                                    return (
+                                        <div key={`event-${event.id}`}>
+                                            {/* Dot marker */}
+                                            <CircleMarker
+                                                center={[event.lat, event.lng]}
+                                                radius={10}
+                                                eventHandlers={{
+                                                    click: () => {
+                                                        setSelectedEvent(event);
+                                                    }
+                                                }}
+                                                pathOptions={{
+                                                    fillColor: densityColor,
+                                                    fillOpacity: 0.9,
+                                                    color: "#0B0B0F",
+                                                    weight: 2,
+                                                }}
+                                            >
+                                                <Popup className="radar-popup">
+                                                    <div className="radar-popup-content min-w-[160px]">
+                                                        <div className="radar-popup-title" onClick={() => setSelectedEvent(event)} style={{ cursor: "pointer", display: "inline-block", position: "relative" }}>
+                                                            {event.name}
+                                                            <span style={{ position: "absolute", bottom: "-4px", left: 0, height: "1px", width: "100%", background: "currentColor", opacity: 0.3 }} />
+                                                        </div>
+                                                        {event.promoter && (
+                                                            <div className="radar-popup-row" style={{ color: "rgba(255,255,255,0.6)", fontWeight: 600, fontSize: "10px" }}>
+                                                                {event.promoter}
+                                                            </div>
+                                                        )}
+                                                        <div className="radar-popup-row">
+                                                            <MapPin size={10} />
+                                                            {event.city}, {event.state}
+                                                        </div>
+                                                        {event.date && (
+                                                            <div className="radar-popup-row">
+                                                                <Calendar size={10} />
+                                                                {new Date(event.date + "T00:00:00").toLocaleDateString("pt-BR")}
+                                                            </div>
+                                                        )}
+
+                                                        {/* Lineup Avatars */}
+                                                        {lineupArtists.length > 0 && (
+                                                            <div className="flex -space-x-2 my-2 py-1 items-center" onClick={() => setSelectedEvent(event)}>
+                                                                {displayAvatars.map((artist, idx) => (
+                                                                    <div key={idx} className="relative group/avatar">
+                                                                        <img
+                                                                            src={artist?.image}
+                                                                            alt={artist?.name}
+                                                                            className="w-7 h-7 rounded-full border border-black object-cover relative z-10 hover:z-20 hover:scale-110 transition-transform cursor-pointer"
+                                                                            title={artist?.name}
+                                                                        />
+                                                                    </div>
+                                                                ))}
+                                                                {extraCount > 0 && (
+                                                                    <div className="w-7 h-7 rounded-full bg-[#1A1A24] border border-black flex items-center justify-center text-[8px] font-bold text-white relative z-10">
+                                                                        +{extraCount}
+                                                                    </div>
+                                                                )}
+                                                            </div>
+                                                        )}
+
+                                                        <div className="radar-popup-row mt-2" style={{ cursor: "pointer", color: "#00F2FF", borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: "8px" }} onClick={() => setSelectedEvent(event)}>
+                                                            <ArrowRight size={10} /> See Details
+                                                        </div>
+                                                    </div>
+                                                </Popup>
+                                            </CircleMarker>
+
+                                            {/* DivIcon label above the dot */}
+                                            <Marker
+                                                position={[event.lat, event.lng]}
+                                                eventHandlers={{
+                                                    click: () => {
+                                                        setSelectedEvent(event);
+                                                    }
+                                                }}
+                                                icon={L.divIcon({
+                                                    className: "",
+                                                    iconAnchor: [110, 38],
+                                                    iconSize: [220, 30],
+                                                    html: `<div style="
+                                                        background: rgba(11,11,15,0.82);
+                                                        border: 1px solid ${densityColor}59;
+                                                        border-radius: 6px;
+                                                        padding: 5px 14px;
+                                                        font-family: 'Space Grotesk', sans-serif;
+                                                        font-size: 12px;
+                                                        font-weight: 900;
+                                                        text-transform: uppercase;
+                                                        letter-spacing: 0.07em;
+                                                        color: white;
+                                                        white-space: nowrap;
+                                                        text-align: center;
+                                                        backdrop-filter: blur(8px);
+                                                        box-shadow: 0 2px 16px ${densityColor}40;
+                                                        pointer-events: auto;
+                                                        cursor: pointer;
+                                                    " onclick="document.dispatchEvent(new CustomEvent('mapLabelClick', { detail: '${event.id}' }))">${event.name}</div>`,
+                                                })}
+                                                interactive={true}
+                                            />
+                                        </div>
+                                    );
+                                })}
                             </MapContainer>
                         )}
 
@@ -406,6 +435,89 @@ export default function EventRadar({ t }: { t: any }) {
                                 </div>
                             </div>
                         )}
+
+                        {/* Event Detail Modal (Overlays the map on mobile, or floats on desktop) */}
+                        <AnimatePresence>
+                            {selectedEvent && (
+                                <motion.div
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: 20 }}
+                                    className="absolute bottom-4 left-4 right-4 md:left-auto md:w-80 bg-[#0B0B0F]/95 backdrop-blur-xl border border-brand-cyan/20 rounded-2xl p-5 z-[2000] shadow-2xl max-h-[80%] overflow-y-auto override-scrollbar"
+                                >
+                                    <div className="flex justify-between items-start mb-4">
+                                        <div className="pr-4">
+                                            <h3 className="text-[13px] font-bold text-white mb-1 uppercase tracking-wider">{selectedEvent.name}</h3>
+                                            <p className="text-[10px] text-white/50 flex items-center gap-1 font-mono uppercase tracking-widest">
+                                                <MapPin size={9} /> {selectedEvent.city}, {selectedEvent.state}
+                                                {selectedEvent.date && ` · ${new Date(selectedEvent.date + "T00:00:00").toLocaleDateString("pt-BR").slice(0, 5)}`}
+                                            </p>
+                                        </div>
+                                        <button onClick={() => setSelectedEvent(null)} className="text-white/40 hover:text-white transition-colors bg-white/5 hover:bg-white/10 p-1.5 rounded-full shrink-0">
+                                            <X size={14} />
+                                        </button>
+                                    </div>
+
+                                    <div className="space-y-4">
+                                        {/* Lineup Grid */}
+                                        {selectedEvent.lineup && selectedEvent.lineup.length > 0 && (
+                                            <div>
+                                                <h4 className="text-[9px] font-bold uppercase tracking-[0.2em] text-brand-cyan mb-3 flex items-center gap-2">
+                                                    <span className="w-2 h-2 rounded-full bg-brand-cyan animate-pulse" />
+                                                    Lineup Confirmado
+                                                </h4>
+                                                <div className="grid grid-cols-2 gap-3">
+                                                    {selectedEvent.lineup.map(artistName => {
+                                                        const artist = allArtists.find(a => a.name === artistName);
+                                                        if (!artist) return null;
+                                                        return (
+                                                            <div key={artistName} className="bg-white/[0.03] border border-white/5 rounded-xl p-3 flex flex-col items-center text-center group hover:bg-white/[0.06] transition-colors">
+                                                                <img
+                                                                    src={artist.image}
+                                                                    alt={artist.name}
+                                                                    className="w-12 h-12 rounded-full object-cover mb-2 border border-white/10 group-hover:border-brand-cyan transition-colors"
+                                                                />
+                                                                <span className="text-[10px] font-bold text-white truncate w-full uppercase tracking-wider">{artist.name}</span>
+                                                                <span className="text-[8px] text-white/30 truncate w-full uppercase tracking-widest">{artist.genre.split('/')[0]}</span>
+                                                                <button
+                                                                    onClick={(e) => {
+                                                                        e.stopPropagation();
+                                                                        setSelectedEvent(null);
+                                                                        // Custom event to prefill booking form could be fired here
+                                                                        const customEvent = new CustomEvent('bookArtist', { detail: { artistName: artist.name } })
+                                                                        document.dispatchEvent(customEvent);
+                                                                        document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' });
+                                                                    }}
+                                                                    className="mt-3 w-full py-1.5 rounded-lg bg-brand-cyan/10 text-brand-cyan text-[8px] font-bold uppercase tracking-widest hover:bg-brand-cyan hover:text-brand-dark transition-colors"
+                                                                >
+                                                                    Book
+                                                                </button>
+                                                            </div>
+                                                        );
+                                                    })}
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {selectedEvent.notes && (
+                                            <div className="text-[10px] text-white/50 bg-white/5 p-3 rounded-xl italic leading-relaxed">
+                                                "{selectedEvent.notes}"
+                                            </div>
+                                        )}
+
+                                        {selectedEvent.instagram && (
+                                            <a href={selectedEvent.instagram.startsWith("http") ? selectedEvent.instagram : `https://instagram.com/${selectedEvent.instagram.replace("@", "")}`}
+                                                target="_blank" rel="noopener noreferrer"
+                                                className="flex items-center justify-center gap-2 w-full py-3 rounded-xl border border-white/10 text-[9px] font-bold uppercase tracking-widest text-white/70 hover:bg-white/5 transition-colors">
+                                                <Instagram size={12} />
+                                                Ver no Instagram
+                                                <ExternalLink size={10} className="opacity-50" />
+                                            </a>
+                                        )}
+                                    </div>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
                     </motion.div>
 
                     {/* Side Panel */}
@@ -551,6 +663,59 @@ export default function EventRadar({ t }: { t: any }) {
                                                             </button>
                                                         );
                                                     })}
+                                                </div>
+                                            </div>
+
+                                            {/* Lineup / Artists */}
+                                            <div>
+                                                <label className="text-[8px] font-bold uppercase tracking-widest text-white/30 mb-2 block">
+                                                    Artistas do Lineup
+                                                    {form.lineup.length > 0 && (
+                                                        <span className="ml-2 text-brand-cyan">{form.lineup.length} selecionado{form.lineup.length !== 1 ? "s" : ""}</span>
+                                                    )}
+                                                </label>
+                                                <div className="flex flex-wrap gap-2 mb-2">
+                                                    {form.lineup.map((artistName) => {
+                                                        const artist = allArtists.find(a => a.name === artistName);
+                                                        return (
+                                                            <div key={artistName} className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-full pl-1 pr-3 py-1">
+                                                                {artist?.image ? (
+                                                                    <img src={artist.image} alt="" className="w-5 h-5 rounded-full object-cover" />
+                                                                ) : (
+                                                                    <div className="w-5 h-5 rounded-full bg-brand-cyan/20" />
+                                                                )}
+                                                                <span className="text-[9px] font-bold text-white">{artistName}</span>
+                                                                <button
+                                                                    type="button"
+                                                                    onClick={() => setForm(f => ({ ...f, lineup: f.lineup.filter(name => name !== artistName) }))}
+                                                                    className="text-white/30 hover:text-red-400 ml-1 flex items-center justify-center bg-black/50 rounded-full w-3 h-3"
+                                                                >
+                                                                    <X size={8} />
+                                                                </button>
+                                                            </div>
+                                                        );
+                                                    })}
+                                                </div>
+                                                <div className="relative">
+                                                    <select
+                                                        value=""
+                                                        onChange={(e) => {
+                                                            const val = e.target.value;
+                                                            if (val && !form.lineup.includes(val)) {
+                                                                setForm(f => ({ ...f, lineup: [...f.lineup, val] }));
+                                                            }
+                                                        }}
+                                                        className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-2.5 text-[11px] text-white focus:outline-none focus:border-brand-cyan transition-colors appearance-none cursor-pointer"
+                                                        style={{ colorScheme: "dark" }}
+                                                    >
+                                                        <option value="" disabled className="text-white/30 truncate">Selecione um artista...</option>
+                                                        {allArtists.filter(a => !form.lineup.includes(a.name)).map(a => (
+                                                            <option key={a.name} value={a.name} className="bg-[#0B0B0F]">{a.name} — {a.genre}</option>
+                                                        ))}
+                                                    </select>
+                                                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-white/30">
+                                                        <Plus size={12} />
+                                                    </div>
                                                 </div>
                                             </div>
 

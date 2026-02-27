@@ -377,7 +377,7 @@ const translations = {
 };
 
 // --- Artist Data ---
-const allArtists = [
+export const allArtists = [
   {
     name: "EVVE",
     genre: "Tech House / Minimal",
