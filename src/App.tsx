@@ -808,6 +808,7 @@ export default function App() {
   const [statusIndex, setStatusIndex] = useState(0);
   const [scrolled, setScrolled] = useState(false);
   const [prefilledArtist, setPrefilledArtist] = useState("");
+  const [rosterView, setRosterView] = useState<"main" | "guests">("main");
 
   const statusMessages = [
     "3 ARTISTS TOURING",
@@ -868,9 +869,28 @@ export default function App() {
     return Array.from(new Set(collectRecursive(node)));
   };
 
-  const filteredArtists = selectedGenre
-    ? getArtistsForGenreRecursive(selectedGenre).filter(a => a.image !== "")
-    : allArtists.filter(a => a.image !== "");
+  const getFilteredArtists = () => {
+    // Exclude NRZ from the main loop, as he is an exclusive guest
+    const baseList = allArtists.filter(a => a.image !== "" && a.name !== "NRZ");
+
+    // Apply Genre Filter
+    const genreFiltered = selectedGenre
+      ? baseList.filter(a => a.genreKeys?.includes(selectedGenre) || getArtistsForGenreRecursive(selectedGenre).some(ga => ga.name === a.name))
+      : baseList;
+
+    // Apply Roster View Filter (Main vs Guests)
+    // Assuming you have a way to distinguish guests. If not, defaulting all non-NRZ to main for now, 
+    // or you can add a 'isGuest' flag to artists.ts. We will mock it by simply filtering if they exist.
+    // Since NRZ is the only known explicit guest so far and he's separated, we will return empty for 'guests' 
+    // unless you specify which other artists are guests.
+    if (rosterView === "guests") {
+      return []; // Replace with actual guest logic if other artists are guests
+    }
+    return genreFiltered;
+  };
+
+  const filteredArtists = getFilteredArtists();
+  const nrzArtist = allArtists.find(a => a.name === "NRZ");
 
   const handleAuth = () => {
     if (securePassword.trim() === "ravenaescada") {
@@ -1198,15 +1218,36 @@ ${data.message}
           <div className="container mx-auto px-6">
             <div className="flex flex-col md:flex-row justify-between items-end mb-12 md:mb-16 gap-8">
               <div className="max-w-xl">
-                <div className="flex items-center gap-4 mb-4">
-                  <span className="text-brand-cyan text-[10px] font-bold uppercase tracking-[0.5em] block">{t.roster.tag}</span>
+                <div className="flex items-center gap-4 mb-6">
+                  <span className="text-brand-cyan text-[10px] font-bold uppercase tracking-[0.5em] block">
+                    {rosterView === "main" ? t.roster.tag : "GUEST ARTISTS"}
+                  </span>
                   <div className="flex items-center gap-2 bg-white/5 px-3 py-1 rounded-full border border-white/10">
                     <span className="text-[8px] font-bold uppercase tracking-widest text-white/50">
-                      Showing {filteredArtists.length} of {allArtists.filter(a => a.image !== "").length} Artists
+                      Showing {filteredArtists.length} Artists
                     </span>
                   </div>
                 </div>
-                <h2 className="font-display font-bold tracking-tighter mb-6">{t.roster.title}</h2>
+                <div className="flex flex-col md:flex-row gap-4 mb-8 w-full max-w-2xl">
+                  <button
+                    onClick={() => setRosterView("main")}
+                    className={`flex-1 py-4 md:py-6 rounded-2xl font-display font-bold text-xl md:text-3xl tracking-tighter transition-all border ${rosterView === "main"
+                        ? "bg-brand-cyan text-brand-dark border-brand-cyan shadow-[0_0_30px_rgba(0,255,255,0.2)]"
+                        : "bg-white/5 text-white/50 border-white/10 hover:bg-white/10 hover:text-white"
+                      }`}
+                  >
+                    LADDER LABS
+                  </button>
+                  <button
+                    onClick={() => setRosterView("guests")}
+                    className={`flex-1 py-4 md:py-6 rounded-2xl font-display font-bold text-xl md:text-3xl tracking-tighter transition-all border ${rosterView === "guests"
+                        ? "bg-brand-pink text-white border-brand-pink shadow-[0_0_30px_rgba(238,42,123,0.2)]"
+                        : "bg-white/5 text-white/50 border-white/10 hover:bg-white/10 hover:text-white"
+                      }`}
+                  >
+                    ARTISTAS CONVIDADOS
+                  </button>
+                </div>
 
                 {/* Compact Genre Filter */}
                 <div className="flex flex-wrap items-center gap-2">
@@ -1215,8 +1256,8 @@ ${data.message}
                       if (selectedGenre !== null) handleGenreClick(selectedGenre);
                     }}
                     className={`px-4 py-2 rounded-full text-[9px] font-bold uppercase tracking-[0.2em] transition-all border ${selectedGenre === null
-                        ? 'bg-brand-cyan text-brand-dark border-brand-cyan'
-                        : 'bg-white/5 text-white/50 border-white/10 hover:bg-white/10 hover:text-white'
+                      ? 'bg-brand-cyan text-brand-dark border-brand-cyan'
+                      : 'bg-white/5 text-white/50 border-white/10 hover:bg-white/10 hover:text-white'
                       }`}
                   >
                     Todos
@@ -1226,8 +1267,8 @@ ${data.message}
                       key={root.id}
                       onClick={() => handleGenreClick(root.id)}
                       className={`px-4 py-2 rounded-full text-[9px] font-bold uppercase tracking-[0.2em] transition-all border ${selectedGenre === root.id
-                          ? 'bg-brand-cyan text-brand-dark border-brand-cyan'
-                          : 'bg-white/5 text-white/50 border-white/10 hover:bg-white/10 hover:text-white'
+                        ? 'bg-brand-cyan text-brand-dark border-brand-cyan'
+                        : 'bg-white/5 text-white/50 border-white/10 hover:bg-white/10 hover:text-white'
                         }`}
                     >
                       {root.name}
@@ -1323,6 +1364,73 @@ ${data.message}
                 ))}
               </AnimatePresence>
             </div>
+
+            {/* Empty State for Guests */}
+            {rosterView === "guests" && filteredArtists.length === 0 && (
+              <div className="py-20 text-center border-t border-white/5 mt-12">
+                <p className="text-white/40 font-display text-xl">Mais convidados serão anunciados em breve.</p>
+              </div>
+            )}
+
+            {/* Exclusive NRZ / Devil Company Section */}
+            {nrzArtist && (
+              <div className="mt-32 pt-20 border-t border-white/10 relative">
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-black px-6 text-brand-pink font-bold text-[10px] uppercase tracking-[0.4em]">
+                  Exclusive Partnership
+                </div>
+
+                <div className="flex flex-col lg:flex-row items-center gap-12 bg-white/[0.02] border border-white/5 rounded-3xl p-8 md:p-12 relative overflow-hidden group">
+                  <div className="absolute right-0 top-0 -mr-20 -mt-20 w-64 h-64 bg-red-600/10 blur-[100px] rounded-full pointer-events-none" />
+
+                  <div className="w-full lg:w-1/3 aspect-[3/4] md:aspect-square lg:aspect-[3/4] rounded-2xl overflow-hidden relative border border-white/10">
+                    <img
+                      src={nrzArtist.image}
+                      alt={nrzArtist.name}
+                      loading="lazy"
+                      className="w-full h-full object-cover grayscale-0 md:grayscale md:group-hover:grayscale-0 transition-all duration-700"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-90" />
+                    <div className="absolute bottom-6 left-6">
+                      <span className="text-brand-pink text-[9px] font-bold uppercase tracking-[0.3em] mb-2 block">
+                        Devil Company Exclusive
+                      </span>
+                      <h3 className="font-display text-4xl md:text-5xl font-bold tracking-tight text-white/90">NRZ</h3>
+                    </div>
+                  </div>
+
+                  <div className="w-full lg:w-2/3 flex flex-col justify-center">
+                    <div className="flex items-center gap-4 mb-6">
+                      <img src="https://images.unsplash.com/photo-1542204165-65bf26472b9b?auto=format&fit=crop&q=80&w=100&h=100" className="w-12 h-12 rounded-full grayscale opacity-50" alt="Devil Company" />
+                      <div>
+                        <h4 className="font-bold text-white tracking-widest uppercase text-xs">Devil Company</h4>
+                        <p className="text-[10px] text-white/40 uppercase tracking-[0.2em]">Management & Booking</p>
+                      </div>
+                    </div>
+
+                    <p className="text-white/60 font-light leading-relaxed mb-8 text-lg">
+                      NRZ é um artista exclusivo da Devil Company. A Ladder Labs atua em parceria estratégica para a amplificação de sua frequência no circuito underground. Todas as negociações e bookings devem ser tratadas diretamente com a Devil Company.
+                    </p>
+
+                    <div className="flex flex-wrap gap-4">
+                      <a
+                        href="https://www.instagram.com/devilcompany_br"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="px-8 py-4 bg-brand-pink/10 hover:bg-brand-pink border border-brand-pink/30 hover:border-brand-pink text-white rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all shadow-[0_0_20px_rgba(238,42,123,0.1)] flex items-center gap-3"
+                      >
+                        <Instagram size={16} /> Contato Devil Company
+                      </a>
+                      <button
+                        onClick={(e) => { e.stopPropagation(); setActiveArtist(nrzArtist); }}
+                        className="px-8 py-4 border border-white/10 text-white rounded-xl text-[10px] font-bold uppercase tracking-widest hover:bg-white/5 transition-all"
+                      >
+                        Ver Perfil Completo
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </section>
 
