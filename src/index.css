@@ -1,0 +1,457 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+
+  --color-brand-dark: #0B0B0F;
+  --color-brand-cyan: #00F2FF;
+  --color-brand-pink: #FF00E5;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    @apply antialiased;
+  }
+
+  body {
+    @apply bg-brand-dark text-white font-sans selection:bg-brand-cyan/30 overflow-x-hidden;
+    --bg-shift: var(--color-brand-dark);
+    background-color: var(--bg-shift);
+    transition: background-color 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  h1 {
+    font-size: clamp(2.5rem, 8vw, 6rem);
+  }
+
+  h2 {
+    font-size: clamp(2rem, 6vw, 4.5rem);
+  }
+
+  h3 {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+  }
+
+  p {
+    font-size: clamp(0.875rem, 2vw, 1.125rem);
+  }
+}
+
+@layer utilities {
+  .h-svh {
+    height: 100svh;
+  }
+
+  .text-gradient {
+    @apply bg-gradient-to-r from-brand-cyan to-brand-pink bg-clip-text text-transparent;
+  }
+
+  .glass-panel {
+    @apply bg-white/[0.02] backdrop-blur-2xl border border-white/[0.05];
+  }
+
+  .hud-corner {
+    @apply absolute w-2 h-2 border-white/10 pointer-events-none;
+  }
+
+  .neon-aura {
+    @apply relative;
+  }
+
+  .neon-aura::after {
+    content: "";
+    @apply absolute inset-0 rounded-full opacity-0 blur-xl transition-opacity duration-500 pointer-events-none;
+    background: radial-gradient(circle, var(--color-brand-cyan) 0%, transparent 70%);
+  }
+
+  .neon-aura:hover::after {
+    @apply opacity-40;
+  }
+
+  .sticky-cta-mobile {
+    @apply fixed bottom-6 left-6 right-6 z-40 lg:hidden;
+  }
+
+  .badge-premium {
+    @apply px-2 py-0.5 rounded-sm text-[7px] font-bold uppercase tracking-widest border border-white/10 bg-white/5;
+  }
+
+  .bg-noise {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  }
+}
+
+/* Premium Background Animation: Slow Mesh Gradient */
+.bg-mesh {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: var(--color-brand-dark);
+  overflow: hidden;
+}
+
+.bg-mesh::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.02;
+  pointer-events: none;
+}
+
+.mesh-blob {
+  position: absolute;
+  width: 80vmax;
+  height: 80vmax;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.12;
+  pointer-events: none;
+  animation: mesh-float 20s infinite ease-in-out;
+}
+
+.mesh-blob-1 {
+  background: radial-gradient(circle, var(--color-brand-cyan) 0%, transparent 70%);
+  top: -20%;
+  left: -20%;
+  animation-delay: 0s;
+}
+
+.mesh-blob-2 {
+  background: radial-gradient(circle, var(--color-brand-pink) 0%, transparent 70%);
+  bottom: -20%;
+  right: -20%;
+  animation-delay: -5s;
+}
+
+@keyframes mesh-float {
+
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+  }
+
+  33% {
+    transform: translate(5%, 10%) rotate(10deg) scale(1.1);
+  }
+
+  66% {
+    transform: translate(-10%, 5%) rotate(-5deg) scale(0.9);
+  }
+}
+
+/* Micro Details & Dividers */
+.divider-ancestral {
+  @apply flex items-center justify-center gap-4 py-20 opacity-30;
+}
+
+.divider-line {
+  @apply h-px w-32 bg-gradient-to-r from-transparent via-white to-transparent;
+}
+
+.divider-symbol {
+  @apply text-[10px] text-brand-cyan flex items-center gap-2;
+}
+
+.divider-symbol::before,
+.divider-symbol::after {
+  content: "";
+  @apply w-1 h-1 rounded-full bg-brand-cyan;
+}
+
+.ui-glow {
+  box-shadow: 0 0 15px rgba(0, 242, 255, 0.1);
+}
+
+.ui-glow:hover {
+  box-shadow: 0 0 25px rgba(0, 242, 255, 0.2);
+}
+
+/* Status Indicator Animation */
+@keyframes pulse-status {
+
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.5;
+    transform: scale(0.8);
+  }
+}
+
+.status-dot {
+  @apply w-1.5 h-1.5 rounded-full bg-brand-cyan;
+  animation: pulse-status 2s infinite ease-in-out;
+  box-shadow: 0 0 8px var(--color-brand-cyan);
+}
+
+@keyframes slide-status {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+
+  10%,
+  90% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+}
+
+.status-ticker {
+  @apply relative h-4 overflow-hidden;
+}
+
+.status-ticker-item {
+  @apply absolute inset-0 flex items-center;
+  animation: slide-status 4s infinite;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-brand-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-brand-cyan);
+}
+
+/* Button Glow Effects */
+.btn-glow {
+  @apply relative overflow-hidden transition-all duration-300;
+}
+
+.btn-glow:hover {
+  box-shadow: 0 0 20px rgba(0, 242, 255, 0.2);
+  border-color: rgba(0, 242, 255, 0.3);
+}
+
+/* Metallic Logo Effect */
+.logo-metallic {
+  filter: brightness(1.1) contrast(1.1) saturate(0.85) sepia(0.1) drop-shadow(0 0 12px rgba(255, 255, 255, 0.08));
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  object-fit: contain;
+}
+
+.logo-metallic:hover {
+  filter: brightness(1.3) contrast(1.15) saturate(1) sepia(0) drop-shadow(0 0 25px rgba(0, 242, 255, 0.35));
+  transform: translateY(-4px) scale(1.03);
+}
+
+/* Language Switcher */
+.lang-toggle {
+  @apply flex items-center gap-1 bg-white/[0.02] backdrop-blur-2xl border border-white/[0.05] px-3 py-1.5 rounded-full;
+}
+
+.lang-item {
+  @apply px-2 py-0.5 text-[9px] font-bold tracking-widest transition-all duration-300 rounded-md;
+}
+
+.lang-item.active {
+  @apply bg-white/10 text-brand-cyan;
+  text-shadow: 0 0 8px rgba(0, 242, 255, 0.4);
+}
+
+/* HUD Corners */
+.hud-tl {
+  @apply top-0 left-0 border-t border-l;
+}
+
+.hud-tr {
+  @apply top-0 right-0 border-t border-r;
+}
+
+.hud-bl {
+  @apply bottom-0 left-0 border-b border-l;
+}
+
+.hud-br {
+  @apply bottom-0 right-0 border-b border-r;
+}
+
+/* ============================================
+   LEAFLET EVENT RADAR — Dark Theme Overrides
+   ============================================ */
+
+/* Remove default white popup box */
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background: rgba(11, 11, 15, 0.95) !important;
+  backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 0 30px rgba(0, 242, 255, 0.1), 0 20px 40px rgba(0, 0, 0, 0.6) !important;
+  color: white !important;
+  padding: 0 !important;
+}
+
+.leaflet-popup-tip-container {
+  display: none !important;
+}
+
+.leaflet-popup-close-button {
+  color: rgba(255, 255, 255, 0.3) !important;
+  font-size: 18px !important;
+  top: 8px !important;
+  right: 12px !important;
+}
+
+.leaflet-popup-close-button:hover {
+  color: var(--color-brand-cyan) !important;
+}
+
+.leaflet-popup-content {
+  margin: 0 !important;
+}
+
+/* Radar popup inner styles */
+.radar-popup-content {
+  padding: 16px 20px;
+  min-width: 200px;
+  font-family: 'Inter', sans-serif;
+}
+
+.radar-popup-genre {
+  font-size: 8px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  margin-bottom: 6px;
+}
+
+.radar-popup-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 10px;
+  line-height: 1.2;
+}
+
+.radar-popup-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.4);
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.radar-popup-score {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 9px;
+  color: var(--color-brand-cyan);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-top: 8px;
+  margin-bottom: 12px;
+}
+
+.radar-popup-ig {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--color-brand-pink) !important;
+  text-decoration: none !important;
+  padding: 8px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  transition: color 0.2s;
+}
+
+.radar-popup-ig:hover {
+  color: white !important;
+}
+
+/* Map wrapper */
+.radar-map-wrapper .leaflet-container {
+  background: #0B0B0F !important;
+}
+
+.radar-map-wrapper .leaflet-control-zoom {
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 8px !important;
+  overflow: hidden;
+}
+
+.radar-map-wrapper .leaflet-control-zoom a {
+  background: rgba(11, 11, 15, 0.9) !important;
+  color: rgba(255, 255, 255, 0.5) !important;
+  border: none !important;
+}
+
+.radar-map-wrapper .leaflet-control-zoom a:hover {
+  background: rgba(0, 242, 255, 0.1) !important;
+  color: var(--color-brand-cyan) !important;
+}
+
+/* ============================================
+   RADAR — Event Name Labels on Map Markers
+   ============================================ */
+.leaflet-tooltip.radar-event-label {
+  background: rgba(11, 11, 15, 0.88) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 6px !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5) !important;
+  padding: 3px 8px 4px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 1px !important;
+  pointer-events: none !important;
+  max-width: 160px !important;
+}
+
+.leaflet-tooltip.radar-event-label::before {
+  display: none !important;
+}
+
+.radar-label-name {
+  display: block;
+  font-size: 7.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: white;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px;
+}
+
+.radar-label-city {
+  display: block;
+  font-size: 6.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.35);
+  white-space: nowrap;
+}

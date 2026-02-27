@@ -1,0 +1,4 @@
+{
+  "message": "\u001b[31m[@tailwindcss/vite:generate:build] Cannot apply unknown utility class `shadow-[0_0_20px_rgba(0,`\u001b[39m\nfile: \u001b[36mC:/Users/viniy/OneDrive/Desktop/Ladder/Site/ladder-labs-_-electronic-music-artist-agency/src/index.css\u001b[39m",
+  "code": "PLUGIN_ERROR"
+}
