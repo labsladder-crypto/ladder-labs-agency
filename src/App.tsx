@@ -711,7 +711,6 @@ export default function App() {
   const [formStatus, setFormStatus] = useState<"idle" | "submitting" | "success">("idle");
   const [selectedMainGenre, setSelectedMainGenre] = useState<MainGenre | null>(null);
   const [selectedSubGenre, setSelectedSubGenre] = useState<string | null>(null);
-  const [selectedBPM, setSelectedBPM] = useState<string | null>(null);
   const [activeArtist, setActiveArtist] = useState<any | null>(null);
   const [isSecureGateOpen, setIsSecureGateOpen] = useState(false);
   const [securePassword, setSecurePassword] = useState("");
@@ -781,12 +780,6 @@ export default function App() {
         if (!matchesSub) return false;
       }
 
-      // Rule 3: Match BPM
-      if (selectedBPM) {
-        const matchesBPM = artist.genreKeys?.includes(selectedBPM);
-        if (!matchesBPM) return false;
-      }
-
       return true;
     });
   };
@@ -845,14 +838,9 @@ export default function App() {
     setSelectedSubGenre(subId === selectedSubGenre ? null : subId);
   };
 
-  const handleBPMClick = (bpmId: string) => {
-    setSelectedBPM(bpmId === selectedBPM ? null : bpmId);
-  };
-
   const clearAllFilters = () => {
     setSelectedMainGenre(null);
     setSelectedSubGenre(null);
-    setSelectedBPM(null);
     document.body.style.setProperty("--bg-shift", "#0B0B0F");
   };
 
@@ -1161,12 +1149,12 @@ ${data.message}
                 </div>
 
                 {/* Taxonomy Filter System */}
-                <div className="flex flex-col gap-6">
-                  {/* Layer 1 - Main Genres & Layer 3 - BPM Tags Inline */}
+                <div className="flex flex-col gap-6 w-full lg:w-3/4">
+                  {/* Layer 1 - Main Genres & Subgenres */}
                   <div className="flex flex-wrap items-center gap-3">
                     <button
                       onClick={clearAllFilters}
-                      className={`px-5 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] transition-all border ${!selectedMainGenre && !selectedSubGenre && !selectedBPM
+                      className={`px-5 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] transition-all border ${!selectedMainGenre && !selectedSubGenre
                         ? 'bg-brand-cyan text-brand-dark border-brand-cyan shadow-[0_0_15px_rgba(0,255,255,0.3)]'
                         : 'bg-white/5 text-white/50 border-white/10 hover:bg-white/10 hover:text-white'
                         }`}
@@ -1187,50 +1175,25 @@ ${data.message}
                         {name}
                       </button>
                     ))}
-
-                    <div className="h-6 w-px bg-white/10 mx-2 hidden md:block" />
-
-                    {/* Layer 3: BPM / Energy Tiers */}
-                    <div className="flex items-center gap-2">
-                      {BPM_TIERS.map(bpm => (
-                        <button
-                          key={bpm.id}
-                          onClick={() => handleBPMClick(bpm.id)}
-                          className={`px-4 py-2 rounded-full text-[9px] font-bold uppercase tracking-[0.2em] transition-all border ${selectedBPM === bpm.id
-                            ? 'bg-brand-pink text-white border-brand-pink shadow-[0_0_15px_rgba(238,42,123,0.3)]'
-                            : 'bg-transparent text-white/40 border-white/10 hover:border-brand-pink/50 hover:text-white'
-                            }`}
-                        >
-                          {bpm.name}
-                        </button>
-                      ))}
-                    </div>
                   </div>
 
-                  {/* Layer 2 - Subgenres (Smooth Collapse) */}
-                  <AnimatePresence>
-                    {selectedMainGenre && SUBGENRES[selectedMainGenre]?.length > 0 && (
-                      <motion.div
-                        initial={{ opacity: 0, height: 0, y: -10 }}
-                        animate={{ opacity: 1, height: "auto", y: 0 }}
-                        exit={{ opacity: 0, height: 0, y: -10 }}
-                        className="overflow-hidden flex flex-wrap items-center gap-2"
+                  {/* Layer 2 - Subgenres (Always Present) */}
+                  <motion.div
+                    className="flex flex-wrap items-center gap-2 mt-2"
+                  >
+                    {(selectedMainGenre ? SUBGENRES[selectedMainGenre] || [] : Object.values(SUBGENRES).flat()).map(sub => (
+                      <button
+                        key={sub.id}
+                        onClick={() => handleSubGenreClick(sub.id)}
+                        className={`px-4 py-2 rounded-full text-[9px] font-bold uppercase tracking-[0.2em] transition-all border ${selectedSubGenre === sub.id
+                          ? 'bg-brand-cyan text-brand-dark border-brand-cyan shadow-[0_0_10px_rgba(0,255,255,0.3)]'
+                          : 'bg-white/5 text-white/50 border-white/10 hover:bg-white/10 hover:text-white'
+                          }`}
                       >
-                        {SUBGENRES[selectedMainGenre].map(sub => (
-                          <button
-                            key={sub.id}
-                            onClick={() => handleSubGenreClick(sub.id)}
-                            className={`px-4 py-2 rounded-full text-[9px] font-bold uppercase tracking-[0.2em] transition-all border ${selectedSubGenre === sub.id
-                              ? 'bg-brand-cyan text-brand-dark border-brand-cyan shadow-[0_0_10px_rgba(0,255,255,0.3)]'
-                              : 'bg-white/5 text-white/50 border-white/10 hover:bg-white/10 hover:text-white'
-                              }`}
-                          >
-                            {sub.name}
-                          </button>
-                        ))}
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                        {sub.name}
+                      </button>
+                    ))}
+                  </motion.div>
                 </div>
               </div>
 
@@ -1238,7 +1201,7 @@ ${data.message}
                 <p className="text-white/30 max-w-xs text-[10px] uppercase tracking-[0.2em] leading-relaxed font-medium text-right hidden lg:block">
                   {t.roster.subtitle}
                 </p>
-                {(selectedMainGenre || selectedBPM) && (
+                {(selectedMainGenre || selectedSubGenre) && (
                   <button
                     onClick={clearAllFilters}
                     className="text-[9px] font-bold uppercase tracking-widest text-brand-cyan hover:text-white transition-colors flex items-center gap-2"
@@ -1360,7 +1323,7 @@ ${data.message}
 
                   <div className="w-full lg:w-2/3 flex flex-col justify-center">
                     <div className="flex items-center gap-4 mb-6">
-                      <img src="/devil-logo.jpg" className="w-14 h-14 rounded-full object-cover shadow-lg border border-brand-pink/20" alt="Devil Company" />
+                      <img src="/logos/devil-logo.jpg" className="w-14 h-14 rounded-full object-cover shadow-lg border border-brand-pink/20" alt="Devil Company" />
                       <div>
                         <h4 className="font-bold text-white tracking-widest uppercase text-xs">Devil Company</h4>
                         <p className="text-[10px] text-white/40 uppercase tracking-[0.2em]">Management & Booking</p>
