@@ -711,6 +711,7 @@ export default function App() {
   const [formStatus, setFormStatus] = useState<"idle" | "submitting" | "success">("idle");
   const [selectedMainGenre, setSelectedMainGenre] = useState<MainGenre | null>(null);
   const [selectedSubGenre, setSelectedSubGenre] = useState<string | null>(null);
+  const [isSubgenreOpen, setIsSubgenreOpen] = useState(false);
   const [activeArtist, setActiveArtist] = useState<any | null>(null);
   const [isSecureGateOpen, setIsSecureGateOpen] = useState(false);
   const [securePassword, setSecurePassword] = useState("");
@@ -809,6 +810,7 @@ export default function App() {
     }
   }, []);
   const handleMainGenreClick = (genreKey: MainGenre) => {
+    setIsSubgenreOpen(false);
     if (selectedMainGenre === genreKey) {
       // Toggle off if clicking the active one
       setSelectedMainGenre(null);
@@ -841,6 +843,7 @@ export default function App() {
   const clearAllFilters = () => {
     setSelectedMainGenre(null);
     setSelectedSubGenre(null);
+    setIsSubgenreOpen(false);
     document.body.style.setProperty("--bg-shift", "#0B0B0F");
   };
 
@@ -1177,23 +1180,52 @@ ${data.message}
                     ))}
                   </div>
 
-                  {/* Layer 2 - Subgenres (Always Present) */}
-                  <motion.div
-                    className="flex flex-wrap items-center gap-2 mt-2"
-                  >
-                    {(selectedMainGenre ? SUBGENRES[selectedMainGenre] || [] : Object.values(SUBGENRES).flat()).map(sub => (
-                      <button
-                        key={sub.id}
-                        onClick={() => handleSubGenreClick(sub.id)}
-                        className={`px-4 py-2 rounded-full text-[9px] font-bold uppercase tracking-[0.2em] transition-all border ${selectedSubGenre === sub.id
-                          ? 'bg-brand-cyan text-brand-dark border-brand-cyan shadow-[0_0_10px_rgba(0,255,255,0.3)]'
-                          : 'bg-white/5 text-white/50 border-white/10 hover:bg-white/10 hover:text-white'
-                          }`}
-                      >
-                        {sub.name}
-                      </button>
-                    ))}
-                  </motion.div>
+                  {/* Layer 2 - Subgenres Dropdown */}
+                  <div className="relative mt-2 w-full max-w-sm">
+                    <button
+                      onClick={() => setIsSubgenreOpen(!isSubgenreOpen)}
+                      className="w-full flex items-center justify-between px-5 py-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors cursor-pointer"
+                    >
+                      <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/70">
+                        {selectedSubGenre
+                          ? Object.values(SUBGENRES).flat().find(s => s.id === selectedSubGenre)?.name
+                          : "Filtrar por Subvertente..."}
+                      </span>
+                      <ChevronDown size={14} className={`text-white/50 transition-transform ${isSubgenreOpen ? 'rotate-180' : ''}`} />
+                    </button>
+
+                    <AnimatePresence>
+                      {isSubgenreOpen && (
+                        <motion.div
+                          initial={{ opacity: 0, y: -10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -10 }}
+                          className="absolute z-50 mt-2 w-full bg-[#0B0B0F] border border-white/10 rounded-xl shadow-[0_20px_40px_rgba(0,0,0,0.8)] overflow-hidden"
+                        >
+                          <div className="max-h-64 overflow-y-auto custom-scrollbar p-2 flex flex-col gap-1">
+                            <button
+                              onClick={() => { setSelectedSubGenre(null); setIsSubgenreOpen(false); }}
+                              className={`text-left px-4 py-3 rounded-lg text-[9px] font-bold uppercase tracking-[0.2em] transition-all cursor-pointer ${!selectedSubGenre ? 'bg-brand-cyan/10 text-brand-cyan' : 'text-white/50 hover:bg-white/5 hover:text-white'}`}
+                            >
+                              Todas as Subvertentes
+                            </button>
+                            {(selectedMainGenre ? SUBGENRES[selectedMainGenre] || [] : Object.values(SUBGENRES).flat()).map(sub => (
+                              <button
+                                key={sub.id}
+                                onClick={() => { handleSubGenreClick(sub.id); setIsSubgenreOpen(false); }}
+                                className={`text-left px-4 py-3 rounded-lg text-[9px] font-bold uppercase tracking-[0.2em] transition-all cursor-pointer ${selectedSubGenre === sub.id
+                                  ? 'bg-brand-cyan/10 text-brand-cyan'
+                                  : 'text-white/50 hover:bg-white/5 hover:text-white'
+                                  }`}
+                              >
+                                {sub.name}
+                              </button>
+                            ))}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
                 </div>
               </div>
 
