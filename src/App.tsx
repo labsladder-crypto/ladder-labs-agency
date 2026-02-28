@@ -1404,7 +1404,7 @@ ${data.message}
 
                   <div className="w-full lg:w-2/3 flex flex-col justify-center">
                     <div className="flex items-center gap-4 mb-6">
-                      <img src="https://images.unsplash.com/photo-1542204165-65bf26472b9b?auto=format&fit=crop&q=80&w=100&h=100" className="w-12 h-12 rounded-full grayscale opacity-50" alt="Devil Company" />
+                      <img src="/devil-logo.jpg" className="w-14 h-14 rounded-full object-cover shadow-lg border border-brand-pink/20" alt="Devil Company" />
                       <div>
                         <h4 className="font-bold text-white tracking-widest uppercase text-xs">Devil Company</h4>
                         <p className="text-[10px] text-white/40 uppercase tracking-[0.2em]">Management & Booking</p>
