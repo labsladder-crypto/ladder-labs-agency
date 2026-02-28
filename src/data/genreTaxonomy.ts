@@ -1,4 +1,4 @@
-export type MainGenre = "house" | "techno" | "psytrance" | "progressive";
+export type MainGenre = "house" | "techno" | "psytrance" | "high-bpm";
 
 export interface GenreOption {
     id: string;
@@ -9,41 +9,50 @@ export const MAIN_GENRES: Record<MainGenre, string> = {
     house: "HOUSE",
     techno: "TECHNO",
     psytrance: "PSYTRANCE",
-    progressive: "PROGRESSIVE",
+    "high-bpm": "HIGH BPM",
 };
 
 // Layer 2 - Strict relationships to Layer 1
 export const SUBGENRES: Record<MainGenre, GenreOption[]> = {
     house: [
-        { id: "deep-house", name: "Deep" },
         { id: "tech-house", name: "Tech House" },
-        { id: "bass-house", name: "Bass House" },
-        { id: "afro-house", name: "Afro House" },
-        { id: "jackin", name: "Jackin" },
-        { id: "organic-house", name: "Organic" },
+        { id: "minimal-deep-tech", name: "Minimal Deep Tech" },
         { id: "indie-dance", name: "Indie Dance" },
+        { id: "acid-house", name: "Acid House" },
+        { id: "bass-house", name: "Bass House" },
+        { id: "garage-house", name: "Garage House" },
+        { id: "uk-garage", name: "UK Garage" },
+        { id: "progressive-house", name: "Progressive House" },
+        { id: "afro-house", name: "Afro House" },
+        { id: "deep-house", name: "Deep House" },
+        { id: "tribal-house", name: "Tribal House" }
     ],
     techno: [
         { id: "peak-time", name: "Peak Time" },
-        { id: "melodic", name: "Melodic" },
-        { id: "raw-techno", name: "Raw" },
+        { id: "hypnotic", name: "Hypnotic" },
         { id: "industrial", name: "Industrial" },
-        { id: "minimal", name: "Minimal" },
+        { id: "melodic-techno", name: "Melodic Techno" },
+        { id: "psytechno", name: "Psytechno" },
+        { id: "acid-techno", name: "Acid Techno" },
         { id: "hard-techno", name: "Hard Techno" },
+        { id: "minimal-techno", name: "Minimal Techno" },
+        { id: "tribal-techno", name: "Tribal Techno" }
     ],
     psytrance: [
-        { id: "progressive-psy", name: "Progressive Psy" },
         { id: "full-on", name: "Full On" },
-        { id: "night-psy", name: "Night" },
-        { id: "dark-psy", name: "Dark Psy" },
-        { id: "forest", name: "Forest" },
-        { id: "hi-tech", name: "Hi-Tech" },
+        { id: "progressive-psy", name: "Progressive Psy" },
         { id: "prog-dark", name: "Prog Dark" },
-        { id: "psytech", name: "Psytech" },
+        { id: "off-beat", name: "Off Beat" },
+        { id: "goa-trance", name: "Goa Trance" },
+        { id: "trance-raw-deep", name: "Trance/Raw/Deep Hypnotic" },
+        { id: "tribal-psy", name: "Tribal Psy" }
     ],
-    progressive: [
-        { id: "prog-house", name: "Progressive House" },
-        { id: "deep-prog", name: "Deep Progressive" },
+    "high-bpm": [
+        { id: "hi-tech", name: "Hi-Tech" },
+        { id: "forest", name: "Forest" },
+        { id: "dark-psy", name: "Dark Psy" },
+        { id: "dnb", name: "Drum N Bass" },
+        { id: "jungle", name: "Jungle" }
     ]
 };
 

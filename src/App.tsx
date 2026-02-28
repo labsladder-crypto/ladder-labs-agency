@@ -404,7 +404,7 @@ export const allArtists = [
   {
     name: "EVVE",
     genre: "Tech House / Minimal",
-    genreKeys: ["tech-house", "minimal-house"],
+    genreKeys: ["house", "tech-house", "minimal-deep-tech"],
     image: "/artists/Evve.jpg",
     socials: { instagram: "https://www.instagram.com/evvemusic/", soundcloud: "https://soundcloud.com/evvemusic/tracks", spotify: "#", youtube: "https://www.youtube.com/@evvemusicc/videos" },
     presskit: "https://drive.google.com/drive/u/2/folders/1W8RXPDREOskOMV6HEal5g5Qz4qfDAigf",
@@ -413,7 +413,7 @@ export const allArtists = [
   {
     name: "PAJÔ",
     genre: "Psytrance / Progressive",
-    genreKeys: ["progressive-psy"],
+    genreKeys: ["psytrance", "progressive-psy"],
     image: "/artists/Pajo.png",
     socials: { instagram: "https://www.instagram.com/pajo.art.br/", soundcloud: "https://soundcloud.com/pajomusic", spotify: "https://open.spotify.com/intl-pt/artist/6adnFJLRZFxvSJ5vhLnyqX", youtube: "https://www.youtube.com/@pajosounds/videos" },
     presskit: "https://drive.google.com/drive/u/5/folders/12xNjFc75ePb73baAqqlwCC6SF5tPROyw",
@@ -421,8 +421,8 @@ export const allArtists = [
   },
   {
     name: "NRZ",
-    genre: "Progressive / Psytrance",
-    genreKeys: ["progressive-psy"],
+    genre: "Psytrance / Progressive",
+    genreKeys: ["psytrance", "progressive-psy"],
     image: "/artists/NRZ.jpeg",
     socials: { instagram: "https://www.instagram.com/nrzproject_/", soundcloud: "https://soundcloud.com/nrzproject/tracks", spotify: "#", youtube: "#" },
     presskit: "https://drive.google.com/drive/folders/0B-e2Ns8v7KEJYlVPUmpSanlKLTg?resourcekey=0-YsdRYsLNnKmAOyHzlR2Xww",
@@ -430,8 +430,8 @@ export const allArtists = [
   },
   {
     name: "MOLUSKO",
-    genre: "Hi Tech",
-    genreKeys: ["hi-tech"],
+    genre: "Hi-Tech",
+    genreKeys: ["high-bpm", "hi-tech"],
     image: "/artists/Molusko.png",
     socials: { instagram: "https://www.instagram.com/moluskodj/", soundcloud: "https://soundcloud.com/djmolusko", spotify: "#", youtube: "#" },
     presskit: "https://drive.google.com/drive/folders/1YrvTqSXVb9yBgfZLehI2LkPu5cBqBtfl",
@@ -440,7 +440,7 @@ export const allArtists = [
   {
     name: "JUREMA",
     genre: "Dark Psy / Forest",
-    genreKeys: ["darkpsy", "forest"],
+    genreKeys: ["high-bpm", "dark-psy", "forest"],
     image: "/artists/Jurema.jpg",
     socials: { instagram: "https://www.instagram.com/djjurema/", soundcloud: "https://soundcloud.com/djurema", spotify: "#", youtube: "https://www.youtube.com/@djjurema/videos" },
     presskit: "https://drive.google.com/drive/folders/1ODUa7OCUSNoZTFk2-fku0w7gOWWd8HIJ",
@@ -449,7 +449,7 @@ export const allArtists = [
   {
     name: "PRADIM",
     genre: "Tech House / Minimal",
-    genreKeys: ["house", "tech-house", "minimal", "mid-bpm"],
+    genreKeys: ["house", "tech-house", "minimal-deep-tech"],
     image: "/artists/Pradim.jpeg",
     socials: { instagram: "https://www.instagram.com/pradim__/", soundcloud: "https://soundcloud.com/felipe-prado-zrm", spotify: "https://open.spotify.com/intl-pt/artist/2ufH7FrNeF629uC3bZGLB5", youtube: "https://www.youtube.com/@Pradim_Music" },
     presskit: "https://www.canva.com/design/DAHCTtv3hZg/Q1gkedgmMJmeTVK_Ukl43w/view",
@@ -458,7 +458,7 @@ export const allArtists = [
   {
     name: "SESI'OHM",
     genre: "Psytrance",
-    genreKeys: ["psytrance", "full-on", "high-bpm"],
+    genreKeys: ["psytrance", "full-on"],
     image: "/artists/Sesi'Ohm.jpg",
     socials: { instagram: "https://www.instagram.com/sesiohmm/", soundcloud: "https://soundcloud.com/sesiohmm", spotify: "#", youtube: "https://www.youtube.com/@sesiohmlive5103" },
     presskit: "https://drive.google.com/drive/u/0/folders/18ip2967Z0RGHFft46aeo7xV98pYTCSdY",
@@ -467,7 +467,7 @@ export const allArtists = [
   {
     name: "DASH",
     genre: "Psytrance",
-    genreKeys: ["psytrance", "progressive-psy", "mid-bpm"],
+    genreKeys: ["psytrance", "progressive-psy"],
     image: "/artists/Dash.jpeg",
     socials: { instagram: "https://www.instagram.com/dash.music_/", soundcloud: "#", spotify: "#", youtube: "#" },
     presskit: "https://drive.google.com/drive/u/0/folders/18ip2967Z0RGHFft46aeo7xV98pYTCSdY",
@@ -476,7 +476,7 @@ export const allArtists = [
   {
     name: "UKACZ",
     genre: "House / UK Garage",
-    genreKeys: ["house", "tech-house", "mid-bpm"],
+    genreKeys: ["house", "uk-garage"],
     image: "/artists/Ukacz.png",
     socials: { instagram: "https://www.instagram.com/ukacz.music/", soundcloud: "https://soundcloud.com/ukaczmusic", spotify: "#", youtube: "#" },
     presskit: "https://drive.google.com/drive/folders/1o_Ts4kdJmOHYLyXeEbHToEOIjFnBGAV-",
@@ -485,7 +485,7 @@ export const allArtists = [
   {
     name: "JUNNO",
     genre: "Bass House / Garage House",
-    genreKeys: ["house", "bass-house", "mid-bpm"],
+    genreKeys: ["house", "bass-house", "garage-house"],
     image: "/artists/Junno.jpg",
     socials: { instagram: "https://www.instagram.com/junnomusic/", soundcloud: "https://soundcloud.com/junnomusic", spotify: "https://open.spotify.com/intl-pt/artist/2kfy2Ut2nR7GW0l2E2wxef", youtube: "https://www.youtube.com/@junnomusicdj/videos" },
     presskit: "https://junnomusic.com.br/",
@@ -494,7 +494,7 @@ export const allArtists = [
   {
     name: "RISAFFI",
     genre: "Tech House",
-    genreKeys: ["house", "tech-house", "mid-bpm"],
+    genreKeys: ["house", "tech-house"],
     image: "/artists/Risaffi.jpeg",
     socials: { instagram: "https://www.instagram.com/_risaffi/", soundcloud: "#", spotify: "https://open.spotify.com/intl-pt/artist/52MPLEEOjiJgYyF84X8qyZ", youtube: "#" },
     presskit: "#",
@@ -503,7 +503,7 @@ export const allArtists = [
   {
     name: "PIMENTA",
     genre: "Psytrance / Full On",
-    genreKeys: ["psytrance", "full-on", "high-bpm"],
+    genreKeys: ["psytrance", "full-on"],
     image: "/artists/Pimenta.jpeg",
     socials: { instagram: "#", soundcloud: "#", spotify: "#" },
     presskit: "#",
@@ -512,7 +512,7 @@ export const allArtists = [
   {
     name: "LEROCK'S",
     genre: "Melodic Techno",
-    genreKeys: ["techno", "peak-time", "house", "mid-bpm"],
+    genreKeys: ["techno", "melodic-techno"],
     image: "/artists/Lerocks.png",
     socials: { instagram: "https://www.instagram.com/lerocksdj", soundcloud: "#", spotify: "https://open.spotify.com/intl-pt/artist/4ismQ738W44jaS75QdoMyQ?si=IW1yA5nmSc6OiHvuli3n6Q&nd=1&dlsi=257c965860174ae6", youtube: "https://www.youtube.com/@Lerockdj/videos" },
     presskit: "https://lerocks.com.br/",
@@ -521,7 +521,7 @@ export const allArtists = [
   {
     name: "BÁRBARA THOMAZ",
     genre: "Melodic Techno",
-    genreKeys: ["techno", "melodic", "mid-bpm"],
+    genreKeys: ["techno", "melodic-techno"],
     image: "/artists/Bathomaz.png",
     socials: { instagram: "https://www.instagram.com/bathomaz?utm_source=ig_web_button_share_sheet&igsh=MTkxZDZiYWxrNHdoZA%3D%3D", soundcloud: "https://soundcloud.com/dj-barbara-thomaz", spotify: "#", youtube: "https://www.youtube.com/channel/UC15enO2mcWiVxrmDQAjMnCQ" },
     presskit: "https://bathomaz.com.br/",
@@ -530,7 +530,7 @@ export const allArtists = [
   {
     name: "JUNIOR SANT",
     genre: "Melodic Techno",
-    genreKeys: ["techno", "melodic", "indie-dance", "mid-bpm"],
+    genreKeys: ["techno", "melodic-techno"],
     image: "/artists/Junior Sant.jpeg",
     socials: { instagram: "https://www.instagram.com/juniorsant_oficial/", soundcloud: "https://soundcloud.com/junior-sant-979249143", spotify: "https://open.spotify.com/user/31pqfmvj2tekcsqr5nckmu2mgtja?si=c7d8d31b85684879&nd=1&dlsi=ca3fe2d41d904563", youtube: "https://www.youtube.com/@djjuniorsant/videos" },
     presskit: "#",
@@ -539,7 +539,7 @@ export const allArtists = [
   {
     name: "ELOAH",
     genre: "Tech House / Minimal",
-    genreKeys: ["house", "tech-house", "minimal", "mid-bpm"],
+    genreKeys: ["house", "tech-house", "minimal-deep-tech"],
     image: "/artists/Eloah.jpeg",
     socials: { instagram: "https://www.instagram.com/eloahprieto/", soundcloud: "https://soundcloud.com/eloah-prieto/tracks", spotify: "#", youtube: "#" },
     presskit: "#",
@@ -548,7 +548,7 @@ export const allArtists = [
   {
     name: "LACER",
     genre: "Tech House",
-    genreKeys: ["house", "tech-house", "minimal", "mid-bpm"],
+    genreKeys: ["house", "tech-house"],
     image: "/artists/Lacer.png",
     socials: { instagram: "https://www.instagram.com/lacermusic/", soundcloud: "#", spotify: "https://open.spotify.com/intl-pt/artist/3c3SUbSwAni69Rae4Y16Eq?si=LmEcl2qpQW2BwpkGPimGYw&nd=1&dlsi=e1d81544dd9f4147", youtube: "https://www.youtube.com/@LacerMusicBR/videos" },
     presskit: "https://presskitpro.app/lacer/",
@@ -557,7 +557,7 @@ export const allArtists = [
   {
     name: "UMBRA",
     genre: "Melodic Techno",
-    genreKeys: ["techno", "melodic", "mid-bpm"],
+    genreKeys: ["techno", "melodic-techno"],
     image: "/artists/Umbra.jpeg",
     socials: { instagram: "https://www.instagram.com/umbramusicdj?utm_source=ig_web_button_share_sheet&igsh=MXZ2bm4wMW9iczExNg%3D%3D", soundcloud: "https://soundcloud.com/um-bra-792980200?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing", spotify: "https://open.spotify.com/user/31p64ytpp6zyeimazaiefp4b26pi", youtube: "#" },
     presskit: "#",
@@ -566,7 +566,7 @@ export const allArtists = [
   {
     name: "IZZI",
     genre: "Indie Dance / Acid House",
-    genreKeys: ["house", "indie-dance", "mid-bpm"],
+    genreKeys: ["house", "indie-dance", "acid-house"],
     image: "/artists/Izzi.png",
     socials: { instagram: "https://www.instagram.com/izzibeatmaker/", soundcloud: "#", spotify: "#", youtube: "#" },
     presskit: "#",
@@ -575,7 +575,7 @@ export const allArtists = [
   {
     name: "BET'S",
     genre: "Tech House / Minimal",
-    genreKeys: ["house", "tech-house", "minimal", "mid-bpm"],
+    genreKeys: ["house", "tech-house", "minimal-deep-tech"],
     image: "/artists/Bets.jpeg",
     socials: { instagram: "https://www.instagram.com/humbertohct/", soundcloud: "#", spotify: "#", youtube: "#" },
     presskit: "#",
@@ -584,7 +584,7 @@ export const allArtists = [
   {
     name: "GENÊ",
     genre: "House / Indie Dance",
-    genreKeys: ["house", "indie-dance", "mid-bpm"],
+    genreKeys: ["house", "indie-dance"],
     image: "/artists/GENÊ.png",
     socials: { instagram: "https://www.instagram.com/gabrielgene_/", soundcloud: "https://soundcloud.com/gabriel-gene/tracks", spotify: "#", youtube: "#" },
     presskit: "#",
@@ -593,7 +593,7 @@ export const allArtists = [
   {
     name: "IDEMAX",
     genre: "Full On",
-    genreKeys: ["psytrance", "full-on", "high-bpm"],
+    genreKeys: ["psytrance", "full-on"],
     image: "/artists/Idemax.jpg",
     socials: { instagram: "https://www.instagram.com/idemax/", soundcloud: "https://soundcloud.com/idemax", spotify: "https://open.spotify.com/intl-pt/artist/6jp5aN5ze1ysiSJh61oMCx", youtube: "https://www.youtube.com/channel/UCsyBTwoIMSABNe_UQ54XNQA" },
     presskit: "https://www.idemax.net/",
@@ -602,7 +602,7 @@ export const allArtists = [
   {
     name: "CAMPELLO",
     genre: "Full On",
-    genreKeys: ["psytrance", "full-on", "high-bpm"],
+    genreKeys: ["psytrance", "full-on"],
     image: "/artists/Campello.jpg",
     socials: { instagram: "https://www.instagram.com/camp3llo_live/", soundcloud: "https://soundcloud.com/andre-campello-1655472", spotify: "https://open.spotify.com/intl-pt/artist/1hvS5nKXwPxi7FZCG2vzrk?si=xWVj237UQJW8Tk3rh3dklQ&nd=1&dlsi=f26288b435b94442", youtube: "https://www.youtube.com/channel/UC5yFCDz-pchH_jm-rujgHjA" },
     presskit: "https://drive.google.com/drive/folders/1pLGzFQfsB5ZOXIZ8wZVGyT2DQilPQ7Fi",
@@ -611,7 +611,7 @@ export const allArtists = [
   {
     name: "DAMATA",
     genre: "Forest",
-    genreKeys: ["psytrance", "forest", "high-bpm"],
+    genreKeys: ["high-bpm", "forest"],
     image: "/artists/Damata.png",
     socials: { instagram: "https://www.instagram.com/damata_music/", soundcloud: "https://audius.co/damatamusic", spotify: "#", youtube: "#" },
     presskit: "https://drive.google.com/drive/folders/1oVQqclwtEZHTlQOSYXx9e0mQKYrpoB-L",
@@ -620,7 +620,7 @@ export const allArtists = [
   {
     name: "DOTA",
     genre: "Progressive",
-    genreKeys: ["psytrance", "progressive-psy", "mid-bpm"],
+    genreKeys: ["psytrance", "progressive-psy"],
     image: "/artists/Dota.jpg",
     socials: { instagram: "https://www.instagram.com/_djdota/", soundcloud: "#", spotify: "#", youtube: "#" },
     presskit: "#",
@@ -629,7 +629,7 @@ export const allArtists = [
   {
     name: "KORDIE",
     genre: "Tech House",
-    genreKeys: ["house", "tech-house", "mid-bpm"],
+    genreKeys: ["house", "tech-house"],
     image: "/artists/Kordie.jpeg",
     socials: { instagram: "#", soundcloud: "#", spotify: "#" },
     presskit: "#",
@@ -638,7 +638,7 @@ export const allArtists = [
   {
     name: "PITT MALIC",
     genre: "Psytechno",
-    genreKeys: ["psytrance", "psytech", "techno", "high-bpm"],
+    genreKeys: ["techno", "psytechno"],
     image: "/artists/Pitt Malic.jpeg",
     socials: { instagram: "https://www.instagram.com/djpittmalic/", soundcloud: "#", spotify: "#", youtube: "#" },
     presskit: "#",
@@ -647,7 +647,7 @@ export const allArtists = [
   {
     name: "PEDRO TAB",
     genre: "Techno / Peak Time",
-    genreKeys: ["techno", "peak-time", "high-bpm"],
+    genreKeys: ["techno", "peak-time"],
     image: "/artists/Tab.png",
     socials: { instagram: "https://www.instagram.com/pedrotabsounds/", soundcloud: "https://soundcloud.com/pedrotab/tracks", spotify: "#", youtube: "#" },
     presskit: "#",
@@ -656,7 +656,7 @@ export const allArtists = [
   {
     name: "WAVEMOON",
     genre: "Psytrance",
-    genreKeys: ["psytrance", "full-on", "high-bpm"],
+    genreKeys: ["psytrance", "full-on"],
     image: "/artists/Wavemoon.jpeg",
     socials: { instagram: "https://www.instagram.com/wavemoonoficial/", soundcloud: "https://soundcloud.com/wavemoonlive/popular-tracks", spotify: "#", youtube: "#" },
     presskit: "#",
@@ -665,7 +665,7 @@ export const allArtists = [
   {
     name: "NEXUS",
     genre: "Progressive",
-    genreKeys: ["psytrance", "progressive-psy", "mid-bpm"],
+    genreKeys: ["psytrance", "progressive-psy"],
     image: "/artists/Nexus.jpeg",
     socials: { instagram: "https://www.instagram.com/nexus_dj__/", soundcloud: "https://soundcloud.com/matheus-has14/tracks", spotify: "https://open.spotify.com/intl-pt/artist/62lrgPgbORAV5jI6zOZ2wS?si=GZ2cFs7aTvK0NXPKkC6i-g&utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQMMjU2MjgxMDQwNTU4AAGn4QutYs8Ij2Kcr-H7VOCPtngVkML0GRNK0M3FKK9N52OyiKp89nBXStGoiLA_aem_Pvm399AismO4TJoLkeWk9g&nd=1&dlsi=e850983bae1a45b4", youtube: "#" },
     presskit: "#",
@@ -674,7 +674,7 @@ export const allArtists = [
   {
     name: "BAZZE",
     genre: "House / Tech House",
-    genreKeys: ["house", "tech-house", "mid-bpm"],
+    genreKeys: ["house", "tech-house"],
     image: "/artists/Default.png",
     socials: { instagram: "https://www.instagram.com/bazze.art/", soundcloud: "#", spotify: "#", youtube: "#" },
     presskit: "#",
@@ -823,7 +823,7 @@ export default function App() {
         house: "#0B1015",
         techno: "#100B15",
         psytrance: "#0B1512",
-        progressive: "#15120B",
+        "high-bpm": "#15120B",
       };
 
       document.body.style.setProperty("--bg-shift", baseColors[genreKey] || "#0B0B0F");
