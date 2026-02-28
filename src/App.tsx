@@ -1133,12 +1133,13 @@ ${data.message}
                 <div className="flex flex-col md:flex-row gap-4 mb-8 w-full max-w-2xl">
                   <button
                     onClick={() => setRosterView("main")}
-                    className={`flex-1 py-4 md:py-6 rounded-2xl font-display font-bold text-xl md:text-3xl tracking-tighter transition-all border ${rosterView === "main"
+                    className={`flex-1 flex flex-col items-center justify-center py-4 md:py-5 rounded-2xl font-display font-bold tracking-tighter transition-all border ${rosterView === "main"
                       ? "bg-brand-cyan text-brand-dark border-brand-cyan shadow-[0_0_30px_rgba(0,255,255,0.2)]"
                       : "bg-white/5 text-white/50 border-white/10 hover:bg-white/10 hover:text-white"
                       }`}
                   >
-                    LADDER LABS <span className="text-white/30 font-light mx-2">/</span> NEVERLAND RECORDS
+                    <span className="text-2xl md:text-3xl">LADDER LABS</span>
+                    <span className="text-sm md:text-xl md:mt-1 opacity-80 font-medium">NEVERLAND RECORDS</span>
                   </button>
                   <button
                     onClick={() => setRosterView("guests")}
