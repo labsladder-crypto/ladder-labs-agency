@@ -1232,8 +1232,8 @@ ${data.message}
                   <button
                     onClick={() => setRosterView("main")}
                     className={`flex-1 py-4 md:py-6 rounded-2xl font-display font-bold text-xl md:text-3xl tracking-tighter transition-all border ${rosterView === "main"
-                        ? "bg-brand-cyan text-brand-dark border-brand-cyan shadow-[0_0_30px_rgba(0,255,255,0.2)]"
-                        : "bg-white/5 text-white/50 border-white/10 hover:bg-white/10 hover:text-white"
+                      ? "bg-brand-cyan text-brand-dark border-brand-cyan shadow-[0_0_30px_rgba(0,255,255,0.2)]"
+                      : "bg-white/5 text-white/50 border-white/10 hover:bg-white/10 hover:text-white"
                       }`}
                   >
                     LADDER LABS
@@ -1241,8 +1241,8 @@ ${data.message}
                   <button
                     onClick={() => setRosterView("guests")}
                     className={`flex-1 py-4 md:py-6 rounded-2xl font-display font-bold text-xl md:text-3xl tracking-tighter transition-all border ${rosterView === "guests"
-                        ? "bg-brand-pink text-white border-brand-pink shadow-[0_0_30px_rgba(238,42,123,0.2)]"
-                        : "bg-white/5 text-white/50 border-white/10 hover:bg-white/10 hover:text-white"
+                      ? "bg-brand-pink text-white border-brand-pink shadow-[0_0_30px_rgba(238,42,123,0.2)]"
+                      : "bg-white/5 text-white/50 border-white/10 hover:bg-white/10 hover:text-white"
                       }`}
                   >
                     ARTISTAS CONVIDADOS
@@ -1367,9 +1367,7 @@ ${data.message}
 
             {/* Empty State for Guests */}
             {rosterView === "guests" && filteredArtists.length === 0 && (
-              <div className="py-20 text-center border-t border-white/5 mt-12">
-                <p className="text-white/40 font-display text-xl">Mais convidados serão anunciados em breve.</p>
-              </div>
+              <div className="py-10"></div>
             )}
 
             {/* Exclusive NRZ / Devil Company Section */}
@@ -1382,15 +1380,21 @@ ${data.message}
                 <div className="flex flex-col lg:flex-row items-center gap-12 bg-white/[0.02] border border-white/5 rounded-3xl p-8 md:p-12 relative overflow-hidden group">
                   <div className="absolute right-0 top-0 -mr-20 -mt-20 w-64 h-64 bg-red-600/10 blur-[100px] rounded-full pointer-events-none" />
 
-                  <div className="w-full lg:w-1/3 aspect-[3/4] md:aspect-square lg:aspect-[3/4] rounded-2xl overflow-hidden relative border border-white/10">
+                  <div
+                    onClick={() => setActiveArtist(nrzArtist)}
+                    className="w-full lg:w-1/3 aspect-[3/4] md:aspect-square lg:aspect-[3/4] rounded-2xl overflow-hidden relative border border-white/10 cursor-pointer"
+                  >
                     <img
                       src={nrzArtist.image}
                       alt={nrzArtist.name}
                       loading="lazy"
-                      className="w-full h-full object-cover grayscale-0 md:grayscale md:group-hover:grayscale-0 transition-all duration-700"
+                      className="w-full h-full object-cover grayscale-0 md:grayscale md:group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-90" />
                     <div className="absolute bottom-6 left-6">
+                      <span className="text-brand-cyan text-[9px] font-bold uppercase tracking-[0.3em] mb-1 block">
+                        {nrzArtist.genre}
+                      </span>
                       <span className="text-brand-pink text-[9px] font-bold uppercase tracking-[0.3em] mb-2 block">
                         Devil Company Exclusive
                       </span>
