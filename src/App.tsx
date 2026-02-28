@@ -1138,7 +1138,7 @@ ${data.message}
                       : "bg-white/5 text-white/50 border-white/10 hover:bg-white/10 hover:text-white"
                       }`}
                   >
-                    LADDER LABS
+                    LADDER LABS <span className="text-white/30 font-light mx-2">/</span> NEVERLAND RECORDS
                   </button>
                   <button
                     onClick={() => setRosterView("guests")}
