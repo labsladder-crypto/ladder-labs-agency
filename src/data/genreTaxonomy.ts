@@ -1,80 +1,56 @@
-export interface GenreNode {
+export type MainGenre = "house" | "techno" | "psytrance" | "progressive";
+
+export interface GenreOption {
     id: string;
     name: string;
-    bpm_range?: string;
-    children?: GenreNode[];
 }
 
-export const GENRE_TAXONOMY: GenreNode[] = [
-    {
-        id: "house",
-        name: "HOUSE",
-        children: [
-            { id: "deep-house", name: "Deep House" },
-            { id: "tech-house", name: "Tech House" },
-            { id: "minimal-house", name: "Minimal House" },
-            { id: "acid-house", name: "Acid House" },
-            { id: "progressive-house", name: "Progressive House" },
-            { id: "afro-house", name: "Afro House" },
-            { id: "bass-house", name: "Bass House" },
-            { id: "indie-dance", name: "Indie Dance" },
-            { id: "funky-house", name: "Funky House" },
-            { id: "tribal-house", name: "Tribal House" }
-        ]
-    },
-    {
-        id: "techno",
-        name: "TECHNO",
-        children: [
-            { id: "melodic-techno", name: "Melodic Techno" },
-            { id: "peak-time-techno", name: "Peak Time Techno" },
-            { id: "industrial-techno", name: "Industrial Techno" },
-            { id: "minimal-techno", name: "Minimal Techno" },
-            { id: "acid-techno", name: "Acid Techno" },
-            { id: "hard-techno", name: "Hard Techno" },
-            { id: "dub-techno", name: "Dub Techno" },
-            { id: "experimental-techno", name: "Experimental Techno" },
-            { id: "hypnotic-techno", name: "Hypnotic Techno" }
-        ]
-    },
-    {
-        id: "psytrance",
-        name: "PSYTRANCE",
-        children: [
-            { id: "progressive-psy", name: "Progressive Psy" },
-            { id: "darkpsy", name: "Dark Psy" },
-            { id: "prog-dark", name: "Prog Dark" },
-            { id: "forest", name: "Forest" },
-            { id: "full-on", name: "Full On" },
-            { id: "hi-tech", name: "Hi-Tech" },
-            { id: "psytechno", name: "Psytechno" },
-            { id: "twilight", name: "Twilight" },
-            { id: "experimental-psy", name: "Experimental Psy" },
-            { id: "zenonesque", name: "Zenonesque" }
-        ]
-    },
-    {
-        id: "low-bpm",
-        name: "LOW BPM",
-        children: [
-            { id: "downtempo", name: "Downtempo" },
-            { id: "organic-house", name: "Organic House" },
-            { id: "ambient", name: "Ambient" },
-            { id: "chillout", name: "Chillout" },
-            { id: "electronica", name: "Electronica" },
-            { id: "deep-progressive", name: "Deep Progressive" }
-        ]
-    },
-    {
-        id: "high-bpm",
-        name: "HIGH BPM",
-        children: [
-            { id: "hardcore", name: "Hardcore" },
-            { id: "hardtek", name: "Hardtek" },
-            { id: "speedcore", name: "Speedcore" },
-            { id: "schranz", name: "Schranz" },
-            { id: "gabber", name: "Gabber" },
-            { id: "hardstyle", name: "Hardstyle" }
-        ]
-    }
+export const MAIN_GENRES: Record<MainGenre, string> = {
+    house: "HOUSE",
+    techno: "TECHNO",
+    psytrance: "PSYTRANCE",
+    progressive: "PROGRESSIVE",
+};
+
+// Layer 2 - Strict relationships to Layer 1
+export const SUBGENRES: Record<MainGenre, GenreOption[]> = {
+    house: [
+        { id: "deep-house", name: "Deep" },
+        { id: "tech-house", name: "Tech House" },
+        { id: "bass-house", name: "Bass House" },
+        { id: "afro-house", name: "Afro House" },
+        { id: "jackin", name: "Jackin" },
+        { id: "organic-house", name: "Organic" },
+        { id: "indie-dance", name: "Indie Dance" },
+    ],
+    techno: [
+        { id: "peak-time", name: "Peak Time" },
+        { id: "melodic", name: "Melodic" },
+        { id: "raw-techno", name: "Raw" },
+        { id: "industrial", name: "Industrial" },
+        { id: "minimal", name: "Minimal" },
+        { id: "hard-techno", name: "Hard Techno" },
+    ],
+    psytrance: [
+        { id: "progressive-psy", name: "Progressive Psy" },
+        { id: "full-on", name: "Full On" },
+        { id: "night-psy", name: "Night" },
+        { id: "dark-psy", name: "Dark Psy" },
+        { id: "forest", name: "Forest" },
+        { id: "hi-tech", name: "Hi-Tech" },
+        { id: "prog-dark", name: "Prog Dark" },
+        { id: "psytech", name: "Psytech" },
+    ],
+    progressive: [
+        { id: "prog-house", name: "Progressive House" },
+        { id: "deep-prog", name: "Deep Progressive" },
+    ]
+};
+
+// Layer 3 - Cross-cutting constraints
+export const BPM_TIERS: GenreOption[] = [
+    { id: "low-bpm", name: "LOW BPM (110-124)" },
+    { id: "mid-bpm", name: "MID BPM (125-138)" },
+    { id: "high-bpm", name: "HIGH BPM (139-160)" },
+    { id: "extreme-bpm", name: "EXTREME (160+)" }
 ];

@@ -26,7 +26,7 @@ import {
   AlertCircle,
   FileText
 } from "lucide-react";
-import { GENRE_TAXONOMY, GenreNode as GenreNodeType } from "./data/genreTaxonomy";
+import { MAIN_GENRES, SUBGENRES, BPM_TIERS, MainGenre } from "./data/genreTaxonomy";
 import React, { useState, useRef, useEffect } from "react";
 import EventRadar from "./components/EventRadar";
 import StudioBackground from "./components/StudioBackground";
@@ -449,7 +449,7 @@ export const allArtists = [
   {
     name: "PRADIM",
     genre: "Tech House / Minimal",
-    genreKeys: ["tech-house", "minimal-house"],
+    genreKeys: ["house", "tech-house", "minimal", "mid-bpm"],
     image: "/artists/Pradim.jpeg",
     socials: { instagram: "https://www.instagram.com/pradim__/", soundcloud: "https://soundcloud.com/felipe-prado-zrm", spotify: "https://open.spotify.com/intl-pt/artist/2ufH7FrNeF629uC3bZGLB5", youtube: "https://www.youtube.com/@Pradim_Music" },
     presskit: "https://www.canva.com/design/DAHCTtv3hZg/Q1gkedgmMJmeTVK_Ukl43w/view",
@@ -458,7 +458,7 @@ export const allArtists = [
   {
     name: "SESI'OHM",
     genre: "Psytrance",
-    genreKeys: ["psytrance"],
+    genreKeys: ["psytrance", "full-on", "high-bpm"],
     image: "/artists/Sesi'Ohm.jpg",
     socials: { instagram: "https://www.instagram.com/sesiohmm/", soundcloud: "https://soundcloud.com/sesiohmm", spotify: "#", youtube: "https://www.youtube.com/@sesiohmlive5103" },
     presskit: "https://drive.google.com/drive/u/0/folders/18ip2967Z0RGHFft46aeo7xV98pYTCSdY",
@@ -467,7 +467,7 @@ export const allArtists = [
   {
     name: "DASH",
     genre: "Psytrance",
-    genreKeys: ["psytrance"],
+    genreKeys: ["psytrance", "progressive-psy", "mid-bpm"],
     image: "/artists/Dash.jpeg",
     socials: { instagram: "https://www.instagram.com/dash.music_/", soundcloud: "#", spotify: "#", youtube: "#" },
     presskit: "https://drive.google.com/drive/u/0/folders/18ip2967Z0RGHFft46aeo7xV98pYTCSdY",
@@ -476,7 +476,7 @@ export const allArtists = [
   {
     name: "UKACZ",
     genre: "House / UK Garage",
-    genreKeys: ["house", "bass-house"],
+    genreKeys: ["house", "tech-house", "mid-bpm"],
     image: "/artists/Ukacz.png",
     socials: { instagram: "https://www.instagram.com/ukacz.music/", soundcloud: "https://soundcloud.com/ukaczmusic", spotify: "#", youtube: "#" },
     presskit: "https://drive.google.com/drive/folders/1o_Ts4kdJmOHYLyXeEbHToEOIjFnBGAV-",
@@ -485,7 +485,7 @@ export const allArtists = [
   {
     name: "JUNNO",
     genre: "Bass House / Garage House",
-    genreKeys: ["bass-house"],
+    genreKeys: ["house", "bass-house", "mid-bpm"],
     image: "/artists/Junno.jpg",
     socials: { instagram: "https://www.instagram.com/junnomusic/", soundcloud: "https://soundcloud.com/junnomusic", spotify: "https://open.spotify.com/intl-pt/artist/2kfy2Ut2nR7GW0l2E2wxef", youtube: "https://www.youtube.com/@junnomusicdj/videos" },
     presskit: "https://junnomusic.com.br/",
@@ -494,7 +494,7 @@ export const allArtists = [
   {
     name: "RISAFFI",
     genre: "Tech House",
-    genreKeys: ["tech-house"],
+    genreKeys: ["house", "tech-house", "mid-bpm"],
     image: "/artists/Risaffi.jpeg",
     socials: { instagram: "https://www.instagram.com/_risaffi/", soundcloud: "#", spotify: "https://open.spotify.com/intl-pt/artist/52MPLEEOjiJgYyF84X8qyZ", youtube: "#" },
     presskit: "#",
@@ -503,7 +503,7 @@ export const allArtists = [
   {
     name: "PIMENTA",
     genre: "Psytrance / Full On",
-    genreKeys: ["full-on"],
+    genreKeys: ["psytrance", "full-on", "high-bpm"],
     image: "/artists/Pimenta.jpeg",
     socials: { instagram: "#", soundcloud: "#", spotify: "#" },
     presskit: "#",
@@ -512,7 +512,7 @@ export const allArtists = [
   {
     name: "LEROCK'S",
     genre: "Melodic Techno",
-    genreKeys: ["melodic-techno"],
+    genreKeys: ["techno", "peak-time", "house", "mid-bpm"],
     image: "/artists/Lerocks.png",
     socials: { instagram: "https://www.instagram.com/lerocksdj", soundcloud: "#", spotify: "https://open.spotify.com/intl-pt/artist/4ismQ738W44jaS75QdoMyQ?si=IW1yA5nmSc6OiHvuli3n6Q&nd=1&dlsi=257c965860174ae6", youtube: "https://www.youtube.com/@Lerockdj/videos" },
     presskit: "https://lerocks.com.br/",
@@ -521,7 +521,7 @@ export const allArtists = [
   {
     name: "BÁRBARA THOMAZ",
     genre: "Melodic Techno",
-    genreKeys: ["melodic-techno"],
+    genreKeys: ["techno", "melodic", "mid-bpm"],
     image: "/artists/Bathomaz.png",
     socials: { instagram: "https://www.instagram.com/bathomaz?utm_source=ig_web_button_share_sheet&igsh=MTkxZDZiYWxrNHdoZA%3D%3D", soundcloud: "https://soundcloud.com/dj-barbara-thomaz", spotify: "#", youtube: "https://www.youtube.com/channel/UC15enO2mcWiVxrmDQAjMnCQ" },
     presskit: "https://bathomaz.com.br/",
@@ -530,7 +530,7 @@ export const allArtists = [
   {
     name: "JUNIOR SANT",
     genre: "Melodic Techno",
-    genreKeys: ["melodic-techno", "techno"],
+    genreKeys: ["techno", "melodic", "indie-dance", "mid-bpm"],
     image: "/artists/Junior Sant.jpeg",
     socials: { instagram: "https://www.instagram.com/juniorsant_oficial/", soundcloud: "https://soundcloud.com/junior-sant-979249143", spotify: "https://open.spotify.com/user/31pqfmvj2tekcsqr5nckmu2mgtja?si=c7d8d31b85684879&nd=1&dlsi=ca3fe2d41d904563", youtube: "https://www.youtube.com/@djjuniorsant/videos" },
     presskit: "#",
@@ -539,7 +539,7 @@ export const allArtists = [
   {
     name: "ELOAH",
     genre: "Tech House / Minimal",
-    genreKeys: ["tech-house", "minimal-house"],
+    genreKeys: ["house", "tech-house", "minimal", "mid-bpm"],
     image: "/artists/Eloah.jpeg",
     socials: { instagram: "https://www.instagram.com/eloahprieto/", soundcloud: "https://soundcloud.com/eloah-prieto/tracks", spotify: "#", youtube: "#" },
     presskit: "#",
@@ -548,7 +548,7 @@ export const allArtists = [
   {
     name: "LACER",
     genre: "Tech House",
-    genreKeys: ["tech-house"],
+    genreKeys: ["house", "tech-house", "minimal", "mid-bpm"],
     image: "/artists/Lacer.png",
     socials: { instagram: "https://www.instagram.com/lacermusic/", soundcloud: "#", spotify: "https://open.spotify.com/intl-pt/artist/3c3SUbSwAni69Rae4Y16Eq?si=LmEcl2qpQW2BwpkGPimGYw&nd=1&dlsi=e1d81544dd9f4147", youtube: "https://www.youtube.com/@LacerMusicBR/videos" },
     presskit: "https://presskitpro.app/lacer/",
@@ -557,7 +557,7 @@ export const allArtists = [
   {
     name: "UMBRA",
     genre: "Melodic Techno",
-    genreKeys: ["melodic-techno"],
+    genreKeys: ["techno", "melodic", "mid-bpm"],
     image: "/artists/Umbra.jpeg",
     socials: { instagram: "https://www.instagram.com/umbramusicdj?utm_source=ig_web_button_share_sheet&igsh=MXZ2bm4wMW9iczExNg%3D%3D", soundcloud: "https://soundcloud.com/um-bra-792980200?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing", spotify: "https://open.spotify.com/user/31p64ytpp6zyeimazaiefp4b26pi", youtube: "#" },
     presskit: "#",
@@ -566,7 +566,7 @@ export const allArtists = [
   {
     name: "IZZI",
     genre: "Indie Dance / Acid House",
-    genreKeys: ["indie-dance", "acid-house"],
+    genreKeys: ["house", "indie-dance", "mid-bpm"],
     image: "/artists/Izzi.png",
     socials: { instagram: "https://www.instagram.com/izzibeatmaker/", soundcloud: "#", spotify: "#", youtube: "#" },
     presskit: "#",
@@ -575,7 +575,7 @@ export const allArtists = [
   {
     name: "BET'S",
     genre: "Tech House / Minimal",
-    genreKeys: ["tech-house", "minimal-house"],
+    genreKeys: ["house", "tech-house", "minimal", "mid-bpm"],
     image: "/artists/Bets.jpeg",
     socials: { instagram: "https://www.instagram.com/humbertohct/", soundcloud: "#", spotify: "#", youtube: "#" },
     presskit: "#",
@@ -584,7 +584,7 @@ export const allArtists = [
   {
     name: "GENÊ",
     genre: "House / Indie Dance",
-    genreKeys: ["house", "indie-dance"],
+    genreKeys: ["house", "indie-dance", "mid-bpm"],
     image: "/artists/GENÊ.png",
     socials: { instagram: "https://www.instagram.com/gabrielgene_/", soundcloud: "https://soundcloud.com/gabriel-gene/tracks", spotify: "#", youtube: "#" },
     presskit: "#",
@@ -593,7 +593,7 @@ export const allArtists = [
   {
     name: "IDEMAX",
     genre: "Full On",
-    genreKeys: ["full-on"],
+    genreKeys: ["psytrance", "full-on", "high-bpm"],
     image: "/artists/Idemax.jpg",
     socials: { instagram: "https://www.instagram.com/idemax/", soundcloud: "https://soundcloud.com/idemax", spotify: "https://open.spotify.com/intl-pt/artist/6jp5aN5ze1ysiSJh61oMCx", youtube: "https://www.youtube.com/channel/UCsyBTwoIMSABNe_UQ54XNQA" },
     presskit: "https://www.idemax.net/",
@@ -602,7 +602,7 @@ export const allArtists = [
   {
     name: "CAMPELLO",
     genre: "Full On",
-    genreKeys: ["full-on"],
+    genreKeys: ["psytrance", "full-on", "high-bpm"],
     image: "/artists/Campello.jpg",
     socials: { instagram: "https://www.instagram.com/camp3llo_live/", soundcloud: "https://soundcloud.com/andre-campello-1655472", spotify: "https://open.spotify.com/intl-pt/artist/1hvS5nKXwPxi7FZCG2vzrk?si=xWVj237UQJW8Tk3rh3dklQ&nd=1&dlsi=f26288b435b94442", youtube: "https://www.youtube.com/channel/UC5yFCDz-pchH_jm-rujgHjA" },
     presskit: "https://drive.google.com/drive/folders/1pLGzFQfsB5ZOXIZ8wZVGyT2DQilPQ7Fi",
@@ -611,7 +611,7 @@ export const allArtists = [
   {
     name: "DAMATA",
     genre: "Forest",
-    genreKeys: ["forest"],
+    genreKeys: ["psytrance", "forest", "high-bpm"],
     image: "/artists/Damata.png",
     socials: { instagram: "https://www.instagram.com/damata_music/", soundcloud: "https://audius.co/damatamusic", spotify: "#", youtube: "#" },
     presskit: "https://drive.google.com/drive/folders/1oVQqclwtEZHTlQOSYXx9e0mQKYrpoB-L",
@@ -620,7 +620,7 @@ export const allArtists = [
   {
     name: "DOTA",
     genre: "Progressive",
-    genreKeys: ["progressive-psy"],
+    genreKeys: ["psytrance", "progressive-psy", "mid-bpm"],
     image: "/artists/Dota.jpg",
     socials: { instagram: "https://www.instagram.com/_djdota/", soundcloud: "#", spotify: "#", youtube: "#" },
     presskit: "#",
@@ -629,7 +629,7 @@ export const allArtists = [
   {
     name: "KORDIE",
     genre: "Tech House",
-    genreKeys: ["tech-house"],
+    genreKeys: ["house", "tech-house", "mid-bpm"],
     image: "/artists/Kordie.jpeg",
     socials: { instagram: "#", soundcloud: "#", spotify: "#" },
     presskit: "#",
@@ -638,7 +638,7 @@ export const allArtists = [
   {
     name: "PITT MALIC",
     genre: "Psytechno",
-    genreKeys: ["psytechno"],
+    genreKeys: ["psytrance", "psytech", "techno", "high-bpm"],
     image: "/artists/Pitt Malic.jpeg",
     socials: { instagram: "https://www.instagram.com/djpittmalic/", soundcloud: "#", spotify: "#", youtube: "#" },
     presskit: "#",
@@ -647,7 +647,7 @@ export const allArtists = [
   {
     name: "PEDRO TAB",
     genre: "Techno / Peak Time",
-    genreKeys: ["peak-time-techno"],
+    genreKeys: ["techno", "peak-time", "high-bpm"],
     image: "/artists/Tab.png",
     socials: { instagram: "https://www.instagram.com/pedrotabsounds/", soundcloud: "https://soundcloud.com/pedrotab/tracks", spotify: "#", youtube: "#" },
     presskit: "#",
@@ -656,7 +656,7 @@ export const allArtists = [
   {
     name: "WAVEMOON",
     genre: "Psytrance",
-    genreKeys: ["psytrance"],
+    genreKeys: ["psytrance", "full-on", "high-bpm"],
     image: "/artists/Wavemoon.jpeg",
     socials: { instagram: "https://www.instagram.com/wavemoonoficial/", soundcloud: "https://soundcloud.com/wavemoonlive/popular-tracks", spotify: "#", youtube: "#" },
     presskit: "#",
@@ -665,7 +665,7 @@ export const allArtists = [
   {
     name: "NEXUS",
     genre: "Progressive",
-    genreKeys: ["progressive-psy"],
+    genreKeys: ["psytrance", "progressive-psy", "mid-bpm"],
     image: "/artists/Nexus.jpeg",
     socials: { instagram: "https://www.instagram.com/nexus_dj__/", soundcloud: "https://soundcloud.com/matheus-has14/tracks", spotify: "https://open.spotify.com/intl-pt/artist/62lrgPgbORAV5jI6zOZ2wS?si=GZ2cFs7aTvK0NXPKkC6i-g&utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQMMjU2MjgxMDQwNTU4AAGn4QutYs8Ij2Kcr-H7VOCPtngVkML0GRNK0M3FKK9N52OyiKp89nBXStGoiLA_aem_Pvm399AismO4TJoLkeWk9g&nd=1&dlsi=e850983bae1a45b4", youtube: "#" },
     presskit: "#",
@@ -674,7 +674,7 @@ export const allArtists = [
   {
     name: "BAZZE",
     genre: "House / Tech House",
-    genreKey: "house",
+    genreKeys: ["house", "tech-house", "mid-bpm"],
     image: "/artists/Default.png",
     socials: { instagram: "https://www.instagram.com/bazze.art/", soundcloud: "#", spotify: "#", youtube: "#" },
     presskit: "#",
@@ -685,94 +685,6 @@ export const allArtists = [
 // --- Components ---
 
 // --- Helper Components ---
-interface GenreNodeProps {
-  key?: string | number;
-  node: GenreNodeType;
-  allArtists: any[];
-  selectedGenre: string | null;
-  setSelectedGenre: (id: string | null) => void;
-  level?: number;
-}
-
-const GenreNode: React.FC<GenreNodeProps> = ({
-  node,
-  allArtists,
-  selectedGenre,
-  setSelectedGenre,
-  level = 0
-}) => {
-  const [isExpanded, setIsExpanded] = useState(false);
-
-  const getArtistsForGenre = (n: GenreNodeType): any[] => {
-    let artists = allArtists.filter(a => a.genreKeys?.includes(n.id));
-    if (n.children) {
-      n.children.forEach(child => {
-        artists = [...artists, ...getArtistsForGenre(child)];
-      });
-    }
-    // Remove duplicates
-    return Array.from(new Set(artists));
-  };
-
-  const artistsInBranch = getArtistsForGenre(node);
-  const count = artistsInBranch.length;
-
-  if (count === 0) return null;
-
-  const isActive = selectedGenre === node.id;
-
-  return (
-    <div className={`space-y-2 ${level > 0 ? "ml-4 border-l border-white/5 pl-4" : ""}`}>
-      <div
-        onClick={() => {
-          setSelectedGenre(isActive ? null : node.id);
-          if (node.children) setIsExpanded(!isExpanded);
-        }}
-        className={`glass-panel p-4 rounded-2xl flex items-center justify-between group cursor-pointer transition-all hover-step ${isActive ? "border-brand-cyan/50 ui-glow bg-brand-cyan/5" : "hover:border-white/10"
-          }`}
-      >
-        <div className={`w-8 h-8 rounded-xl flex items-center justify-center transition-colors ${isActive ? "bg-brand-cyan/20 text-white" : "bg-white/5 text-brand-cyan/50 group-hover:text-brand-cyan"
-          }`}>
-          {node.children ? <Activity size={14} /> : <div className="w-1.5 h-1.5 rounded-full bg-current" />}
-        </div>
-        <div>
-          <h4 className={`text-xs font-bold uppercase tracking-widest ${isActive ? "text-white" : "text-white/70"}`}>
-            {node.name}
-          </h4>
-          <span className="text-[8px] text-white/30 font-bold block">{count} artists</span>
-        </div>
-        {node.children && (
-          <ChevronDown
-            size={14}
-            className={`text-white/20 transition-transform duration-300 ${isExpanded ? "rotate-180" : ""}`}
-          />
-        )}
-      </div>
-
-      <AnimatePresence>
-        {isExpanded && node.children && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            className="overflow-hidden space-y-2"
-          >
-            {node.children.map(child => (
-              <GenreNode
-                key={child.id}
-                node={child}
-                allArtists={allArtists}
-                selectedGenre={selectedGenre}
-                setSelectedGenre={setSelectedGenre}
-                level={level + 1}
-              />
-            ))}
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
-  );
-};
 
 const HUDCorners = () => (
   <>
@@ -797,7 +709,9 @@ export default function App() {
     return (saved as Language) || "EN";
   });
   const [formStatus, setFormStatus] = useState<"idle" | "submitting" | "success">("idle");
-  const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
+  const [selectedMainGenre, setSelectedMainGenre] = useState<MainGenre | null>(null);
+  const [selectedSubGenre, setSelectedSubGenre] = useState<string | null>(null);
+  const [selectedBPM, setSelectedBPM] = useState<string | null>(null);
   const [activeArtist, setActiveArtist] = useState<any | null>(null);
   const [isSecureGateOpen, setIsSecureGateOpen] = useState(false);
   const [securePassword, setSecurePassword] = useState("");
@@ -841,52 +755,40 @@ export default function App() {
   const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
   const heroScale = useTransform(scrollYProgress, [0, 0.2], [1, 0.95]);
 
-  const getArtistsForGenreRecursive = (genreId: string): any[] => {
-    const findNode = (nodes: GenreNodeType[]): GenreNodeType | null => {
-      for (const node of nodes) {
-        if (node.id === genreId) return node;
-        if (node.children) {
-          const found = findNode(node.children);
-          if (found) return found;
-        }
-      }
-      return null;
-    };
-
-    const node = findNode(GENRE_TAXONOMY);
-    if (!node) return [];
-
-    const collectRecursive = (n: GenreNodeType): any[] => {
-      let artists = allArtists.filter(a => a.genreKeys?.includes(n.id));
-      if (n.children) {
-        n.children.forEach(child => {
-          artists = [...artists, ...collectRecursive(child)];
-        });
-      }
-      return artists;
-    };
-
-    return Array.from(new Set(collectRecursive(node)));
-  };
-
   const getFilteredArtists = () => {
-    // Exclude NRZ from the main loop, as he is an exclusive guest
     const baseList = allArtists.filter(a => a.image !== "" && a.name !== "NRZ");
 
-    // Apply Genre Filter
-    const genreFiltered = selectedGenre
-      ? baseList.filter(a => a.genreKeys?.includes(selectedGenre) || getArtistsForGenreRecursive(selectedGenre).some(ga => ga.name === a.name))
-      : baseList;
-
-    // Apply Roster View Filter (Main vs Guests)
-    // Assuming you have a way to distinguish guests. If not, defaulting all non-NRZ to main for now, 
-    // or you can add a 'isGuest' flag to artists.ts. We will mock it by simply filtering if they exist.
-    // Since NRZ is the only known explicit guest so far and he's separated, we will return empty for 'guests' 
-    // unless you specify which other artists are guests.
     if (rosterView === "guests") {
-      return []; // Replace with actual guest logic if other artists are guests
+      return [];
     }
-    return genreFiltered;
+
+    return baseList.filter(artist => {
+      // Rule 1: Match Main Genre
+      if (selectedMainGenre) {
+        // Find if artist genreKeys include the main genre key itself OR any of its subgenres
+        const validKeysForMain = [
+          selectedMainGenre,
+          ...(SUBGENRES[selectedMainGenre]?.map(sub => sub.id) || [])
+        ];
+
+        const matchesMain = artist.genreKeys?.some(key => validKeysForMain.includes(key));
+        if (!matchesMain) return false;
+      }
+
+      // Rule 2: Match Subgenre
+      if (selectedSubGenre) {
+        const matchesSub = artist.genreKeys?.includes(selectedSubGenre);
+        if (!matchesSub) return false;
+      }
+
+      // Rule 3: Match BPM
+      if (selectedBPM) {
+        const matchesBPM = artist.genreKeys?.includes(selectedBPM);
+        if (!matchesBPM) return false;
+      }
+
+      return true;
+    });
   };
 
   const filteredArtists = getFilteredArtists();
@@ -913,36 +815,45 @@ export default function App() {
       setIsAuthorized(true);
     }
   }, []);
-  const handleGenreClick = (genreKey: string) => {
-    const newGenre = genreKey === selectedGenre ? null : genreKey;
-    setSelectedGenre(newGenre);
+  const handleMainGenreClick = (genreKey: MainGenre) => {
+    if (selectedMainGenre === genreKey) {
+      // Toggle off if clicking the active one
+      setSelectedMainGenre(null);
+      setSelectedSubGenre(null);
+      document.body.style.setProperty("--bg-shift", "#0B0B0F");
+    } else {
+      setSelectedMainGenre(genreKey);
+      setSelectedSubGenre(null); // Reset subgenre when main changes
 
-    // Subtle background shift
-    const baseColors: Record<string, string> = {
-      house: "#0B1015",
-      techno: "#100B15",
-      psytrance: "#0B1512",
-      progressive: "#15120B",
-      darkpsy: "#0F0B15"
-    };
+      // Apply subtle background shift based on main genre
+      const baseColors: Record<MainGenre, string> = {
+        house: "#0B1015",
+        techno: "#100B15",
+        psytrance: "#0B1512",
+        progressive: "#15120B",
+      };
 
-    let targetColor = "#0B0B0F";
-    if (newGenre) {
-      // Find the root parent to determine color
-      const root = GENRE_TAXONOMY.find(r =>
-        r.id === newGenre ||
-        r.children?.some(c => c.id === newGenre || c.children?.some(gc => gc.id === newGenre))
-      );
-      if (root && baseColors[root.id as keyof typeof baseColors]) {
-        targetColor = baseColors[root.id as keyof typeof baseColors];
-      }
+      document.body.style.setProperty("--bg-shift", baseColors[genreKey] || "#0B0B0F");
     }
-
-    document.body.style.setProperty("--bg-shift", targetColor);
 
     if (artistsRef.current) {
       artistsRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
     }
+  };
+
+  const handleSubGenreClick = (subId: string) => {
+    setSelectedSubGenre(subId === selectedSubGenre ? null : subId);
+  };
+
+  const handleBPMClick = (bpmId: string) => {
+    setSelectedBPM(bpmId === selectedBPM ? null : bpmId);
+  };
+
+  const clearAllFilters = () => {
+    setSelectedMainGenre(null);
+    setSelectedSubGenre(null);
+    setSelectedBPM(null);
+    document.body.style.setProperty("--bg-shift", "#0B0B0F");
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -978,8 +889,8 @@ ${data.message}
 
       {/* Navigation */}
       <header>
-        <nav className={`fixed top-0 w-full z-50 px-4 md:px-6 flex justify-between items-center transition-all duration-500 ${scrolled ? "glass-panel border-b border-white/10 py-3 shadow-[0_8px_40px_rgba(0,0,0,0.6)]" : "bg-transparent border-b border-transparent py-6"}`}>
-          <div className="flex items-center gap-1.5 md:gap-4 shrink-0 overflow-hidden">
+        <nav className={`fixed top-0 w-full z-50 px-4 md:px-6 grid grid-cols-[auto_1fr_auto] lg:grid-cols-3 items-center transition-all duration-500 ${scrolled ? "glass-panel border-b border-white/10 py-3 shadow-[0_8px_40px_rgba(0,0,0,0.6)]" : "bg-transparent border-b border-transparent py-6"}`}>
+          <div className="flex items-center gap-1.5 md:gap-4 shrink-0 overflow-hidden justify-self-start">
             <div className="flex items-center gap-1.5 md:gap-3 shrink-0">
               <motion.div
                 whileHover={{ rotate: 135 }}
@@ -1014,7 +925,7 @@ ${data.message}
             </AnimatePresence>
           </div>
 
-          <div className="hidden lg:flex items-center gap-8">
+          <div className="hidden lg:flex items-center justify-center gap-8 justify-self-center">
             <div className="flex gap-8 text-[10px] font-bold uppercase tracking-[0.3em] text-white/50">
               <a href="#roster" className="hover:text-brand-cyan transition-colors">{t.nav.artists}</a>
               <a href="#radar" className="hover:text-brand-cyan transition-colors">Radar</a>
@@ -1249,45 +1160,90 @@ ${data.message}
                   </button>
                 </div>
 
-                {/* Compact Genre Filter */}
-                <div className="flex flex-wrap items-center gap-2">
-                  <button
-                    onClick={() => {
-                      if (selectedGenre !== null) handleGenreClick(selectedGenre);
-                    }}
-                    className={`px-4 py-2 rounded-full text-[9px] font-bold uppercase tracking-[0.2em] transition-all border ${selectedGenre === null
-                      ? 'bg-brand-cyan text-brand-dark border-brand-cyan'
-                      : 'bg-white/5 text-white/50 border-white/10 hover:bg-white/10 hover:text-white'
-                      }`}
-                  >
-                    Todos
-                  </button>
-                  {GENRE_TAXONOMY.map(root => (
+                {/* Taxonomy Filter System */}
+                <div className="flex flex-col gap-6">
+                  {/* Layer 1 - Main Genres & Layer 3 - BPM Tags Inline */}
+                  <div className="flex flex-wrap items-center gap-3">
                     <button
-                      key={root.id}
-                      onClick={() => handleGenreClick(root.id)}
-                      className={`px-4 py-2 rounded-full text-[9px] font-bold uppercase tracking-[0.2em] transition-all border ${selectedGenre === root.id
-                        ? 'bg-brand-cyan text-brand-dark border-brand-cyan'
+                      onClick={clearAllFilters}
+                      className={`px-5 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] transition-all border ${!selectedMainGenre && !selectedSubGenre && !selectedBPM
+                        ? 'bg-brand-cyan text-brand-dark border-brand-cyan shadow-[0_0_15px_rgba(0,255,255,0.3)]'
                         : 'bg-white/5 text-white/50 border-white/10 hover:bg-white/10 hover:text-white'
                         }`}
                     >
-                      {root.name}
+                      Todos
                     </button>
-                  ))}
+
+                    {/* Layer 1: Main Genres */}
+                    {Object.entries(MAIN_GENRES).map(([key, name]) => (
+                      <button
+                        key={key}
+                        onClick={() => handleMainGenreClick(key as MainGenre)}
+                        className={`px-5 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] transition-all border ${selectedMainGenre === key
+                          ? 'bg-white text-brand-dark border-white shadow-[0_0_20px_rgba(255,255,255,0.2)]'
+                          : 'bg-black/40 text-white/70 border-white/10 hover:bg-white/10 hover:text-white'
+                          }`}
+                      >
+                        {name}
+                      </button>
+                    ))}
+
+                    <div className="h-6 w-px bg-white/10 mx-2 hidden md:block" />
+
+                    {/* Layer 3: BPM / Energy Tiers */}
+                    <div className="flex items-center gap-2">
+                      {BPM_TIERS.map(bpm => (
+                        <button
+                          key={bpm.id}
+                          onClick={() => handleBPMClick(bpm.id)}
+                          className={`px-4 py-2 rounded-full text-[9px] font-bold uppercase tracking-[0.2em] transition-all border ${selectedBPM === bpm.id
+                            ? 'bg-brand-pink text-white border-brand-pink shadow-[0_0_15px_rgba(238,42,123,0.3)]'
+                            : 'bg-transparent text-white/40 border-white/10 hover:border-brand-pink/50 hover:text-white'
+                            }`}
+                        >
+                          {bpm.name}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Layer 2 - Subgenres (Smooth Collapse) */}
+                  <AnimatePresence>
+                    {selectedMainGenre && SUBGENRES[selectedMainGenre]?.length > 0 && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0, y: -10 }}
+                        animate={{ opacity: 1, height: "auto", y: 0 }}
+                        exit={{ opacity: 0, height: 0, y: -10 }}
+                        className="overflow-hidden flex flex-wrap items-center gap-2"
+                      >
+                        {SUBGENRES[selectedMainGenre].map(sub => (
+                          <button
+                            key={sub.id}
+                            onClick={() => handleSubGenreClick(sub.id)}
+                            className={`px-4 py-2 rounded-full text-[9px] font-bold uppercase tracking-[0.2em] transition-all border ${selectedSubGenre === sub.id
+                              ? 'bg-brand-cyan text-brand-dark border-brand-cyan shadow-[0_0_10px_rgba(0,255,255,0.3)]'
+                              : 'bg-white/5 text-white/50 border-white/10 hover:bg-white/10 hover:text-white'
+                              }`}
+                          >
+                            {sub.name}
+                          </button>
+                        ))}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
               </div>
-              <div className="flex flex-col items-end gap-4">
-                <p className="text-white/30 max-w-xs text-[10px] uppercase tracking-[0.2em] leading-relaxed font-medium text-right hidden md:block">
+
+              <div className="flex flex-col items-end justify-between gap-4">
+                <p className="text-white/30 max-w-xs text-[10px] uppercase tracking-[0.2em] leading-relaxed font-medium text-right hidden lg:block">
                   {t.roster.subtitle}
                 </p>
-                {selectedGenre && (
+                {(selectedMainGenre || selectedBPM) && (
                   <button
-                    onClick={() => {
-                      if (selectedGenre !== null) handleGenreClick(selectedGenre);
-                    }}
+                    onClick={clearAllFilters}
                     className="text-[9px] font-bold uppercase tracking-widest text-brand-cyan hover:text-white transition-colors flex items-center gap-2"
                   >
-                    <X size={12} /> {t.roster.clear}
+                    <X size={12} /> LIMPAR FILTRO
                   </button>
                 )}
               </div>
