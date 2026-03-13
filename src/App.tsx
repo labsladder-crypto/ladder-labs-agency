@@ -1323,7 +1323,7 @@ ${data.message}
             )}
 
             {/* Exclusive NRZ / Devil Company Section */}
-            {rosterView === "guests" && nrzArtist && (
+            {false && rosterView === "guests" && nrzArtist && (
               <div className="mt-32 pt-20 border-t border-white/10 relative">
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-black px-6 text-brand-pink font-bold text-[10px] uppercase tracking-[0.4em]">
                   Exclusive Partnership
