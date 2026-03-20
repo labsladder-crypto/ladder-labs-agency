@@ -24,7 +24,8 @@ import {
   Eye,
   EyeOff,
   AlertCircle,
-  FileText
+  FileText,
+  Zap
 } from "lucide-react";
 import { MAIN_GENRES, SUBGENRES, BPM_TIERS, MainGenre } from "./data/genreTaxonomy";
 import React, { useState, useRef, useEffect } from "react";
@@ -960,6 +961,15 @@ ${data.message}
             >
               {t.nav.bookNow}
             </a>
+            <a
+              href="http://localhost:3000/login"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-6 py-2 bg-brand-cyan/10 text-brand-cyan border border-brand-cyan/30 text-[10px] font-bold uppercase tracking-widest rounded-full hover:bg-brand-cyan hover:text-brand-dark transition-all shadow-[0_0_15px_rgba(0,255,255,0.2)]"
+            >
+              <Zap size={12} />
+              SINTONIZAR
+            </a>
 
             {/* Mobile Menu Toggle */}
             <button
@@ -986,7 +996,8 @@ ${data.message}
                   { name: t.nav.artists, href: "#roster" },
                   { name: "Radar", href: "#radar" },
                   { name: t.nav.about, href: "#about" },
-                  { name: t.nav.booking, href: "#booking" }
+                  { name: t.nav.booking, href: "#booking" },
+                  { name: "SINTONIZAR HUB", href: "http://localhost:3000/login" }
                 ].map((item) => (
                   <a
                     key={item.href}
