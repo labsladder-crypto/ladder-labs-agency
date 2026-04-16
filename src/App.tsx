@@ -343,7 +343,7 @@ const translations = {
       rights: "TODOS LOS DERECHOS RESERVADOS"
     },
     bios: {
-      "EVVE": "EVVE emerge como una presencia fuerte y femenina en la escena electrónica, guiada por el Minimal y los matices del Tech House. Su sonido transita entre el underground y el mainstream.\n✧\nCon carisma natural y energía ligera pero actitud sonora afilada, EVVE destaca al ofrecer sets inmersivos llenos de tonos minimalistas y ritmos profundos.\n✧\nSu misión es clara: transformar la pista en una experiencia sensorial única, con interpretaciones energéticas e hipnóticas.",
+      "EVVE / ELEVEN": "EVVE explora las texturas del minimal groove y el indie dance. Como ELEVEN, se adentra en los reinos psicodélicos del psytrance, aportando frecuencias de alta energía a la pista de baile.",
       "PAJÔ": "Nacido en Cuiabá, PAJÔ es un DJ y productor con 10 años de experiencia que ha moldeado un estilo particular de Psytrance y Progresivo.\n\nAdemás de su pasión por la música, cree firmemente en herramientas transformadoras digitales como las Criptos y la Inteligencia Artificial. Para él, la música y la tecnología unen culturas.",
       "NRZ": "Conoce a NRZ Project, DJ que está reinando con su Psytrance Progresivo. Su nombre proviene del sistema NRZ (Non-Return-to-Zero), que simboliza flujo ininterrumpido.\n\nCrea sets inmersivos y atmósferas únicas con selecciones underground, cautivando de forma sorprendente en cada momento.",
       "MOLUSKO": "A lo largo de 10 años en el género viva el trance acelerado, Molusko adora la psicodelia pura.\n\nInvita a atravesar un portal asombroso y transcendente de experimentación en Hi Tech repleto de vibras alienígenas.",
@@ -409,13 +409,24 @@ const translations = {
 // --- Artist Data ---
 export const allArtists = [
   {
-    name: "EVVE",
-    genre: "Tech House / Minimal",
-    genreKeys: ["house", "tech-house", "minimal-deep-tech"],
+    name: "EVVE / ELEVEN",
+    genre: "Indie Dance / Tech House / Psytrance",
+    genreKeys: ["psytrance", "house", "tech-house", "indie-dance"],
     image: "/artists/Evve.jpg",
-    socials: { instagram: "https://www.instagram.com/evvemusic/", soundcloud: "https://soundcloud.com/evvemusic/tracks", spotify: "#", youtube: "https://www.youtube.com/@evvemusicc/videos" },
+    socials: { 
+      instagram: "https://www.instagram.com/evvemusic/", 
+      soundcloud: "https://soundcloud.com/evvemusic/tracks", 
+      spotify: "#", 
+      youtube: "https://www.youtube.com/@evvemusicc/videos" 
+    },
     presskit: "https://drive.google.com/drive/u/2/folders/1W8RXPDREOskOMV6HEal5g5Qz4qfDAigf",
-    bio: "EVVE is a master of the minimal groove, blending deep tech house textures with surgical precision. Known for hypnotic sets that keep the floor locked in a constant state of motion."
+    bio: "EVVE exploration the minimal groove and indie dance textures. As ELEVEN, she explores the psychedelic realms of psytrance, bringing high-energy frequencies to the dancefloor.",
+    sideProject: {
+      name: "ELEVEN",
+      instagram: "https://www.instagram.com/eleven_dj/",
+      soundcloud: "https://soundcloud.com/eleeven",
+      presskit: "https://drive.google.com/drive/folders/1XrONF6wL4axF_Owkwu2sY073J7AFMkMR"
+    }
   },
   {
     name: "PAJÔ",
@@ -446,8 +457,8 @@ export const allArtists = [
   },
   {
     name: "JUREMA",
-    genre: "Dark Psy / Forest",
-    genreKeys: ["high-bpm", "dark-psy", "forest"],
+    genre: "Dark Psy / Forest / Open Format",
+    genreKeys: ["high-bpm", "dark-psy", "forest", "open-format"],
     image: "/artists/Jurema.jpg",
     socials: { instagram: "https://www.instagram.com/djjurema/", soundcloud: "https://soundcloud.com/djurema", spotify: "#", youtube: "https://www.youtube.com/@djjurema/videos" },
     presskit: "https://drive.google.com/drive/folders/1ODUa7OCUSNoZTFk2-fku0w7gOWWd8HIJ",
@@ -701,8 +712,13 @@ export const allArtists = [
     genre: "Techno",
     genreKeys: ["techno", "peak-time"],
     image: "/artists/Rafael Leonardo.jpg",
-    socials: { instagram: "#", soundcloud: "#", spotify: "#", youtube: "#" },
-    presskit: "#",
+    socials: { 
+      instagram: "https://www.instagram.com/rafaelleonardo_music?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==", 
+      soundcloud: "https://soundcloud.com/rafaelleonardo_music", 
+      spotify: "#", 
+      youtube: "#" 
+    },
+    presskit: "https://drive.google.com/drive/folders/1ewYVdAxUXGTl_xz460t5dRrq0IpY3GpV",
     bio: "RAFAEL LEONARDO is a techno artist defined by dark, industrial textures and powerful peak-time energy. His sets navigate between raw warehouse sounds and melodic tension, commanding the floor from start to finish."
   }
 ];
@@ -905,19 +921,16 @@ ${data.message}
 
       {/* Navigation */}
       <header>
-        <nav className={`fixed top-0 w-full z-50 px-4 md:px-6 grid grid-cols-[auto_1fr_auto] lg:grid-cols-3 items-center transition-all duration-500 ${scrolled ? "glass-panel border-b border-white/10 py-3 shadow-[0_8px_40px_rgba(0,0,0,0.6)]" : "bg-transparent border-b border-transparent py-6"}`}>
-          <div className="flex items-center gap-1.5 md:gap-4 shrink-0 overflow-hidden justify-self-start">
+        <nav className={`fixed top-0 w-full z-50 px-4 md:px-6 flex items-center justify-between lg:grid lg:grid-cols-[1fr_auto_1fr] transition-all duration-500 ${scrolled ? "glass-panel border-b border-white/10 py-3 shadow-[0_8px_40px_rgba(0,0,0,0.6)]" : "bg-transparent border-b border-transparent py-6"}`}>
+          <div className="flex items-center gap-1.5 md:gap-4 shrink-0 overflow-hidden lg:justify-self-start">
             <div className="flex items-center gap-1.5 md:gap-3 shrink-0">
-              <motion.div
-                whileHover={{ rotate: 135 }}
-                className="w-4 h-4 md:w-8 md:h-8 bg-gradient-to-br from-brand-cyan to-brand-pink rounded-sm rotate-45 flex items-center justify-center cursor-pointer shrink-0"
+              <motion.img
+                src="/logos/Ladder-Labs-2.png"
+                alt="Ladder Labs"
+                className="h-6 md:h-12 w-auto object-contain cursor-pointer"
+                whileHover={{ scale: 1.05 }}
                 onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              >
-                <div className="w-1.5 md:w-4 h-0.5 bg-white -rotate-45" />
-              </motion.div>
-              <span className="font-display font-bold text-[11px] md:text-xl tracking-tighter shrink-0 whitespace-nowrap">
-                LADDER<span className="text-gradient">LABS</span>
-              </span>
+              />
             </div>
 
             {/* Neverland Logo in Header - Only show when scrolled to reduce redundancy */}
@@ -941,15 +954,15 @@ ${data.message}
             </AnimatePresence>
           </div>
 
-          <div className="hidden lg:flex items-center justify-center gap-8 justify-self-center">
-            <div className="flex gap-8 text-[10px] font-bold uppercase tracking-[0.3em] text-white/50">
+          <div className="hidden lg:flex items-center justify-center gap-6 xl:gap-8 lg:justify-self-center overflow-hidden">
+            <div className="flex gap-4 xl:gap-8 text-[9px] xl:text-[10px] font-bold uppercase tracking-[0.2em] xl:tracking-[0.3em] text-white/50 shrink-0">
               <a href="#roster" className="hover:text-brand-cyan transition-colors">{t.nav.artists}</a>
               <a href="#radar" className="hover:text-brand-cyan transition-colors">Radar</a>
               <a href="#about" className="hover:text-brand-cyan transition-colors">{t.nav.about}</a>
               <a href="#booking" className="hover:text-brand-cyan transition-colors">{t.nav.booking}</a>
             </div>
-            <div className="h-4 w-px bg-white/10" />
-            <div className="flex items-center gap-2 text-[9px] font-bold tracking-widest text-brand-cyan/60">
+            <div className="h-4 w-px bg-white/10 shrink-0 hidden xl:block" />
+            <div className="hidden xl:flex items-center gap-2 text-[9px] font-bold tracking-widest text-brand-cyan/60 shrink-0">
               <div className="status-dot" />
               <div className="status-ticker w-40">
                 <AnimatePresence mode="wait">
@@ -1083,7 +1096,7 @@ ${data.message}
               className="flex flex-row items-center justify-center gap-4 md:gap-16 mb-12 md:mb-16"
             >
               <img
-                src="/logos/ladder-labs.png"
+                src="/logos/Ladder-Labs-2.png"
                 alt="Ladder Labs"
                 className="h-10 md:h-36 w-auto logo-metallic"
                 referrerPolicy="no-referrer"
@@ -1310,16 +1323,32 @@ ${data.message}
                       <div className="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/20 to-transparent opacity-90" />
 
                       <div className="absolute bottom-0 left-0 w-full p-6">
-                        <div className="flex gap-3 mb-3">
-                          <a href={artist.socials.instagram} onClick={(e) => e.stopPropagation()} className="text-white/40 hover:text-brand-pink transition-colors">
-                            <Instagram size={14} />
-                          </a>
-                          <a href={artist.socials.soundcloud} onClick={(e) => e.stopPropagation()} className="text-white/40 hover:text-brand-cyan transition-colors">
-                            <Cloud size={14} />
-                          </a>
-                          <a href={artist.socials.spotify} onClick={(e) => e.stopPropagation()} className="text-white/40 hover:text-green-500 transition-colors">
-                            <Music size={14} />
-                          </a>
+                        <div className="flex flex-col gap-3 mb-3">
+                          <div className="flex gap-3">
+                            <a href={artist.socials.instagram} onClick={(e) => e.stopPropagation()} className="text-white/40 hover:text-brand-pink transition-colors">
+                              <Instagram size={14} />
+                            </a>
+                            <a href={artist.socials.soundcloud} onClick={(e) => e.stopPropagation()} className="text-white/40 hover:text-brand-cyan transition-colors">
+                              <Cloud size={14} />
+                            </a>
+                            <a href={artist.socials.spotify} onClick={(e) => e.stopPropagation()} className="text-white/40 hover:text-green-500 transition-colors">
+                              <Music size={14} />
+                            </a>
+                          </div>
+                          
+                          {(artist as any).sideProject && (
+                            <div className="flex items-center gap-2 pt-2 border-t border-white/10">
+                              <span className="text-[8px] font-bold text-white/30 uppercase tracking-widest">{(artist as any).sideProject.name}</span>
+                              <div className="flex gap-2">
+                                <a href={(artist as any).sideProject.instagram} onClick={(e) => e.stopPropagation()} className="text-brand-pink/50 hover:text-brand-pink transition-colors">
+                                  <Instagram size={10} />
+                                </a>
+                                <a href={(artist as any).sideProject.soundcloud} onClick={(e) => e.stopPropagation()} className="text-brand-cyan/50 hover:text-brand-cyan transition-colors">
+                                  <Cloud size={10} />
+                                </a>
+                              </div>
+                            </div>
+                          )}
                         </div>
                         <span className="text-brand-cyan text-[9px] font-bold uppercase tracking-[0.3em] mb-1 block">
                           {artist.genre}

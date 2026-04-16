@@ -7,7 +7,7 @@ import { MapContainer, TileLayer, CircleMarker, Popup, Marker, useMapEvents, use
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { useState, useEffect, useCallback, useRef, useMemo } from "react";
-import { MapPin, Calendar, Instagram, Plus, Trash2, Save, X, List, ExternalLink, ArrowRight, Search, Loader, Lock, Map as MapIcon, ChevronUp, ChevronDown } from "lucide-react";
+import { MapPin, Calendar, Instagram, Plus, Trash2, Save, X, List, ExternalLink, ArrowRight, Search, Loader, Lock, Map as MapIcon, ChevronUp, ChevronDown, User, Filter, Users } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { allArtists } from "../App";
 import { supabase } from "../lib/supabase";
@@ -31,13 +31,6 @@ export interface ManualEvent {
 const BRAZIL_STATES = [
     "AC", "AL", "AM", "AP", "BA", "CE", "DF", "ES", "GO", "MA", "MG", "MS", "MT",
     "PA", "PB", "PE", "PI", "PR", "RJ", "RN", "RO", "RR", "RS", "SC", "SE", "SP", "TO",
-];
-
-const ALL_GENRES = [
-    "Acid House", "House", "Tech House", "Indie Dance", "UK Garage",
-    "Minimal", "Techno", "Peak Time", "Melodic Techno",
-    "Psytrance", "Progressive", "Full On", "Dark Psy", "Forest",
-    "Hi-Tech", "Trance / Raw", "Deep Trance", "Hypnotic", "Open Format", "High BPM"
 ];
 
 // Brazil bounds
@@ -138,10 +131,18 @@ export default function EventRadar({
     const [form, setForm] = useState(EMPTY_FORM);
     const [view, setView] = useState<"list" | "form" | null>(null);
     const [selectedEvent, setSelectedEvent] = useState<ManualEvent | null>(null);
+    const [artistFilter, setArtistFilter] = useState<string | null>(null);
+    const [showArtistSearch, setShowArtistSearch] = useState(false);
     const [geocoding, setGeocoding] = useState(false);
     const [geocodeError, setGeocodeError] = useState<string | null>(null);
     const [flyTo, setFlyTo] = useState<{ lat: number | null; lng: number | null; zoom?: number }>({ lat: null, lng: null });
     const [isMobile, setIsMobile] = useState(false);
+
+    // Filtered events for the map
+    const filteredEvents = useMemo(() => {
+        if (!artistFilter) return events;
+        return events.filter(e => e.lineup?.includes(artistFilter));
+    }, [events, artistFilter]);
 
     // Responsive detection
     useEffect(() => {
@@ -323,17 +324,17 @@ export default function EventRadar({
                                     <CircleMarker center={[pending.lat, pending.lng]} radius={12} pathOptions={{ fillColor: "#00F2FF", fillOpacity: 0.8, color: "white", weight: 2 }} />
                                 )}
 
-                                {events.map((event) => (
+                                {filteredEvents.map((event) => (
                                     <CircleMarker
                                         key={event.id}
                                         center={[event.lat, event.lng]}
-                                        radius={8}
+                                        radius={artistFilter ? 12 : 8}
                                         eventHandlers={{ click: () => setSelectedEvent(event) }}
                                         pathOptions={{
                                             fillColor: event.lineup?.length > 3 ? "#FF2D7A" : "#00F2FF",
                                             fillOpacity: 0.9,
-                                            color: "#0B0B0F",
-                                            weight: 2,
+                                            color: artistFilter ? "white" : "#0B0B0F",
+                                            weight: artistFilter ? 3 : 2,
                                         }}
                                     />
                                 ))}
@@ -345,18 +346,29 @@ export default function EventRadar({
                     {!isMobile && (
                         <div className="absolute top-6 right-6 flex flex-col gap-3 z-[1000]">
                             <button
-                                onClick={() => setView(view === "list" ? null : "list")}
-                                className={`flex items-center gap-3 px-6 py-4 rounded-2xl backdrop-blur-xl border transition-all ${view === "list" ? "bg-white text-brand-dark border-white" : "bg-black/60 border-white/10 text-white hover:border-white/30"}`}
+                                onClick={() => {
+                                    setArtistFilter(null);
+                                    setView(view === "list" ? null : "list");
+                                }}
+                                className={`flex items-center gap-3 px-6 py-4 rounded-2xl backdrop-blur-xl border transition-all ${view === "list" && !artistFilter ? "bg-white text-brand-dark border-white" : "bg-black/60 border-white/10 text-white hover:border-white/30"}`}
                             >
                                 <List size={18} />
                                 <span className="text-[11px] font-black uppercase tracking-widest">{t.viewList(events.length)}</span>
                             </button>
                             <button
                                 onClick={() => {
+                                    setView("list");
+                                    // Focus on artist list
+                                }}
+                                className={`flex items-center gap-3 px-6 py-4 rounded-2xl backdrop-blur-xl border transition-all ${artistFilter ? "bg-brand-pink text-white border-brand-pink" : "bg-black/60 border-white/10 text-white hover:border-white/30"}`}
+                            >
+                                <Users size={18} />
+                                <span className="text-[11px] font-black uppercase tracking-widest">Artists</span>
+                            </button>
+                            <button
+                                onClick={() => {
                                     if (!isAuthorized) {
                                         onGateRequest?.();
-                                        // Simple hack: check after a bit if parent authorized us
-                                        setTimeout(() => { if (sessionStorage.getItem("ladder_radar_auth") === "true") setIsAuthorized(true); }, 500);
                                         return;
                                     }
                                     setAddMode(true);
@@ -369,25 +381,36 @@ export default function EventRadar({
                         </div>
                     )}
 
-                    {/* Mobile Floating Buttons */}
+                    {/* Mobile Floating Buttons - THREE BUTTONS VERSION */}
                     {isMobile && !view && !selectedEvent && (
-                        <div className="absolute bottom-10 left-0 right-0 flex justify-center gap-4 z-[1000] px-6">
+                        <div className="absolute bottom-10 left-0 right-0 flex justify-center gap-2 z-[1000] px-4">
                             <button
-                                onClick={() => setView("list")}
-                                className="flex-1 flex items-center justify-center gap-2 bg-black/80 backdrop-blur-xl border border-white/20 text-white py-5 rounded-3xl"
+                                onClick={() => {
+                                    setView("list");
+                                }}
+                                className="flex-1 flex flex-col items-center justify-center gap-1 bg-black/80 backdrop-blur-xl border border-white/10 text-white py-4 rounded-3xl"
                             >
-                                <List size={20} />
-                                <span className="text-[10px] font-bold uppercase tracking-widest">Events</span>
+                                <Users size={18} className="text-brand-pink" />
+                                <span className="text-[8px] font-bold uppercase tracking-widest px-1">Artistas</span>
+                            </button>
+                            <button
+                                onClick={() => {
+                                    setView("list");
+                                }}
+                                className="flex-[0.9] flex flex-col items-center justify-center gap-1 bg-black/80 backdrop-blur-xl border border-white/10 text-white py-4 rounded-3xl"
+                            >
+                                <List size={18} className="text-white/70" />
+                                <span className="text-[8px] font-bold uppercase tracking-widest px-1">Eventos</span>
                             </button>
                             <button
                                 onClick={() => {
                                     if (!isAuthorized) { onGateRequest?.(); return; }
                                     setAddMode(true);
                                 }}
-                                className="flex-1 flex items-center justify-center gap-2 bg-brand-cyan text-brand-dark py-5 rounded-3xl shadow-xl active:scale-95 transition-transform"
+                                className="flex-1 flex flex-col items-center justify-center gap-1 bg-brand-cyan text-brand-dark py-4 rounded-3xl shadow-xl active:scale-95 transition-transform"
                             >
-                                <Plus size={20} />
-                                <span className="text-[10px] font-bold uppercase tracking-widest">Add Data</span>
+                                <Plus size={18} />
+                                <span className="text-[8px] font-bold uppercase tracking-widest px-1">Adicionar</span>
                             </button>
                         </div>
                     )}
@@ -401,33 +424,79 @@ export default function EventRadar({
                                 animate={isMobile ? { y: 0 } : { x: 0 }}
                                 exit={isMobile ? { y: "100%" } : { x: "100%" }}
                                 transition={{ type: "spring", damping: 30, stiffness: 200 }}
-                                className={`absolute z-[2000] bg-[#0E0E14]/95 backdrop-blur-2xl shadow-3xl flex flex-col ${isMobile ? "inset-x-0 bottom-0 top-1/4 rounded-t-[40px] border-t border-white/10" : "inset-y-0 right-0 w-[420px] border-l border-white/10"}`}
+                                className={`absolute z-[2000] bg-[#0E0E14]/95 backdrop-blur-2xl shadow-3xl flex flex-col ${isMobile ? "inset-x-0 bottom-0 top-[15%] rounded-t-[40px] border-t border-white/10" : "inset-y-0 right-0 w-[420px] border-l border-white/10"}`}
                             >
                                 {isMobile && <div className="w-12 h-1.5 bg-white/10 rounded-full mx-auto mt-4 mb-2" onClick={() => setView(null)} />}
-                                <div className="p-8 flex justify-between items-center border-b border-white/5">
-                                    <h3 className="text-xl font-bold text-white uppercase tracking-tighter">Event List</h3>
-                                    <button onClick={() => setView(null)} className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
-                                        <X size={20} className="text-white/50" />
-                                    </button>
-                                </div>
-                                <div className="flex-1 overflow-y-auto p-6 space-y-3 override-scrollbar">
-                                    {events.map(event => (
-                                        <div
-                                            key={event.id}
-                                            onClick={() => { setSelectedEvent(event); setFlyTo({ lat: event.lat, lng: event.lng, zoom: 12 }); if (isMobile) setView(null); }}
-                                            className="p-5 rounded-3xl bg-white/5 border border-white/5 hover:border-brand-cyan/40 hover:bg-white/[0.08] transition-all cursor-pointer group"
-                                        >
-                                            <div className="flex justify-between items-start">
-                                                <div>
-                                                    <h4 className="text-white font-bold text-sm mb-1 uppercase tracking-wide group-hover:text-brand-cyan transition-colors">{event.name}</h4>
-                                                    <p className="text-[10px] text-white/40 font-mono uppercase tracking-widest flex items-center gap-1">
-                                                        <MapPin size={10} /> {event.city}, {event.state} ✦ <Calendar size={10} /> {new Date(event.date + "T00:00:00").toLocaleDateString("pt-BR")}
-                                                    </p>
-                                                </div>
-                                                <ArrowRight size={16} className="text-white/20 group-hover:translate-x-1 group-hover:text-brand-cyan transition-all" />
-                                            </div>
+                                <div className="p-8 pb-4">
+                                    <div className="flex justify-between items-center mb-6">
+                                        <h3 className="text-xl font-bold text-white uppercase tracking-tighter">Event List</h3>
+                                        <button onClick={() => setView(null)} className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
+                                            <X size={20} className="text-white/50" />
+                                        </button>
+                                    </div>
+
+                                    {/* ARTIST FILTER GRID */}
+                                    <div className="mb-6">
+                                        <div className="flex items-center justify-between mb-4">
+                                            <h4 className="text-[9px] font-black uppercase tracking-[0.3em] text-white/30 flex items-center gap-2">
+                                                <Filter size={10} /> Filter by Artist
+                                            </h4>
+                                            {artistFilter && (
+                                                <button onClick={() => setArtistFilter(null)} className="text-[9px] font-bold text-brand-cyan uppercase">Clear</button>
+                                            )}
                                         </div>
-                                    ))}
+                                        <div className="flex gap-3 overflow-x-auto pb-2 override-scrollbar snap-x">
+                                            {allArtists.filter(a => events.some(e => e.lineup?.includes(a.name))).map(artist => (
+                                                <button
+                                                    key={artist.name}
+                                                    onClick={() => setArtistFilter(artistFilter === artist.name ? null : artist.name)}
+                                                    className={`relative snap-start shrink-0 transition-all ${artistFilter === artist.name ? "ring-2 ring-brand-cyan ring-offset-4 ring-offset-[#0B0B0F] scale-105" : "opacity-40 hover:opacity-100"}`}
+                                                >
+                                                    <img src={artist.image} alt="" className="w-12 h-12 rounded-xl object-cover" />
+                                                    <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-brand-dark flex items-center justify-center border border-white/10">
+                                                        <span className="text-[8px] font-bold text-white">{events.filter(e => e.lineup?.includes(artist.name)).length}</span>
+                                                    </div>
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="flex-1 overflow-y-auto p-6 pt-0 space-y-3 override-scrollbar">
+                                    {filteredEvents.length === 0 ? (
+                                        <div className="text-center py-20 opacity-20">
+                                            <Search size={40} className="mx-auto mb-4" />
+                                            <p className="text-xs uppercase font-bold tracking-widest">No matching dates</p>
+                                        </div>
+                                    ) : (
+                                        filteredEvents.map(event => (
+                                            <div
+                                                key={event.id}
+                                                onClick={() => { setSelectedEvent(event); setFlyTo({ lat: event.lat, lng: event.lng, zoom: 12 }); if (isMobile) setView(null); }}
+                                                className="p-5 rounded-3xl bg-white/10 border border-white/10 hover:border-brand-cyan/40 hover:bg-white/[0.12] transition-all cursor-pointer group"
+                                            >
+                                                <div className="flex justify-between items-start">
+                                                    <div className="min-w-0 flex-1">
+                                                        <div className="flex items-center gap-2 flex-wrap mb-1">
+                                                            <h4 className="text-white font-bold text-base uppercase tracking-tight group-hover:text-brand-cyan transition-colors">{event.name}</h4>
+                                                            {/* PREVIEW LINEUP - VERY SMALL NAMES NEXT TO EVENT */}
+                                                            <div className="flex flex-wrap gap-1">
+                                                                {event.lineup?.map(name => (
+                                                                    <span key={name} className="text-[7px] font-black px-1.5 py-0.5 rounded bg-brand-pink/20 border border-brand-pink/30 text-brand-pink uppercase tracking-tighter">
+                                                                        {name}
+                                                                    </span>
+                                                                ))}
+                                                            </div>
+                                                        </div>
+                                                        <p className="text-[10px] text-white/40 font-mono uppercase tracking-widest flex items-center gap-1">
+                                                            <MapPin size={10} /> {event.city}, {event.state} ✦ <Calendar size={10} /> {new Date(event.date + "T00:00:00").toLocaleDateString("pt-BR")}
+                                                        </p>
+                                                    </div>
+                                                    <ArrowRight size={16} className="text-white/20 group-hover:translate-x-1 group-hover:text-brand-cyan transition-all ml-4" />
+                                                </div>
+                                            </div>
+                                        ))
+                                    )}
                                 </div>
                             </motion.div>
                         )}
@@ -439,22 +508,22 @@ export default function EventRadar({
                                 animate={isMobile ? { y: 0 } : { scale: 1, opacity: 1 }}
                                 exit={isMobile ? { y: "100%" } : { scale: 0.9, opacity: 0 }}
                                 className={`absolute z-[2500] shadow-4xl flex flex-col ${isMobile
-                                    ? "inset-x-0 bottom-0 max-h-[90%] bg-[#0B0B0F] border-t border-brand-cyan/20 rounded-t-[40px] p-8"
+                                    ? "inset-x-0 bottom-0 max-h-[95%] bg-[#0B0B0F] border-t border-brand-cyan/20 rounded-t-[40px] p-8 overflow-hidden"
                                     : "top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] bg-[#0E0E14]/98 rounded-[40px] border border-brand-cyan/30 p-10"
                                     }`}
                             >
                                 <div className="flex justify-between items-start mb-8">
-                                    <div className="flex-1">
+                                    <div className="flex-1 min-w-0">
                                         <div className="inline-block px-3 py-1 rounded-full bg-brand-cyan/10 border border-brand-cyan/30 text-[9px] font-bold text-brand-cyan uppercase tracking-widest mb-3">Confirmed Date</div>
-                                        <h3 className="text-2xl md:text-4xl font-black text-white uppercase tracking-tighter mb-2">{selectedEvent.name}</h3>
+                                        <h3 className="text-2xl md:text-5xl font-black text-white uppercase tracking-tighter mb-2 leading-none">{selectedEvent.name}</h3>
                                         <p className="text-xs md:text-sm text-white/50 flex items-center gap-2 uppercase tracking-widest font-bold">
                                             <MapPin size={14} className="text-brand-cyan" /> {selectedEvent.city}, {selectedEvent.state}
                                             <span className="mx-2 text-white/20">|</span>
                                             <Calendar size={14} className="text-brand-cyan" /> {new Date(selectedEvent.date + "T00:00:00").toLocaleDateString("pt-BR")}
                                         </p>
                                     </div>
-                                    <button onClick={() => setSelectedEvent(null)} className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition-all border border-white/10">
-                                        <X size={24} className="text-white/70" />
+                                    <button onClick={() => setSelectedEvent(null)} className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition-all border border-white/10 group ml-4 shrink-0">
+                                        <X size={24} className="text-white/70 group-hover:rotate-90 transition-transform" />
                                     </button>
                                 </div>
 
@@ -464,7 +533,7 @@ export default function EventRadar({
                                         <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-white/30 mb-5 flex items-center gap-2">
                                             LINEUP <span className="h-[1px] flex-1 bg-white/10" />
                                         </h4>
-                                        <div className="grid grid-cols-2 gap-4">
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                             {selectedEvent.lineup?.map(name => {
                                                 const artist = allArtists.find(a => a.name === name);
                                                 return (
@@ -472,10 +541,10 @@ export default function EventRadar({
                                                         setSelectedEvent(null);
                                                         document.getElementById('artists')?.scrollIntoView({ behavior: 'smooth' });
                                                     }}>
-                                                        <img src={artist?.image || "/logo-white.svg"} alt={name} className="w-14 h-14 rounded-2xl object-cover border border-white/10 group-hover:border-brand-cyan transition-all" />
-                                                        <div className="min-w-0">
-                                                            <p className="text-sm font-bold text-white uppercase truncate">{name}</p>
-                                                            <p className="text-[9px] text-white/30 font-medium uppercase tracking-widest truncate">{artist?.genre || "Electronic"}</p>
+                                                        <img src={artist?.image || "/logos/Ladder-Labs-2.png"} alt={name} className="w-14 h-14 rounded-2xl object-cover border border-white/10 group-hover:border-brand-cyan transition-all" />
+                                                        <div className="flex-1">
+                                                            <p className="text-base md:text-lg font-black text-white uppercase leading-none group-hover:text-brand-cyan transition-colors">{name}</p>
+                                                            <p className="text-[10px] text-white/30 font-bold uppercase tracking-widest mt-1">{artist?.genre || "Electronic"}</p>
                                                         </div>
                                                     </div>
                                                 );
@@ -484,7 +553,7 @@ export default function EventRadar({
                                     </div>
 
                                     {/* Action row */}
-                                    <div className="flex gap-4">
+                                    <div className="flex gap-4 pb-4">
                                         {selectedEvent.instagram && (
                                             <a href={selectedEvent.instagram.startsWith("http") ? selectedEvent.instagram : `https://instagram.com/${selectedEvent.instagram.replace("@", "")}`}
                                                 target="_blank" rel="noopener noreferrer"
@@ -513,7 +582,11 @@ export default function EventRadar({
                                 <div className="max-w-3xl mx-auto w-full">
                                     <div className="flex justify-between items-center mb-12">
                                         <div>
-                                            <h3 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tighter mb-2">ADD <span className="text-gradient">NEW DATE</span></h3>
+                                            <div className="flex items-center gap-4 mb-4">
+                                                <img src="/logos/Ladder-Labs-2.png" className="h-8 w-auto" alt="Logo" />
+                                                <div className="h-6 w-px bg-white/10" />
+                                                <h3 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tighter">ADD <span className="text-gradient">NEW DATE</span></h3>
+                                            </div>
                                             <p className="text-white/30 text-[10px] uppercase tracking-[0.4em] font-bold">Secure Data Entry Protocol</p>
                                         </div>
                                         <button onClick={handleCancel} className="w-16 h-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/50 hover:text-white hover:bg-white/10 transition-all">
@@ -522,7 +595,6 @@ export default function EventRadar({
                                     </div>
 
                                     <div className="grid md:grid-cols-2 gap-10">
-                                        {/* Left Side: Basic Info */}
                                         <div className="space-y-6">
                                             <div className="group">
                                                 <label className="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em] mb-2 block group-focus-within:text-brand-cyan transition-colors">Event Name</label>
@@ -587,7 +659,6 @@ export default function EventRadar({
                                             </div>
                                         </div>
 
-                                        {/* Right Side: Lineup & Actions */}
                                         <div className="space-y-6">
                                             <div>
                                                 <label className="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em] mb-4 block">Select Artists</label>
