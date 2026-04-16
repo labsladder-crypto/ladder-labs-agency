@@ -478,8 +478,7 @@ export default function EventRadar({
                                                 <div className="flex justify-between items-start">
                                                     <div className="min-w-0 flex-1">
                                                         <div className="flex items-center gap-2 flex-wrap mb-1">
-                                                            <h4 className="text-white font-bold text-base uppercase tracking-tight group-hover:text-brand-cyan transition-colors">{event.name}</h4>
-                                                            {/* PREVIEW LINEUP - VERY SMALL NAMES NEXT TO EVENT */}
+                                                            {/* PREVIEW LINEUP - VERY SMALL NAMES IN FRONT OF EVENT */}
                                                             <div className="flex flex-wrap gap-1">
                                                                 {event.lineup?.map(name => (
                                                                     <span key={name} className="text-[7px] font-black px-1.5 py-0.5 rounded bg-brand-pink/20 border border-brand-pink/30 text-brand-pink uppercase tracking-tighter">
@@ -487,6 +486,7 @@ export default function EventRadar({
                                                                     </span>
                                                                 ))}
                                                             </div>
+                                                            <h4 className="text-white font-bold text-base uppercase tracking-tight group-hover:text-brand-cyan transition-colors">{event.name}</h4>
                                                         </div>
                                                         <p className="text-[10px] text-white/40 font-mono uppercase tracking-widest flex items-center gap-1">
                                                             <MapPin size={10} /> {event.city}, {event.state} ✦ <Calendar size={10} /> {new Date(event.date + "T00:00:00").toLocaleDateString("pt-BR")}
