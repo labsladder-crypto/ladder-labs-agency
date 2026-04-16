@@ -448,7 +448,7 @@ export const allArtists = [
     name: "JUREMA",
     genre: "Dark Psy / Forest",
     genreKeys: ["high-bpm", "dark-psy", "forest"],
-    image: "/artists/Jurema.jpeg",
+    image: "/artists/Jurema.jpg",
     socials: { instagram: "https://www.instagram.com/djjurema/", soundcloud: "https://soundcloud.com/djurema", spotify: "#", youtube: "https://www.youtube.com/@djjurema/videos" },
     presskit: "https://drive.google.com/drive/folders/1ODUa7OCUSNoZTFk2-fku0w7gOWWd8HIJ",
     bio: "JUREMA explores the deepest shadows of the forest, weaving organic textures with dark psychedelic patterns. A true shaman of the night-time dancefloor."
