@@ -130,7 +130,9 @@ const translations = {
       "PEDRO TAB": "PEDRO TAB is a specialist in Peak Time Techno. His sound is relentless, powerful, and uncompromising, designed for the most intense moments of the night in the world's best warehouses.",
       "WAVEMOON": "WAVEMOON delivers a cosmic psytrance experience. His music is a blend of high-speed storytelling and celestial atmospheres, taking the dancefloor on a journey through the stars.",
       "NEXUS": "NEXÜS is Matheus's Psytrance project, created with a clear goal: to spread joy and build deep bonds on the dance floor. With an immense stage presence, NEXÜS lives the moment with the audience.\n\nHis sets carry progressive identity, hypnotic buildups, and powerful drops guided by precise crowd reading. It is a rising project rapidly making its mark on important line-ups.",
-      "BAZZE": "BAZZE is a rising talent, bringing a fresh perspective to the dancefloor with an infectious groove and deep atmosphere."
+      "BAZZE": "BAZZE is a rising talent, bringing a fresh perspective to the dancefloor with an infectious groove and deep atmosphere.",
+      "SAIHAGO": "SAIHAGO is a tech house specialist with a raw, driving sound. His sets are built on punchy rhythms, hypnotic loops, and relentless groove — a force on any underground dancefloor.",
+      "RAFAEL LEONARDO": "RAFAEL LEONARDO is a techno artist defined by dark, industrial textures and powerful peak-time energy. His sets navigate between raw warehouse sounds and melodic tension, commanding the floor from start to finish."
     },
     radar: {
       tag: "Strategic Intelligence",
@@ -253,7 +255,9 @@ const translations = {
       "PEDRO TAB": "PEDRO TAB é especialista em Peak Time Techno. Seu som é implacável, poderoso e sem concessões, desenhado para os momentos mais intensos da noite nos melhores galpões do mundo.",
       "WAVEMOON": "WAVEMOON proporciona uma experiência de psytrance cósmico. Sua música é uma mistura de narrativa em alta velocidade e atmosferas celestiais, levando a pista de dança a um jornada pelas estrelas.",
       "NEXUS": "NEXÜS é o projeto criado por Matheus, DJ e produtor de Psytrance. O projeto nasceu com o objetivo claro de espalhar alegria e criar conexões profundas na pista. Com forte presença de palco, NEXÜS transforma cada apresentação em experiência vivendo o momento com o público.\n\nSeus sets carregam identidade progressiva, construções hipnóticas e drops marcantes, guiados por emoção e leitura precisa. Um projeto em franca ascensão.",
-      "BAZZE": "BAZZE é um talento em ascensão, trazendo uma nova perspectiva para a pista de dança com um groove contagioso e atmosfera profunda."
+      "BAZZE": "BAZZE é um talento em ascensão, trazendo uma nova perspectiva para a pista de dança com um groove contagioso e atmosfera profunda.",
+      "SAIHAGO": "SAIHAGO é um especialista em tech house com um som cru e envolvente. Seus sets são construídos sobre ritmos marcantes, loops hipnóticos e groove implacável — uma força em qualquer pista underground.",
+      "RAFAEL LEONARDO": "RAFAEL LEONARDO é um artista de techno definido por texturas industriais sombrias e energia avassaladora de peak time. Seus sets navegam entre o som cru dos galpões e a tensão melódica, comandando a pista do início ao fim."
     },
     radar: {
       tag: "Inteligência Estratégica",
@@ -369,7 +373,9 @@ const translations = {
       "PEDRO TAB": "PEDRO TAB es especialista en Peak Time Techno. Su sonido es implacable, poderoso y sin concesiones, diseñado para los momentos más intensos de la noche en los mejores almacenes del mundo.",
       "WAVEMOON": "WAVEMOON ofrece una experiencia de psytrance cósmico. Su música es una mezcla de narración a alta velocidad y atmósferas celestiais, llevando a la pista de baile a un viaje a través de las estrellas.",
       "NEXUS": "NEXÜS es la cara del Psytrance de Matheus. Nació para conectar emociones compartiendo el escenario en cada canción.\n\nSets con identidad progresiva remarcada y drops alucinantes; Nexus siempre se involucra totalmente y busca la mayor resonancia desde el corazón con todos los espectadores.",
-      "BAZZE": "BAZZE es un talento emergente, aportando una nueva perspectiva a la pista de baile con un groove contagioso y una atmósfera profunda."
+      "BAZZE": "BAZZE es un talento emergente, aportando una nueva perspectiva a la pista de baile con un groove contagioso y una atmósfera profunda.",
+      "SAIHAGO": "SAIHAGO es un especialista en tech house con un sonido crudo y envolvente. Sus sets se construyen sobre ritmos contundentes, loops hipnóticos y un groove implacable — una fuerza en cualquier pista underground.",
+      "RAFAEL LEONARDO": "RAFAEL LEONARDO es un artista de techno definido por texturas industriales oscuras y una energía aplastante de peak time. Sus sets navegan entre el sonido crudo de los almacenes y la tensión melódica, dominando la pista de principio a fin."
     },
     radar: {
       tag: "Inteligencia Estratégica",
@@ -442,7 +448,7 @@ export const allArtists = [
     name: "JUREMA",
     genre: "Dark Psy / Forest",
     genreKeys: ["high-bpm", "dark-psy", "forest"],
-    image: "/artists/Jurema.jpg",
+    image: "/artists/Jurema.jpeg",
     socials: { instagram: "https://www.instagram.com/djjurema/", soundcloud: "https://soundcloud.com/djurema", spotify: "#", youtube: "https://www.youtube.com/@djjurema/videos" },
     presskit: "https://drive.google.com/drive/folders/1ODUa7OCUSNoZTFk2-fku0w7gOWWd8HIJ",
     bio: "JUREMA explores the deepest shadows of the forest, weaving organic textures with dark psychedelic patterns. A true shaman of the night-time dancefloor."
@@ -680,6 +686,24 @@ export const allArtists = [
     socials: { instagram: "https://www.instagram.com/bazze.art/", soundcloud: "#", spotify: "#", youtube: "#" },
     presskit: "#",
     bio: "BAZZE is a rising talent, bringing a fresh perspective to the dancefloor with an infectious groove and deep atmosphere."
+  },
+  {
+    name: "SAIHAGO",
+    genre: "Tech House",
+    genreKeys: ["house", "tech-house"],
+    image: "/artists/Saihago.jpeg",
+    socials: { instagram: "#", soundcloud: "#", spotify: "#", youtube: "#" },
+    presskit: "#",
+    bio: "SAIHAGO is a tech house specialist with a raw, driving sound. His sets are built on punchy rhythms, hypnotic loops, and relentless groove — a force on any underground dancefloor."
+  },
+  {
+    name: "RAFAEL LEONARDO",
+    genre: "Techno",
+    genreKeys: ["techno", "peak-time"],
+    image: "/artists/Rafael Leonardo.jpg",
+    socials: { instagram: "#", soundcloud: "#", spotify: "#", youtube: "#" },
+    presskit: "#",
+    bio: "RAFAEL LEONARDO is a techno artist defined by dark, industrial textures and powerful peak-time energy. His sets navigate between raw warehouse sounds and melodic tension, commanding the floor from start to finish."
   }
 ];
 
